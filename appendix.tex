@@ -1,0 +1,26 @@
+\addtocontents{toc}{\protect\vspace{\li}}
+\addcontentsline{toc}{head}{APPENDIX}
+\renewcommand{\theequation}{A.\arabic{equation}}
+\setcounter{equation}{0}
+\begin{center}
+\textbf{APPENDIX}
+\end{center}
+\doublespace
+\phantom{a}
+\phantom{a}
+\noindent
+\textbf{Proof for Theorem 1.}
+\begin{proof}
+Explicitly,
+		\begin{align*}
+		&\int f^{1+\alpha}(\pmb{x}) d \pmb{x}\\
+		=&\frac{1}{(2\pi)^{\frac{n(1+\alpha)}{2}}|\Sigma| ^{\frac{1+\alpha}{2}}} \int_{{\rm I\!R^{n}}} \exp \left[ -\frac{1+\alpha}{2}(\pmb{x}-\pmb{\mu})^{T}\Sigma^{-1}(\pmb{x}-\pmb{\mu}) \right] d\pmb{x}. \label{integral_1}\numberthis
+		\end{align*}
+		Using the substitution $\pmb{t}=\sqrt{1+\alpha}(\pmb{x}-\pmb{\mu})$, expression (\ref{integral_1}) reduces to
+		\begin{align*}
+		&\frac{1}{(2\pi)^{\frac{n(1+\alpha)}{2}}|\Sigma| ^{\frac{1+\alpha}{2}}} \; \frac{1}{(1+\alpha)^{\frac{n}{2}}} \int_{{\rm I\!R^{n}}}\exp \left( -\frac{1}{2} \pmb{t}^{T}\Sigma^{-1}\pmb{t}\right) d\pmb{t}\\
+		=&\frac{1}{(2\pi)^{\frac{n(1+\alpha)}{2}}|\Sigma| ^{\frac{1+\alpha}{2}}} \; \frac{1}{(1+\alpha)^{\frac{n}{2}}} (2\pi)^{\frac{n}{2}}|\Sigma|^{\frac{1}{2}}\\
+		=&\left( \frac{1}{1+\alpha} \right) ^ {\frac{n}{2}} \left( 2 \pi\right)^{-\frac{n\alpha}{2}} |\Sigma | ^{-\frac{\alpha}{2}},
+		\end{align*}
+which completes the proof.
+\end{proof}

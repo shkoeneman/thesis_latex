@@ -1,0 +1,64 @@
+\documentclass[12pt]{report}
+\usepackage{graphicx}
+%% Thesis style file
+\usepackage{uithesis12}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{natbib}
+\usepackage{floatrow}
+\newfloatcommand{capbtabbox}{table}[][\FBwidth]
+\usepackage{blindtext}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{threeparttable}
+\usetikzlibrary{arrows}
+%\usepackage{enumerate}
+%\usepackage{appendix}
+\usepackage{amscd}
+\usepackage{amsmath}
+\usepackage{multicol,multirow}
+\usepackage{adjustbox,lipsum}
+\usepackage{pdflscape}
+\usepackage{morefloats}
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{array}
+\usepackage{mathtools}
+\usepackage{tikz}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\allowdisplaybreaks
+
+
+\include{definitions}
+
+% This is for the references
+%\newcommand{\rff}{\singlespace \vskip 0in\par\sloppy\hangindent=2pc%
+%                \hangafter=1 \noindent }
+
+% Specify which pieces (other .tex files) you plan to include later:
+\includeonly{
+front,
+chapter1,
+chapter2,
+chapter3,
+chapter4,
+chapter5,
+chapter6,
+appendix,
+references
+}
+
+\begin{document}
+\include{front}
+\include{chapter1}
+\include{chapter2}
+\include{chapter3}
+\include{chapter4}
+\include{chapter5}
+\include{chapter6}
+\include{appendix}
+\include{references}
+\end{document} 

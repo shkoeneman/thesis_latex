@@ -1,0 +1,76 @@
+\doublespace
+\Chapter{INTRODUCTION}
+		\section{Motivation of the Thesis}
+		When Sir Isaac Newton first postulated his laws of motion in the seventeenth century, he could not have anticipated that, hundreds of years later, these very same principles would
+		be taught worldwide in high schools to teenagers as an introduction into the elementary concepts of physics. Nor could Newton have anticipated that in the twentieth centry, a
+		physicist by the name of Albert Einstein pioneered the concept of relativity, challenging the paradigm of Newton's laws which seemed so absolute in empirical practice. Further study
+		since Einsten's time has revealed that this newer model for motion more closely aligns with the way in which the universe functions, while Newton's laws of motion do not hold
+		under extreme conditions.
+
+		And yet, it is Newton's model of classical physics that is often chosen to be taught to students as an introduction to physics, despite these statements lacking a degree of truth when
+		it comes to physical reality. Why is this the case, when we have a model for the physical world that seems closer to the truth? The answer likely comes down to the \textit{efficacy} and
+		\textit{complexity} of the models for selection at hand. While Newton's model will predict inaccurate behavior in extreme conditions such as bodies moving at relativistic speeds, in the
+		vast majority of applications, it will give results that are in line with physical behavior while being far easier to understand, at least for an introductory physics student, than 
+		Einstein's model. Of course, in more sophisticated applications than calculating the velocity of a ball rolling down a hill, one may want Einstein's model, but in this problem of 
+		which model to select when instucting youth, Newton's model is sufficient.
+
+		This example brings to mind the challenges statisticians face when performing statistical model selection. Model selection is the task of selecting a statistical model from among a
+		collection of candidate models. One can use various techniques to perform model selection, but most will focus in some way on balancing \textit{goodness-of-fit} of the model with
+		regards to a set of observations with \textit{parsimony} and \textit{interpretability}. These traits often go hand-in-hand with the two main objectives of model selection and 
+		statistical modeling in general, those being statistical inference and prediction of future data. The priority in balancing these different aspects and objectives may change depending
+		on the modeling problem at hand, similar to the physics example presented above where the simplicity of one model is preferred over the edge in aligning with empirical data of another.
+		Thus, it is imperative for the statistician to keep them in mind when considering a model selection problem and the tendencies of various model selection procedures to values certain
+		traits of models over others.
+
+		When performing statistical model selection, the use of likelihood-based information criteria is commonplace. Akaike pioneered the first such likelihood-based information criteria
+		with the resultant quantity coming to be known as the Akaike information criterion, or AIC for short (Akaike, 1973). AIC features a likelihood-based "goodness-of-fit" term and a
+		penalty term for greater complexity of the model, thus providing a balance between these two aspects. Akaike derived AIC as an estimator to the Kullback-Leibler divergence,
+		which is itself a relative measure of the "distance" between one probability distribution and another (Kullback and Leibler, 1951). The Kullback-Leibler divergence ignores constants
+		associated only with the true generating distribution that are present in the Kullback-Leibler information, which is the cause of this measure to have relative meaning when these constants
+		are the same across different values of the divergence, but little absolute meaning. In the case of AIC, the probability distributions of interest are those of the true generating model
+		for our data and our proposed model that has been fit using the data. The lower the value of AIC for a fitted model is, the lower our estimate for the Kullback-Leibler divergence,
+		and thus the lower the separation between the true generating model and fitted candidate model. Thus, a recommended practice has been to perform model selection by choosing
+		the candidate model with the lowest value of AIC.
+
+		Over the course of time, others have produce refinements to Akaike's work either by producing different likelihood-based information criteria, or modifying the ways in which AIC or other
+		criteria are used to select a model. The Bayesian information criterion (BIC) features a Bayesian justification for its usage as opposed to one of estimation, but is similar to AIC in that
+		it features a term based on the likelihood and a term that penalizes greater model complexity (Schwarz, 1978). AIC itself is only an unbiased estimator of the Kullback-Leibler discrepancy
+		asymptotically, and thus the corrected Akaike information criterion (AICc) was developed to serve as an exactly unbiased estimator in the case of linear regression (Sugiura, 1978). AICc has
+		been extended to other modeling frameworks as well such as time-series models (Hurvich and Tsai, 1989). Both BIC and AICc provide potential advantages over AIC, and share the property with
+		AIC that lower values of the criterion indicate more support for a model. Thus, one can select a candidate model from a collection by taking the model with minimum BIC or AICc, similar to
+		to AIC.
+
+		Some have suggested more sophisticated methods of using likelihood-based informaiton criteria than simply choosing the model with the lowest value of the criteria. In their 2002 work on 
+		model selection, Burnham and Anderson offer the following table as a guide when assessing differences in AIC values between different the model with the minimum AIC and another model:
+		\begin{table}[h]
+		\centering
+		\ttabbox[\FBwidth]
+		{\caption{\label{tab:TIC_No_Pert}Results for simulation study, part I. Generating model for the state process: AR$(2)$.}}
+		{
+		\begin{tabular}{ c| P{1.2cm} P{1.2cm} P{1.2cm} P{1.2cm}}
+		 \Xhline{3\arrayrulewidth}
+		 & \multicolumn{4}{c}{AR Order}\\
+		Selection Criterion & 1 & 2 & 3 & 4\\
+		 \hline
+		 AIC & 0&68&19&13\\
+		 %BIC & 0&94&5&1\\
+		 TIC & 0&44&37&19\\
+		 TIC$_{\alpha=0.001}$ & 0&38&38&24\\
+		 TIC$_{\alpha=0.05}$ & 0&46&33&21\\
+		 TIC$_{\alpha=0.1}$ & 0&47&32&21\\
+		 TIC$_{\alpha=0.3}$ & 0&45&36&19\\
+		 TIC$_{\alpha=0.5}$ & 0&47&31&22\\
+		 TIC$_{\alpha=0.7}$ & 0&50&27&23\\
+		 TIC$_{\alpha=0.8}$ & 0&54&26&20\\
+		 TIC$_{\alpha=1.0}$ & 0&51&27&22\\
+		 \Xhline{3\arrayrulewidth}
+		\end{tabular}
+		}
+		\end{table}	
+		
+		
+
+		
+
+		\section{Overview of the Thesis}
+		
