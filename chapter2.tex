@@ -6,8 +6,97 @@
 		related to model selection and goodness of fit.
 		
 		\section{Likelihood-Based Information Criteria}
+
+		Let us introduce some notation that will serve us in the rest of this thesis. Say that one has an $n$ by 1  vector of observations $y$ and wishes to formulate a
+		statistical model for these outcomes. We will call this model our \textit{candidate} model, and we will find it in a \textit{parametric class} of probability distributions.
+		Let the parameters for the class in question be denoted as $\theta$, a vector of size $p$ by 1. Thus, all possible models of the same parametric class can be denoted
+		as
+		\begin{equation}
+			\mathcal{F}(p) = {f(y|\theta) | \theta \in \Theta(p)},
+		\end{equation}
+		where $\Theta(p)$ is the parameter space composed of $p$-dimenstional vectors that contain functionally independent components.
+
+		We will assume that $y$ was generate by some unknown probability density $g(y)$; we will refer to $g(y)$ as the \textit{true} model. For a given candidate model $f(y|\theta)$
+		and a known true model $g(y)$, one measure of the similarity between the two models is the \textit{Kullback-Leibler information} (Kullback and Leibler, 1951). The Kullback-Leibler
+		information between $f(y|\theta)$ and $g(y)$ with respect to the true model is
+		\begin{equation}
+			I(\theta) = E \left[ log \frac{g(y)}{f(y|\theta)} \right],
+		\end{equation}
+		where the expectation is taken with respect to the true model $g(y)$. While the Kullback-Leibler information is not a distance metric, it has some of the same properties in
+		that the larger the separation between $g(y)$ and $f(y|\theta)$ is, then the larger $I(\theta)$ will be in general (Cavanaugh and Neath, 2019).
+		
+		Next, let us define the \textit{Kullback-Leibler discrepancy} as
+		\begin{equation}
+			d(\theta) = E[-2 log f(y|\theta)]
+		\end{equation}.
+		Note that this quantity can be related to the Kullback-Leibler information as
+		\begin{equation}
+			2 I(\theta) = d(\theta) - E \left[ -2 log g(y) \right].
+		\end{equation}
+		This relation shows that any dependence of the Kullback-Leibler information on $\theta$ is captured by the Kullback-Leibler discrepancy, as the two only differ by a positive
+		multiplicative constant of 2 and a term that only depends on $g(y)$. Thus, ranking models of the same class but with different parameter values based on the Kullback-Leibler
+		discrepancy will be equivalent to doing so using the Kullback-Leibler information (Kullback, 1968).
+		
+		Let a $p$ by 1 vector of the estimates for these parameters be denoted as $\hat{\theta}$. These would be obtained through the process of fitting a candidate model in the
+		parametric class at hand, perhaps by using the method of maximum likelihood. Evaluating the Kullback-Leibler discrepancy at this value of the parameter, we observe
+		\begin{equation}
+			d(\hat{\theta}) = E [ -2 log f(y | \theta)]|_{\theta = \hat{\theta}}.
+		\end{equation}
+
+		This quantity would give us a theoretical measurement of the separation between our fitted candidate model $f(y|\hat{\theta})$ and the true model $g(y)$. However, to
+		evaluate this expecation requires knowledge of the true generating model $g(y)$. In practice, in any situation where we are concerned with model selecting and fitting,
+		we will not possess knowledge of this true model, or else we would not need to formulate a model in the first place (Zhang and Cavanaugh, 2016).
+
+		However, while this exact quantity is likely unable to be accessed in practical applications, one may find that its expectation, $E[d(\hat{\theta})]$, can be estimated. An
+		effort to do so is what lead to the formulation of the \textit{Akaike Information Criterion}, colloquially known as \textit{AIC}. For a fitted model $f(y|\hat{\theta})$,
+		AIC is evaluated as
+		\begin{equation}
+			AIC = -2 log f(y|\hat{\theta}) + 2 p,
+		\end{equation}
+		with this quantity serving as an asymptotically unbiased estimator for the expected Kullback-Leibler discrepancy subject to assumptions being met (Akaike, 1974). AIC was derived
+		under the assumption that the true generating model $g(y)$ belongs to the parametric class $\mathcal{F}(p)$, and thus the property of being asymptotically unbiased only
+		holds in this scenario. Being an estimator of the expected Kullback-Leibler discrepancy, smaller values of AIC for models therefore indicate smaller discrepancy of a candidate
+		model from the generating model.  
+
+		One may notice several features of the form of AIC. Note that the term $-2 log f(y|\hat{\theta})$ can be viewed as the negative 2 times the log likelihood for the model evaluated
+		at the fitted parameter values. Using $\ell(\hat{\theta}|y)$ to denote the log-likelihood of the fitted model, AIC can equivalently be expressed as
+		\begin{equation}
+			AIC = -2 \ell(\hat{\theta}|y) + 2 p.
+		\end{equation}
+		This $-2 \ell(\hat{\theta}|y)$ based on the empirical log-likelihood is known as the \textit{goodness-of-fit} term as it represents the degree to which the fitted model
+		conforms to the observed data $y$ (Cavanaugh and Neath, 2019). Note that this quantity can be viewed as a statistic as it depends both on the data $y$, and the quantity
+		$\hat{\theta}$ which was likely determined using the data $y$ itself.
+
+		The second term of AIC, that being $2 p$, is commonly referred to as the \textit{penalty} term (Cavanaugh and Neath, 2019). This term serves as a bias correction to the goodness-of-fit
+		term to form an asymptotically unbiased estimator, as the likelihood-based goodness-of-fit term on its own is biased. This term also serves to penalize models with more fitted parameters and
+		thus more complexity, as this term will grow with $p$ and cause higher values of AIC. Note also that the penalty term is a constant with respect to the sample $y$, unlike the goodness-of-fit
+		term which can be viewed as a statistic with variability with respect to the sample $y$. Thus, the goodness-of-fit term and penalty term serve to harmonize and provide tradeoffs between
+		conformity to data, which will only stay equal or rise as more paramters are added, vs. parsimony, that being simplicity and frugality with regards to including extraneous, unnecessary
+		parameters.
+
+		As noted prior, AIC is only asymptotically unbiased as the penalty term only serves as a sufficient bias correction as the sample size $n$ tends toward infinity. It is well-documented that
+		in small sample sizes when this asymptotic property does not hold even approximately that AIC can be very biased (Brewer et al., 2016). Thus, this lead to the development of the 
+		\textit{corrected Akaike Information Criterion}, oftentimes called \textit{AICc}. AICc was first proposed by Sugiura as a means to develop an exactly unbiased estimator for the expected
+		Kullback-Leibler discrepancy of a fitted linear regression model, thus allowing AICc to be safely used in a similar manner to AIC in small sample sizes (Sugiura, 1978). Assuming that
+		$\ell(\hat{\theta}|y)$ is the log-likelihood of a fitted linear regression model assuming normality and homoskedasticity (Poole and O'Farrell, 1971), then the form of AICc is 
+		\begin{equation}
+			AICc = -2 \ell(\hat{\theta}|y) + \frac{2 (p+1) n}{n - p - 2},
+		\end{equation}
+		where $p$ in this case specifically denotes the number of estimated regression coefficients in the model. Note that while the goodness-of-fit term matches exactly the goodness-of-fit term
+		of AIC, the penalty term here has been adjusted to provide an exact bias adjustment in the case of  normal linear regression. AICc will converge to AIC in large sample sizes, as the penalty
+		term for AICc will converge to $2p$, but in small sample sizes, AICc can provide better results when used for model selection than AIC (Burnham and Anderson, 2003). However, one must be
+		mindful that AICc is derived with a specific parametric family in mind and does not have the broad generalizability of AIC in any singular form.
+
+		Although AICc was initially derived only for normal linear regression models, it has been extended to other parametric families since that time. AICc was first extended to autoregressive
+		moving-average models a bit over a decade after it was first formulated for linear regression (Hurvich et al., 1990). It has since been extended to various other modeling frameworks
+		including vector autoregressive models (Hurvich and Tsai, 1993), generalized linear models with a dispersion parameter (Hurvich and Tsai, 1995), and longitudinal models with a known
+		covariance structure (Azari et al., 2006). These variations of AICc follow the same general pattern as the initial derivation for normal linear regression in that while the goodness-of-fit
+		terms remains the same, the penalty term is adjusted to provide an exact bias adjustment that does not really on asymptotic properties.
 		
 		\section{Goodness-of-Fit Assessment}
+
+		While the likelihood goodness-of-fit term helps to measure conformity of the model to the data in information criteria, there exist other methods of assessing conformity of a specified
+		model to the data.
 
 		\section{Likelihood Ratio Test}
 

@@ -23,7 +23,7 @@
 		traits of models over others.
 
 		When performing statistical model selection, the use of likelihood-based information criteria is commonplace. Akaike pioneered the first such likelihood-based information criteria
-		with the resultant quantity coming to be known as the Akaike information criterion, or AIC for short (Akaike, 1973). AIC features a likelihood-based "goodness-of-fit" term and a
+		with the resultant quantity coming to be known as the Akaike information criterion, or AIC for short (Akaike, 1974). AIC features a likelihood-based "goodness-of-fit" term and a
 		penalty term for greater complexity of the model, thus providing a balance between these two aspects. Akaike derived AIC as an estimator to the Kullback-Leibler divergence,
 		which is itself a relative measure of the "distance" between one probability distribution and another (Kullback and Leibler, 1951). The Kullback-Leibler divergence ignores constants
 		associated only with the true generating distribution that are present in the Kullback-Leibler information, which is the cause of this measure to have relative meaning when these constants
@@ -40,37 +40,60 @@
 		AIC that lower values of the criterion indicate more support for a model. Thus, one can select a candidate model from a collection by taking the model with minimum BIC or AICc, similar to
 		to AIC.
 
-		Some have suggested more sophisticated methods of using likelihood-based informaiton criteria than simply choosing the model with the lowest value of the criteria. In their 2002 work on 
+		Some have suggested more sophisticated methods of using likelihood-based information criteria than simply choosing the model with the lowest value of the criteria. In their 2002 work on 
 		model selection, Burnham and Anderson offer the following table as a guide when assessing differences in AIC values between different the model with the minimum AIC and another model:
+		\pagebreak
+
 		\begin{table}[h]
 		\centering
 		\ttabbox[\FBwidth]
-		{\caption{\label{tab:TIC_No_Pert}Results for simulation study, part I. Generating model for the state process: AR$(2)$.}}
+		{\caption{\label{tab:Burnham_Anderson_Table}Burnham and Anderson AIC Difference Reference Table}}
 		{
-		\begin{tabular}{ c| P{1.2cm} P{1.2cm} P{1.2cm} P{1.2cm}}
-		 \Xhline{3\arrayrulewidth}
-		 & \multicolumn{4}{c}{AR Order}\\
-		Selection Criterion & 1 & 2 & 3 & 4\\
+		\begin{tabular}{ c|c}
+		$AIC_{i}-AIC_{min}$ & Level of Empirical Support for Model $i$\\
 		 \hline
-		 AIC & 0&68&19&13\\
-		 %BIC & 0&94&5&1\\
-		 TIC & 0&44&37&19\\
-		 TIC$_{\alpha=0.001}$ & 0&38&38&24\\
-		 TIC$_{\alpha=0.05}$ & 0&46&33&21\\
-		 TIC$_{\alpha=0.1}$ & 0&47&32&21\\
-		 TIC$_{\alpha=0.3}$ & 0&45&36&19\\
-		 TIC$_{\alpha=0.5}$ & 0&47&31&22\\
-		 TIC$_{\alpha=0.7}$ & 0&50&27&23\\
-		 TIC$_{\alpha=0.8}$ & 0&54&26&20\\
-		 TIC$_{\alpha=1.0}$ & 0&51&27&22\\
+		 $0 - 2$ & Substantial\\
+		 $4 - 7$ & Considerably Less\\
+		 $> 10$ & Essentially None\\
 		 \Xhline{3\arrayrulewidth}
 		\end{tabular}
 		}
 		\end{table}	
 		
-		
+		This table contends that any model with an AIC difference of less than $2$ from the minimum AIC model is a model that shows substantial support. Thus, this "rule of 2" has become a
+		commonplace rule of thumb when using AIC for model selection with 2 often being used as a cutoff for a substantial difference in model fit. The justification for this cutoff comes
+		from empirical observations (Burnham and Anderson, 2003). Additionally, different empirical arguments have been made for using 2 as a cutoff for substantial difference in model fit
+		when comparing BIC values (Kass and Raftery, 1995). However, these cutoffs possess little justification that relies on distribution properties of the likelihood-based information
+		criterion in question.
 
+		If one wishes to perform model selection that relies on distributional properties, then the likelihood ratio test may be of interest. The likelihood ratio test assesses the
+		goodness-of-fit between two statistical models and provides a hypothesis test framework for choosing between them (Wilks, 1938). The procedure tests the assumption that
+		a smaller, nested model fits the data just as well as a larger model with higher dimensionality, and additionally carries an implicit assumption that the larger model does
+		not exhibit substantial lack of fit itself. Thus, one must make some effort to ensure that this larger candidate model does not exhibit gross lack of fit.
+
+		Various methods exist to assess misspecification of a model, with most being tuned to a specific family of models or aspect of misspecification. In the case of linear regression,
+		plotting the fitted residuals against the fitted values or individual covariates is a common form of visually assessing whether the linear regression assumptions of linearity and
+		homoskedasticity are met (Kutner et al., 2005). In addition to visual diagnostics, several hypothesis testing methods have been developed to assess the goodness-of-fit of linear
+		models. Methods such as the Breusch-Pagan Test (Breusch and Pagan, 1979) and the White Test (White, 1980) can be employed to test the hypothesis that the data exhibits homoskedasticity
+		after it is fit with a linear model. These methods excel at detecting certain forms of misspecification in linear models, but can be fooled when the misspecification manifests in a
+		way they are not tuned to detect, and are not robust to all violations to the assumptions of linear regression.
+
+		The main motivation for this thesis is to investigate the distributional properties of likelihood-based information criteria with the hope of producing methods to aid in model selection
+		that rely on probabilistic theory as opposed to ad hoc rules of thumb and visual inspection. The first part of this thesis develops a new model selection procedure using the distributional
+		results used by the likelihood ratio test and applying these to difference in likelihood-based information criteria. The method can be used with any likelihood-based information criteria
+		with a non-random penalty term, and quantities related to its usage with AIC, BIC, and AICc will be explicity derived. A simulation study follows which demonstrates that this algorithm
+		can provide an improvement in selection of the true model and predictive efficacy over other model selection procedures using the information criteria.
 		
+		In the second part of the thesis, distributional properties related to the large-sample distribution of the likelihood goodness-of-fit term present in likelihood-based information criteria
+		are established. These properties are then leveraged to create a bootstrap goodness-of-fit test to test the very general hypothesis that a linear regression model is properly specified
+		against the alternative that it is not. The ability of this test to perform as expected when the null hypothesis is true is verified through a simulation study, and another simulation
+		study displays the advantage of this test over existing methods as it pertains to ability to detect subtle, but notable, forms of misspecification.
 
 		\section{Overview of the Thesis}
+		The remainder of the thesis is organized as follows. In Chapter~2, we provide some background related to likelihood-based information criteria, goodness-of-fit assessment, and other mathematical
+		constructs that will be of relevance later in the dissertation. In Chapter~3, we propose a new model selection procedure using likelihood-based information criteria that leverages distributional
+		properties. We investigate the performance of the procedure as compared to other methods in an illustrative simulation study.  In Chapter~4, we derive quantities related to the variance of the
+		log-likelihood term used in information criteria, and we use these findings to develop a bootstrap test for the goodness-of-fit of a linear model. A simulation study follows to demonstrate the
+		efficacy of the developed procedure. In Chapter~5, we perform an example data analysis using real world data to display the methods developed in this thesis in an applied setting.
+		Finally, Chapter~6 concludes with a brief summary and discussion of the content of the thesis. 
 		
