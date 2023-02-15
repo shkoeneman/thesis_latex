@@ -5,6 +5,204 @@
 		in both prediction and description in the case of variable selection for a linear model, and in the case of correlation structure selection for generalized least squares.
 
 		\section{Proposed Model Selection Procedure Development} \label{sec:proposed_method}
+		In the previous chapter, it was noted that AIC, BIC, and AICc are often used by selecting the model with the minimum value of the criterion, and can also be used with
+		various rules of thumb that have been developed such as the "Rule of 2." While it was discussed that AIC, and by extension AICc, are asymptotically efficient criterion,
+		and that BIC is an asymptotically consistent criterion, these properties are not guaranteed to hold in finite sample sizes, and thus choosing the candidate model with
+		the minimum value of the criterion may not reflect these properties in practice. Additionally, the modified rules of thumb possess limited theoretical backing. Therefore,
+		this section will develop a new model selection procedure that can be used with likelihood-based information criteria with a non-random penalty term that can be backed
+		using distributional theory and tailored to suit the needs of the statistician.
 		
+		Let us establish the paradigm in which one is performing model selection. We will assume that all models that are candidates for selection are of the same parametric
+		class as one another, with the true parameters to be estimated for this class being denoted as $\theta$, a $p$ by 1 vector. We denote the entire parametric class as
+		\begin{equation}
+			\mathcal{F}(p) = \left\{ f(y|\theta) | \theta \in \Theta(p) \right\} .
+		\end{equation}
+
+		We will require there to be a largest candidate model in this collection of models that estimates all $p$ paramaters such that all other candidate models are restricted
+		versions of this model, and thus are nested in this largest candidate model. An example of this might be a linear regression model that includes all possible covariates
+		one could care to include, with the other candidate models only including subsets of these covariates in the regression, thus restricting the regression coefficients for
+		covariates not included to be 0 and therefore restricting the parameter space.
+
+		We will denote this largest candidate model as model $M_*$, and we will label the other $m$ candidate models as $M_1,...,M_m$. Thus, there are a total of $m+1$ candidate
+		models, each of the same parametric class. For $i=1,...,m$, we will denote $k_i$ as the difference in number of estimated parameters between model $M_*$ and model
+		$M_i$. Based on this specification, note that $\forall i$, $1 \le k_i < p$, as $M_*$ will have $p$ estimated parameters by definition, and that $k_i$ is restricted to
+		being an integer.
+
+		We will first present the model selection procedure as it is to be used with AIC, followed by a justification for the procedure the procedure itself to be used with
+		AIC. However, following this, the quantities relevant using the procedure for BIC and AICc in the case of linear regression models are derived, and through this
+		it is made apparent how this procedure could be used with other likelihood-based information criteria of a similar form.
+
+		We will denote the AIC for the fitted largest candidate model $M_*$ as $AIC_*$. For $i=1,...,m$, we will denote the AIC of the fitted candidate model $M_i$ as 
+		$AIC_i$. With this in mind, the model selection procedure is presented below.
+
+		\pagebreak
+
+		\begin{algorithm}
+			\caption*{\textbf{Algorithm} Distribution-Informed Model Selection Procedure (AIC)}
+			\begin{algorithmic}[1]
+			  %\Statex \textbullet~\textbf{Parameters:} $n, t \in \mathbb{N}$, where $t < n$.
+			  \State Take steps to ensure with reasonable certainty that $M_*$ does not exhibit lack of fit.
+			  \State For $i = 1,...,m$, calculate the \textit{standardized AIC} for model $M_i$ as 
+			  $\overline{AIC}_i = \frac{AIC_i - AIC_*}{\sqrt{2k_i}}$. Define the standardized AIC for model
+			  $M_*$ as $\overline{AIC}_* = 0$.
+			  \State Categorize all models with a standardized AIC of $ -\sqrt{\frac{1}{2}} + 2$ or lower as
+			  being candidates for selection.
+			  \State Among candidate models for selection, select the most parsimonious model, i.e. the model
+			  with the fewest estimated parameters. If there is a tie, let lower standardized AIC be the
+			  tiebreaker.
+			\end{algorithmic}
+		\end{algorithm}
+
+		We will now illustrate the logic behind this algorithm and justify its usage step by step. Firstly, this algorithm only allows for selection among models of the
+		same parametric class. Thus, one must from the outset have a reasonable degree of certainty that the chosen parametric class, and the largest candidate model
+		within, do not exhibit substantial lack of fit. Section 2.2 of this thesis outlines methods with which one can do this in the case of normal linear regression
+		models, and Chapter 3 will develop an additional procedure that can be used in this scenario. However, this procedure does not require that the candidate models
+		in question are normal linear regression models, and if a different modeling framework is desired, steps should be taken to ensure that the parametric family
+		of choice seems appropriate.
+
+		Assuming that the largest candidate model does not exhibit lack of fit, we proceed onward. Consider the form of the difference between the AIC of model $M_*$
+		and model $M_i$ $\forall i$. Considering the definition of quantities presented previously, this difference can be denoted as
+		\begin{equation}
+			AIC_i - AIC_* = \left( -2 \ell (\hat{\theta}_*) + 2 \ell (\hat{\theta}_i) \right) - 2k_i
+		\end{equation}
+
+		First note the term $-2k_i$ above. This term represents the difference in penalty terms between model $M_*$ and a given model $M_i$. As by definition
+		$M_*$ will have more estimated parameters than $M_i$ $\forall i$, this term will always take the form of a negative integer. As $k_i$ grows, meaning
+		the model in question $M_i$ grows more and more parsimonious, then this term will grow increasingly negative.
+
+		Now consider the term $-2 \ell (\hat{\theta}_*) + 2 \ell (\hat{\theta}_i)$. This difference in likelihood-based goodness-of-fit terms bears the form
+		of the likelihood ratio test statistic found in (2.15) if one were to test the null hypothesis that model $M_i$ is a sufficient model against the alternative that
+		model $M_*$ offers a better fit. By our formulation of these models, we could perform this test in good faith as $M_i$ is nested within $M_*$ by 
+		design, and thus we are in essence testing a restricted parameter space against one that is unrestricted.
+
+		Therefore, assuming that the largest candidate model does not exhibit gross lack of fit which we assume to already be established, and bearing in mind the
+		difference in number of estimated parameters between these two models is the positive integer $k_i$, we can assume that this term will be asymptotically distributed as
+		$\chi^2_{k_i}$ under the null hypothesis. By the properties of the centrally distributed chi-squared distribution, this distribution will have a mean of $k_i$ and
+		a variance of $2 k_i$ (Lancaster, 1969).
+
+		Thus, we see that this difference in AIC values consists of a constant along with a quantity for which we have an asymptotic distribution under certain
+		assumptions. The constant term will not contribute to the variability of this AIC difference, meaning its variability is determined entirely by the
+		difference in likelihood-based terms. Bearing this in mind, under the likelihood ratio test null hypothesis being true, the variance of the difference
+		will approximately be
+		\begin{equation}
+			Var[AIC_i - AIC_*] \approx 2 k_i .
+		\end{equation}
+
+		We note that this approximate variance in this case only depends on $k_i$, the difference in number of estimated parameters between model $M_*$ and model $M_i$. It does not
+		depend on the chosen parametric family, nor does it depend in any way on the sample size $n$. We also note that this variability will grow higher as $k_i$ grows and candidate
+		models grow increasingly parsimonious.
+
+		However, bearing this in mind, there is a simple way with which we could alter this AIC difference to have uniform variance across all different $M_i$. Dividing the difference
+		by its approximate standard deviation $\sqrt{2 k_i}$, we note that
+		\begin{equation}
+			Var \left[ \frac{AIC_i - AIC_*}{\sqrt{2k_i}} \right] \approx 1 .
+		\end{equation}
+		Note that the variance will now be uniform $\forall i$, with each quantity now possessing unit variance. This is useful in that the variance of this quantity is now standardized
+		across all pairings of a nested candidate model within the largest candidate model. We will refer to this quantity as \textit{standardized AIC}.
+
+		\begin{definition}[Standardized AIC for model $M_i$]
+			The \textit{standardized AIC} for model $M_i$ is defined as $\overline{AIC}_i = \frac{AIC_i - AIC_*}{\sqrt{2k_i}}$.
+		\end{definition}
+
+		This quantity with unit variance across all models holds promise as a means to use information criteria in a more probabilistically-informed manner. However, while we have established
+		the approximate variance of this quantity under certain conditions and shown it is uniform between models, we have yet to its mean and typical values that this quantity may take. Taking
+		standardized AIC and adding a constant of $\sqrt{2 k_i}$, and again assuming the likelihood ratio test null hypothesis holds, it can be seen by properties of the centrally distributed
+		chi-squared distribution (Lancaster, 1969) that this quantity will be approximately distributed as
+		\begin{equation}
+			\frac{AIC_i - AIC_*}{\sqrt{2k_i}} + \sqrt{2k_i} \, \dot\sim \, \Gamma \left( \frac{k_i}{2}, \frac{2}{\sqrt{2k_i}} \right)
+		\end{equation}
+		Note that this quantity is on the left is equivalent to $\frac{ \left( -2 \ell (\hat{\theta}_*) + 2 \ell (\hat{\theta}_i) \right) }{\sqrt{2k_i}}$, the likelihood ratio test statistic
+		divided by its standard deviation under the null hypothesis. Thus, under the null hypothesis this will asymptotically be a chi-quared distribution scaled by a factor of $\frac{1}{\sqrt{2k_i}}$,
+		which will produce the gamma distribution displayed above.
+
+		By the properties of the gamma distribution, the above approximate distribution will have an expectation of $\sqrt{\frac{k_i}{2}}$ (Johnson et al., 1994). Thus, considering the expectation
+		of standardized AIC and accounting for the constant applied above, we see that standardized AIC will have a mean of
+		\begin{equation}
+			E \left[ \frac{AIC_i - AIC_*}{\sqrt{2k_i}} \right] \approx -\sqrt{\frac{k_i}{2}}
+		\end{equation}
+		Thus, under the assumption that model $M_i$ contains requisite structure and is not misspecified, its standardized AIC will have expectation $-\sqrt{\frac{k_i}{2}}$. This mean depends only
+		on the difference in number of estimated parameters $k_i$.
+
+		Note that as $k_i$ is a positive integer with a minimal value of 1, we can see that the maximum value of this approximate expectation is $\sqrt{\frac{1}{2}}$. As $k_i$ grows and models
+		become more parsimonious, the expected value for standardized AIC under the likelihood-ratio test null hypothesis will grow increasingly negative. Thus, while the distribution of
+		standardized AIC across all values of $i$ will have the same variance and spread, more parsimonious models will have distributions shifted more in the negative direction as
+		compared to other adequately specified models that contain more estimated parameters.
+
+		Having established some of the properties of standardized AIC, let us now formulate unified procedure in which to use it. The "Rule of 2" for AIC relies on an ad hoc cutoff of 2 in 
+		relation to the model with minimum AIC in order to determine models that are in serious contention for selection. We propose a cutoff for serious contention of a model as a
+		standardized AIC value of less than $-\sqrt{\frac{1}{2}} + 2$. This takes the maximum expected value across all potential $M_i$ and allows for 2 standard deviations worth of
+		deviance from this value.
+		
+		If a model does not meet this relatively liberal cutoff, then we can assume that is exhibits notable lack of fit in the comparison of the two likelihood-based goodness-of-fit terms,
+		and thus should not be considered a serious candidate for selection (Akaike, 1974). However, if a model does meet this cutoff, then it indicates that it exhibits qualities in line with the
+		likelihood ratio test null hypothesis being true, meaning that any restricted model that meets this cutoff seems to fit the data at least as well as the unrestricted largest model.
+		This notion allows us to employ a cutoff loosely based on the notion of hypothesis testing and leveraging the distributional results of hypothesis testing, but without the pitfalls
+		that come with multiple comparisons or the notion of a null hypothesis and its related alternative both being false.
+
+		As it currently stands, we have not defined standardized AIC for model $M_*$ itself, as this model has only served as a reference to allows us to calculate standardized AIC for the
+		other $m$ candidate models. We will define standardized AIC for this reference model as $0$.
+		\begin{definition}[Standardized AIC for model $M_*$]
+			The \textit{standardized AIC} for model $M_*$ is defined as $\overline{AIC}_* = 0$.
+		\end{definition}
+		If using the cutoff of $-\sqrt{\frac{1}{2}} + 2$ postulated above, one should note that this convention will always make the standardized AIC of model $M_*$ be less than the
+		cutoff, and thus the largest candidate model will always be in serious contention for selection. This is justified in that from the outset, we assume that this largest
+		candidate model does not exhibit gross lack of fit, thus allowing it to serve as the reference upon which standardized AIC is formed for all other models.
+
+		After one has employed the cutoff and separated the contenders models from those exhibiting substantial lack of fit, the natural last step is to establish some paradigm
+		through which one can select a model from among those models that met the cutoff. We propose using \textit{parsimony} to determine which model to choose, and selecting
+		the model with the fewest number of estimated parameters from among those that met the cutoff. The rationale behind this is that all models that meet the cutoff do
+		not seem to exhibit lack of fit, and therefore, choosing the model that provides an adequate fit while containing no seemingly unnecessary information or estimates
+		gives one a model with good prospects for both prediction and description.
+		
+		It should be noted that there may be multiple models that meet the cutoff that are equally parsimonious. In this case, let the tiebreaker among these tied models be
+		lowest standardized AIC, or equivalently, lowest AIC, as these models will all have equal values of $k_i$ in being equally parsimonious. This allows ties to be broken
+		by falling back on the property of asymptotic efficiency of AIC itself.
+
+		Thus, we have formulated an algorithm for model selection using AIC that, in summary, involves formulating a largest candidate model that does not exhibit lack of
+		fit, calculating standardized AIC for all other candidate models nested in this model, determining which models meet a cutoff for standardized AIC, and then selecting
+		a final model using the principle of parsimony.
+
+		This procedure possesses several advantages. First, it is backed by distributional theory related to the difference in AIC between models. This theory is leveraged
+		to put all values of standardized AIC on the same scale, and then create a reasonable cutoff to be used in model selection. The development of the procedure
+		contrasts with the justifications that exist for the "Rule of 2" as it pertains to AIC, as this is an ad hoc rule of thumb backed only through empirical
+		observation. However, both developments share the general, intuitive principle of defining some threshold that dictates whether a model should be in serious
+		contention for selection. Simulations in the following section demonstrate the potential predictive and descriptive efficacy of this new method in relation
+		to methods of model selection involving the "Rule of 2" or simply choosing the model with the minimum value of the information criteria.
+		
+		This procedure is also relative simple computationally. Calculation of standardized AIC amounts to performing arithmetic on AIC values while considering
+		a single additional parameter, that being the difference in number of estimated parameters between the largest candidate model and the nested candidate 
+		models. If it is computationally feasible to calculate AIC for all models in a collection of candidate models, then it should also be computationally
+		feasible to perform this new model selection procedure.
+		
+		As touched upon earlier, this procedure has the advantage of integrating distributional theory from hypothesis testing without itself being a hypothesis test.
+		One can consider a large number of models in the candidate class and need not worry about the hazards of multiple comparisons. The number of pairwise comparisons
+		that need be made between AIC or likelihood goodness-of-fit terms will only be $m$, and more pairwise comparisons need not be considered. Additionally, no p-value
+		is calculated, avoiding the conundrum of interpreting p-values in a situation where both the null and alternative hypotheses may be false.
+
+		On this note, the procedure can also handle an arbitrary number of models in the candidate class as long as there is a largest candidate model $M_*$ in which all
+		other candidate models are nested. Adding additional models to a candidate class only require that AIC be calculated, followed by the arithmetic necessary to
+		calculate standardized AIC, adding little complexity as the number of candidate models increases. The model is capable of selecting a model from among all
+		candidates in an all subsets regression context, yet can also be applied to a much smaller subset of models.
+
+		Desirably, the procedure is customizable and can be tweaked to the needs of the user. The candidate class of models can be defined in any way the practioner desires
+		as long as there is a largest candidate model to serve as a reference. This could include forcing all models to include a certain covariate that is of scientific
+		interest, or selecting from among a collection of univariate models with the model containing all covariates serving as the reference. One could use a standardized
+		AIC other than the one specified if one wished to make the threshold more liberal or more conservative. Another version of this procedure uses a model-specific
+		cutoff for each of the $m$ nested models of $-\sqrt{\frac{k_i}{2}} + 2$ based on the estimated mean of standardized AIC if the model at hand is properly specified
+		as opposed to using the simplified $-\sqrt{\frac{k_i}{2}} + 2$. However, it was found that this model-specific cutoff does not offer much improvement in performance
+		while adding computational complexity; nevertheless, it remains an option if one prefers this method. One could use a rule other than parsimony to select a model
+		from among those that meet the cutoff, perhaps selecting a model based on scientific intuition or performing a nested model selection on these models using
+		an approach like cross-validation which might be computationally intensive for a larger number of models, but is feasible after applying the cutoff and
+		identifying contenders (Stone, 1974).
+
+		However, astute readers will recall that one of the promised features of this section was to be derivations extending this model selection procedure to BIC and
+		AICc as well. These will follow a forthcoming discussion of some of the disadvantages of this new procedure. Only minor modifications need to be made to the
+		procedure to allows for its usage with these information criteria, as the core principles remain the same. Indeed, the procedure could in theory be extended to
+		many information criteria with the form of a likelihood-based goodness-of-fit term accompanied by a constant penalty term. However, more effort would be required
+		to extend and justify the procedure in the case of a random penalty term such as is present in TIC.
+
+		For all of its listed advantages, this procedure and its counterparts involving BIC and AICc do possess certain drawbacks. 
+
+
 		\section{Simulations for Predictive and Descriptive Ability} \label{sec:sim_model_select}
 		
