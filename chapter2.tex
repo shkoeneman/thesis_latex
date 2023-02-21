@@ -22,7 +22,7 @@
 		\begin{equation}
 			I(\theta) = E \left[ \log \frac{g(y)}{f(y|\theta)} \right],
 		\end{equation}
-		where the expectation is taken with respect to the true model $g(y)$. While the Kullback-Leibler information is not a distance metric, it has some of the same properties in
+		where the expectation is taken with respect to the true model $g(y)$. While the Kullback-Leibler information is not a distance measure, it has some of the same properties in
 		that the larger the separation between $g(y)$ and $f(y|\theta)$ is, then the larger $I(\theta)$ will be in general (Cavanaugh and Neath, 2019).
 		
 		Next, let us define the \textit{Kullback-Leibler discrepancy} as
@@ -45,7 +45,7 @@
 
 		This quantity would give us a theoretical measurement of the separation between our fitted candidate model $f(y|\hat{\theta})$ and the true model $g(y)$. However, to
 		evaluate this expecation requires knowledge of the true generating model $g(y)$. In practice, in any situation where we are concerned with model selecting and fitting,
-		we will not possess knowledge of this true model, or else we would not need to formulate a model in the first place (Zhang and Cavanaugh, 2016).
+		we will not possess knowledge of this true model, or else we would not need to formulate a model in the first place.
 
 		However, while this exact quantity is likely unable to be accessed in practical applications, one may find that its expectation, $E[d(\hat{\theta})]$, can be estimated. An
 		effort to do so is what led to the formulation of the \textit{Akaike Information Criterion}, colloquially known as \textit{AIC}. For a fitted model $f(y|\hat{\theta})$,
@@ -58,27 +58,26 @@
 		holds in this scenario. Being an estimator of the expected Kullback-Leibler discrepancy, smaller values of AIC for models therefore indicate smaller discrepancy of a candidate
 		model from the generating model.  
 
-		One may notice several features of the form of AIC. Note that the term $-2 \log f(y|\hat{\theta})$ can be viewed as negative 2 times the log likelihood for the model evaluated
-		at the fitted parameter values. Using $\ell(\hat{\theta}|y)$ to denote the log-likelihood of the fitted model, AIC can equivalently be expressed as
+		One may notice several features of the form of AIC. Using $\ell(\hat{\theta}|y)$ to denote the log-likelihood of the fitted model, AIC can equivalently be expressed as
 		\begin{equation}
 			AIC = -2 \ell(\hat{\theta}|y) + 2 p.
 		\end{equation}
 		This $-2 \ell(\hat{\theta}|y)$ term based on the empirical log-likelihood is known as the \textit{goodness-of-fit} term as it represents the degree to which the fitted model
-		conforms to the observed data $y$ (Cavanaugh and Neath, 2019). Note that this quantity can be viewed as a statistic as it depends both on the data $y$, and the quantity
-		$\hat{\theta}$ which was likely determined using the data $y$ itself.
+		conforms to the observed data $y$ (Cavanaugh and Neath, 2019). This term will only grow smaller as complexity is added to the model. Note that this quantity can be viewed as
+		a statistic as it depends both on the data $y$, and the quantity $\hat{\theta}$ which was likely determined using the data $y$ itself.
 
-		The second term of AIC, that being $2 p$, is commonly referred to as the \textit{penalty} term (Cavanaugh and Neath, 2019). This term serves as a bias correction to the goodness-of-fit
-		term to form an asymptotically unbiased estimator, as the likelihood-based goodness-of-fit term on its own is biased. This term also serves to penalize models with more fitted parameters and
+		The second term of AIC, that being $2 p$, is commonly referred to as the \textit{penalty} term. This term serves as a bias correction to the goodness-of-fit term to form an asymptotically
+		unbiased estimator, as the likelihood-based goodness-of-fit term on its own is biased (Cavanaugh and Neath, 2019). This term also serves to penalize models with more fitted parameters and
 		thus more complexity, as this term will grow with $p$ and cause higher values of AIC. Note also that the penalty term is a constant with respect to the sample $y$, unlike the goodness-of-fit
 		term which can be viewed as a statistic with variability with respect to the sample $y$. Thus, the goodness-of-fit term and penalty term serve to harmonize and provide tradeoffs between
-		conformity to data, which will only stay equal or rise as more paramters are added, vs. parsimony, that being simplicity and frugality with regards to including extraneous, unnecessary
+		conformity to data, which will only stay equal or rise as more parameters are added, vs. parsimony, that being simplicity and frugality with regards to including extraneous, unnecessary
 		parameters.
 
 		As noted prior, AIC is only asymptotically unbiased as the penalty term only serves as a sufficient bias correction as the sample size $n$ tends toward infinity. It is well-documented that
 		in small sample sizes when this asymptotic property does not hold, even as an approximation, that AIC can be subtantially biased (Brewer et al., 2016). Thus, this led to the development of the 
 		\textit{corrected Akaike Information Criterion}, oftentimes called \textit{AICc}. AICc was first proposed by Sugiura as a means to develop an exactly unbiased estimator for the expected
 		Kullback-Leibler discrepancy of a fitted linear regression model, thus allowing AICc to be safely used in a similar manner to AIC in small sample sizes (Sugiura, 1978). Assuming that
-		$\ell(\hat{\theta}|y)$ is the log-likelihood of a fitted linear regression model assuming normality and homoskedasticity (Poole and O'Farrell, 1971), then the form of AICc is 
+		$\ell(\hat{\theta}|y)$ is the log-likelihood of a fitted linear regression model assuming normality and homoskedasticity, then the form of AICc is 
 		\begin{equation}
 			AICc = -2 \ell(\hat{\theta}|y) + \frac{2 p n}{n - p - 1},
 		\end{equation}
@@ -104,7 +103,7 @@
 		the case of models from the regular exponential family (Cavanaugh and Neath, 1999). It it worth noting that while BIC bears resemblance to AIC, it does not seek to estimate any discrepancy
 		measure, and rather provides a large-sample estimator of a transformation of the Bayesian posterior probability associated with the candidate model.
 
-		Note that when $n$ is relatively larger than $p$, BIC's penalty term will be much more stringent than AIC's, while the goodness-of-fit term remains the same. This gives BIC a tendency to
+		Note that when $n$ is relatively larger than $p$, penalty term of BIC will be much more stringent than that of AIC, while the goodness-of-fit term remains the same. This gives BIC a tendency to
 		choose models that are more parsimonious than AIC in practice when performing selection on the same group of candidate models (Neath and Cavanuagh, 2011). It is also fundamentally different
 		from AIC in that it is an \textit{asymptotically consistent} criterion,  whereas AIC is an \textit{asymptotically efficient} criterion. An asymptotically consistent criteron will asymptotically
 		select the fitted model having correct structure with probability one, provided the generating model is of a finite dimension and is in the set of candidate models. An asymptotically efficient
@@ -194,8 +193,7 @@
 
 		Linear regression analysis makes a number of assumptions about the data at hand. These include that each data point is independent given the set of predictors at hand, that the
 		outcomes follow a normal distribution with a mean that is a linear function of the covariates, with this property being referred to as \textit{linearity}, and a variance that is constant
-		across different values of the observed quantity and the covariates, with this latter property being referred to as \textit{homoskedasticity} (Kutner et al., 2005). In linear regression,
-		we define the \textit{residual} of a model fit to be the difference between an observation $y_i$ and its predicted value $\hat{y}_i$ under the model at hand. One method of visually
+		across different values of the observed quantity and the covariates, with this latter property being referred to as \textit{homoskedasticity} (Kutner et al., 2005). One method of visually
 		assessing the assumptions of linearity and homoskedasticity when using linear regression is to plot the residuals of a linear regression against either their corresponding predictor
 		values or the corresponding observed value of the outcome (Miles, 2014). Across different values of the predictors and observed values, the residuals should not exhibit any specific pattern
 		other than a mean of 0 and equal variance if the assumptions of the linear regression model are met. Thus, deviations from this pattern in the form of the collectively plotted residuals
@@ -286,7 +284,7 @@
 
 		\section{Robust Sandwich Variance Estimators}
 
-		When employing likelihood theory to obtain parameter estimates, one can often employ the properties of maximum likelihood estimators to produce reasonable estimates of the variance of the
+		When employing likelihood theory to obtain parameter estimates, one can often employ the properties of maximum likelihood estimators (MLEs) to produce reasonable estimates of the variance of the
 		estimators, and thus perform inference (Millar, 2011). However, these properties are only guaranteed to hold when the model is properly specified, and may give poor estimates when assumptions
 		do not hold. This has given rise to \textit{robust variance estimators} that rely on fewer assumptions than classical likelihood theory, yet can still quantify the variability of a statistic
 		at hand.
@@ -352,7 +350,7 @@
 		desired, the $\alpha/2$ and $1-\alpha/2$ percentiles of the empirical bootstrap distribution are used as the bounds of the interval (Efron and Tibshirani, 1993). This method is general and
 		can be applied in a similar with little modification for the parameter or statistic of interest.
 
-		The bootstrap procedure has several advantage, with the first being that it makes few assumptions about the distribution of the data at hand. This is in contrast to many other methods of
+		The bootstrap procedure has several advantages, with the first being that it makes few assumptions about the distribution of the data at hand. This is in contrast to many other methods of
 		statistical inference which require assumptions to be met for desirable properties to hold. A second is that in addition to not needing to assume a sampling distribution for the statistic
 		of interest, one need not even know the form of the sampling distribution at all in order to perform inference. This in addition to the simplicity and generalizability of the bootstrap procedure
 		make it a powerful tool in a vast array of circumstances  (Efron, 2003).

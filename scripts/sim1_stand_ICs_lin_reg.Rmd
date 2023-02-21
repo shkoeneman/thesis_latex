@@ -1,0 +1,160 @@
+---
+title: "Script to Generate Data and Plots/Tables for Thesis Simulation 1"
+author: "Scott Koeneman"
+date: "February 20, 2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#Prepare Julia to be called within this script 
+#Local machine - Julia is in path
+#system("julia sim1_stand_ICs_lin_reg.jl")
+#HPC - need to do some trickery
+#system("cd /Users/skoeneman/Julia/julia-1.8.1/bin; julia comp_sims_template.jl")
+
+#For some plotting and organizational features
+library(tidyverse)
+library(ggplot2)
+library(reshape2)
+```
+
+# Load Data from Julia and form plots/tables
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+
+#Save our plot data
+plot_data <- read.csv("../data/plot_data_sim1.csv")
+
+############################
+### AIC plots and tables ###
+############################
+
+###Tables###
+
+#Accuracy table
+print(plot_data[,c(1,5:7)])
+
+#Prediction table
+print(plot_data[,c(1,2:4)])
+
+###Plots###
+
+#Accuracy plot
+tall <- melt(plot_data[,c(1,5:7)], id.vars="n")
+p <- ggplot(tall, aes(n,value,col=variable)) +
+  geom_line(size = 1.0) +
+  labs(title = "",
+       x = "n",
+       y = "Accuracy (Proportion of Time Selecting True Model)",
+       color = "Selection Method\n") +
+  scale_color_manual(labels = c("Minimum AIC", "AIC Rule of 2", "Standardized AIC"),
+                     values = c("red", "green", "blue")) +
+  theme_bw()
+p
+ggsave("../figures/sim1_AIC_accuracy_plot.pdf")
+
+#Prediction plot
+tall <- melt(plot_data[,c(1,2:4)], id.vars="n")
+p <- ggplot(tall, aes(n,value,col=variable)) +
+  geom_line(size = 1.0) +
+  labs(title = "",
+       x = "n",
+       y = "Average PSSRR",
+       color = "Selection Method\n") +
+  scale_color_manual(labels = c("Minimum AIC", "AIC Rule of 2", "Standardized AIC"),
+                     values = c("red", "green", "blue")) +
+  theme_bw()
+p
+ggsave("../figures/sim1_AIC_prediction_plot.pdf")
+
+
+############################
+### BIC plots and tables ###
+############################
+
+###Tables###
+
+#Accuracy table
+print(plot_data[,c(1,11:13)])
+
+#Prediction table
+print(plot_data[,c(1,8:10)])
+
+###Plots###
+
+#Accuracy plot
+tall <- melt(plot_data[,c(1,11:13)], id.vars="n")
+p <- ggplot(tall, aes(n,value,col=variable)) +
+  geom_line(size = 1.0) +
+  labs(title = "",
+       x = "n",
+       y = "Accuracy (Proportion of Time Selecting True Model)",
+       color = "Selection Method\n") +
+  scale_color_manual(labels = c("Minimum BIC", "BIC Rule of 2", "Standardized BIC"),
+                     values = c("red", "green", "blue")) +
+  theme_bw()
+p
+ggsave("../figures/sim1_BIC_accuracy_plot.pdf")
+
+#Prediction plot
+tall <- melt(plot_data[,c(1,8:10)], id.vars="n")
+p <- ggplot(tall, aes(n,value,col=variable)) +
+  geom_line(size = 1.0) +
+  labs(title = "",
+       x = "n",
+       y = "Average PSSRR",
+       color = "Selection Method\n") +
+  scale_color_manual(labels = c("Minimum BIC", "BIC Rule of 2", "Standardized BIC"),
+                     values = c("red", "green", "blue")) +
+  theme_bw()
+p
+ggsave("../figures/sim1_BIC_prediction_plot.pdf")
+
+#############################
+### AICc plots and tables ###
+#############################
+
+###Tables###
+
+#Accuracy table
+print(plot_data[,c(1,17:19)])
+
+#Prediction table
+print(plot_data[,c(1,14:16)])
+
+###Plots###
+
+#Accuracy plot
+tall <- melt(plot_data[,c(1,17:19)], id.vars="n")
+p <- ggplot(tall, aes(n,value,col=variable)) +
+  geom_line(size = 1.0) +
+  labs(title = "",
+       x = "n",
+       y = "Accuracy (Proportion of Time Selecting True Model)",
+       color = "Selection Method\n") +
+  scale_color_manual(labels = c("Minimum AICc", "AICc Rule of 2", "Standardized AICc"),
+                     values = c("red", "green", "blue")) +
+  theme_bw()
+p
+ggsave("../figures/sim1_AICc_accuracy_plot.pdf")
+
+#Prediction plot
+tall <- melt(plot_data[,c(1,14:16)], id.vars="n")
+p <- ggplot(tall, aes(n,value,col=variable)) +
+  geom_line(size = 1.0) +
+  labs(title = "",
+       x = "n",
+       y = "Average PSSRR",
+       color = "Selection Method\n") +
+  scale_color_manual(labels = c("Minimum AICc", "AICc Rule of 2", "Standardized AICc"),
+                     values = c("red", "green", "blue")) +
+  theme_bw()
+p
+ggsave("../figures/sim1_AICc_prediction_plot.pdf")
+
+
+
+
+
+```

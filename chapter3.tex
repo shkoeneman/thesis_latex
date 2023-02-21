@@ -38,7 +38,7 @@
 		\pagebreak
 
 		\begin{algorithm}
-			\caption*{\textbf{Algorithm} Distribution-Informed Model Selection Procedure (AIC)}
+			\caption{Distribution-Informed Model Selection Procedure (AIC)}
 			\begin{algorithmic}[1]
 			  %\Statex \textbullet~\textbf{Parameters:} $n, t \in \mathbb{N}$, where $t < n$.
 			  \State Take steps to ensure with reasonable certainty that $M_*$ does not exhibit lack of fit.
@@ -201,8 +201,656 @@
 		many information criteria with the form of a likelihood-based goodness-of-fit term accompanied by a constant penalty term. However, more effort would be required
 		to extend and justify the procedure in the case of a random penalty term such as is present in TIC.
 
-		For all of its listed advantages, this procedure and its counterparts involving BIC and AICc do possess certain drawbacks. 
+		For all of its listed advantages, this procedure and its derivatives do possess certain drawbacks. Firstly, the task of determining whether the largest candidate
+		model seems to display adequate fit is a non-trivial task that can have large ramifications if done poorly, mainly nullifying much of the theory used to develop this
+		new procedure. Great care must be taken to choose an appropriate parametric family and to ensure that the data support such a framework. Chapter 4 of this thesis will
+		develop a goodness-of-fit test which can be used to assess the appropriateness of a largest candidate model when it is a normal linear regression model.
 
+		This procedure is limited to considering a group of candidate models that are all of the same parametric class, with the class containing a largest candidate
+		model to be used as a reference. The method is not designed for comparing models across different parametric classes, nor for comparing models that are non-parametric.
+		If one wishes to compare models across different parametric classes, a suggestion may be to determing through goodness-of-fit assesment which largest candidate model
+		among those in classes seems most appropriate, and then proceed with that class.
+
+		It bears repeating that this procedure is based on the distributional properties used in the likelihood ratio test, which only hold in an asymptotic sense under the
+		null. Thus, even if all other assumptions involved in this procedure are met, results may not align with expectations if the sample size is too small. This is not
+		dissimilar to the case of using just AIC on its own, as AIC also is only an asymptotically unbiased estimator of the expected Kullback–Leibler discrepancy. In the
+		Appendix, a modification to this procedure is demonstrated that can be used in the case of nested normal linear regression models that employs the distributional
+		properties of the F-Test to remove the reliance on the asymptotics of the likelihood ratio test (Allen, 1998). However, this version of the procedure is both limited
+		to only normal linear regression and was found to provide only marginal benefit in small sample sizes for a substantial cost in computational complexity, and thus
+		will not be expanded upon beyond the reference in the Appendix. However, it is presented for completeness.
+
+		Recall that AICc is exactly unbiased even in small sample sizes, unlike its counterpart AIC. We will now proceed to derive quantities related to using AICc,
+		in the case of normal linear regression models, within the general framework of the model selection procedure for AIC presented above. Much of the theoretical
+		justification and setup will be the same in this scenario, with minor deviances related to the form of AICc.
+
+		The situation assumed is much the same wherein we assume all candidate models are of the same parametric family. However, here we additionally assume that we are
+		restricted to the case of normal linear regression. We again assume a largest candidate model exists in which all other models are nested; in the case of linear
+		regression, this will mean that this model includes all possible covariates under consideration. We will again require from the outset that the largest candidate
+		model does not exhibit substantial lack of fit and appears approriate to use with the data.
+
+		Observing the difference in AICc between model $M_i$ and model $M_*$, we see that
+		this will take the form
+		\begin{equation}
+			AICc_i - AICc_* = (-2 \ell (\hat{\theta}_i) + 2 \ell (\hat{\theta}_*) ) + (2(p-k_i)(\frac{n}{n-p+k_i-1}) - 2p(\frac{n}{n-p-1})) .
+		\end{equation}
+		Note the appearance of $p$, the number of estimated parameters in model $M_*$, in this relation, where it was absent in the corresponding relation related to AIC.
+
+		Note also the form of this difference, in that it is a difference in random goodness-of-fit terms along with a penalty term that is constant with respect to the
+		sample $y$. This allows us to use similar logic in applying the properties of the likelihood ratio test null distribution to form a quantity with unit variance
+		across all $i$. This quantity will be referred to as \textit{standardized AICc}.
+
+		\begin{definition}[Standardized AICc (Linear Regression) for model $M_i$]
+			The \textit{standardized AICc} for linear regression model $M_i$ is defined as $\overline{AICc}_i = \frac{AICc_i - AICc_*}{\sqrt{2k_i}}$.
+		\end{definition}
+
+		From the previous argument when using AIC, it is easy to see that under the null hypothesis for the likelihood ratio test, the approximation
+		\begin{equation}
+			Var \left[ \frac{AICc_i - AICc_*}{\sqrt{2k_i}} \right] \approx 1 
+		\end{equation}
+		will hold for a sufficient sample size. Thus, under the same assumption, the approximate relation
+		\begin{equation}
+			\begin{split}
+				\frac{AICc_i - AICc_*}{\sqrt{2k_i}} - \frac{(2(p-k_i)(\frac{n}{n-p+k_i-1}) - 2p(\frac{n}{n-p-1}))}{\sqrt{2k_i}} \, \dot\sim \, \\ 
+				\Gamma \left( \frac{k_i}{2}, \frac{2}{\sqrt{2k_i}} \right)
+			\end{split}
+		\end{equation}
+		will hold due to a transformation of the assumed chi-squared distribution. Thus, the expected value of standardized AIC, assuming
+		that the nested model is correctly specified, will approximately be
+		\begin{equation}
+			E \left[ \frac{AICc_i - AICc_*}{\sqrt{2k}} \right] \approx \sqrt{\frac{k_i}{2}} + \frac{(2(p-k_i)(\frac{n}{n-p+k_i-1}) - 2p(\frac{n}{n-p-1}))}{\sqrt{2k_i}}
+		\end{equation}
+
+		Due to the dependence of this approximate expectation on $p$, it not as clear how in general this quantity will look as $k_i$ increases
+		or decreased among candidate models. However, the same logic can be applied to form a cutoff in that one can calculate this approximate
+		expectation for all values of $k_i$, and form a threshold of the maximal value of this expectation plus 2 to allow for 2 standard deviations
+		worth of leeway. To ensure that the largest candidate model always meets this cutoff, we can assign the standardized AICc for model $M_*$
+		to be the maximum value of this expectation.
+		\begin{definition}[Standardized AICc (Linear Regression) for model $M_*$]
+			The \textit{standardized AICc} for linear regression model $M_*$ is defined as the quantity
+			$\max_{k_i} \sqrt{\frac{k_i}{2}} + \frac{(2(p-k_i)(\frac{n}{n-p+k_i-1}) - 2p(\frac{n}{n-p-1}))}{\sqrt{2k_i}}$.
+		\end{definition}
+
+		Finally, after dividing models into those that meet this standardized AICc cutoff and those that do not, we can use parsimony to select
+		the candidate model with the fewest estimated parameters that also meets the cutoff. In the case of a tie for fewest estimated parameters,
+		use lower standardized AICc as the tiebreaker once again, which is equivalent to using AICc as the tiebreaker. A full presentation of
+		the algorithm can be seen below.
+
+		\begin{algorithm}
+			\caption{Distribution-Informed Model Selection Procedure (AICc for Linear Regression)}
+			\begin{algorithmic}[1]
+			  %\Statex \textbullet~\textbf{Parameters:} $n, t \in \mathbb{N}$, where $t < n$.
+			  \State Take steps to ensure with reasonable certainty that $M_*$ does not exhibit lack of fit.
+			  \State For each distinct value of $k_i$, calculate $\sqrt{\frac{k_i}{2}} + \frac{(2(p-k_i)(\frac{n}{n-p+k_i-1}) - 2p(\frac{n}{n-p-1}))}{\sqrt{2k_i}}$
+			  \State For $i = 1,...,m$, calculate the \textit{standardized AICc} for model $M_i$ as 
+			  $\overline{AICc}_i = \frac{AICc_i - AICc_*}{\sqrt{2k_i}}$. Define the standardized AICc for model
+			  $M_*$ as $\overline{AICc}_* = \max_{k_i} \left[ \sqrt{\frac{k_i}{2}} + \frac{(2(p-k_i)(\frac{n}{n-p+k_i-1}) - 2p(\frac{n}{n-p-1}))}{\sqrt{2k_i}} \right]$.
+			  \State Categorize all models with a standardized AICc of
+			  $ \max_{k_i} \left[ \sqrt{\frac{k_i}{2}} + \frac{(2(p-k_i)(\frac{n}{n-p+k_i-1}) - 2p(\frac{n}{n-p-1}))}{\sqrt{2k_i}} \right] + 2$
+			  or lower as being candidates for selection.
+			  \State Among candidate models for selection, select the most parsimonious model, i.e. the model
+			  with the fewest estimated parameters. If there is a tie, let lower standardized AICc be the
+			  tiebreaker.
+			\end{algorithmic}
+		\end{algorithm}
+
+		The advantage of this algorithm involving AICc is that one only relies on the asymptotics of the likelihood ratio test in smaller sample sizes as opposed
+		to both this and the asymptotics of AIC. However, this comes at the cost of slightly more computational complexity on account of the more intricate
+		penalty term of AICc. Additionally, if one wanted to use this model selection procedure with a parametric family other than one of normal linear regression,
+		one would need to modify the above algorithm to account for a different penalty term, whereas the procedure in the case of AIC needs no such modifications
+		to be used with different parametric families.
+
+		In the final portion of this section, we will motivate and present this new model selection procedure as it pertains to its usage with BIC. We again assume
+		all models are of the same parametric class with there existing a largest candidate model $M_*$ in which all other models $M_i, i = 1,...,m$ are nested.
+		This largest candidate model is again assume to display reasonable goodness-of-fit. Observing the difference in BIC between model $M_*$ and a given
+		nested candidate $M_i$, we see that
+		\begin{equation}
+			BIC_i - BIC_* = \left( -2 \ell (\hat{\theta}_*) + 2 \ell (\hat{\theta}_i) \right) - k_i \log(n)
+		\end{equation}
+		Note the now familiar form of a difference in likelihood goodness-of-fit terms accompanied by a term that corresponds to a difference in penalty terms.
+		We have already established an argument under the null hypothesis of the likelihood ratio test for which this entire quantity can be assumed to have
+		a standard deviation of $\sqrt{2k_i}$. Thus, it is easy to see that the approximation
+		\begin{equation}
+			Var \left[ \frac{BIC_i - BIC_*}{\sqrt{2k_i}} \right] \approx 1 
+		\end{equation}
+		will be justified if model $M_*$ is not misspecified. Analogously to AIC and AICc, we will call the bracketed quantity above \textit{standardized BIC}.
+		\begin{definition}[Standardized BIC for model $M_i$]
+			The \textit{standardized BIC} for model $M_i$ is defined as $\overline{BIC}_i = \frac{BIC_i - BIC_*}{\sqrt{2k_i}}$.
+		\end{definition}
+
+		Moving onto the calculation of the expectation of standardized BIC, we once again rely on an approximate gamma distribution assuming model $M_i$ is properly specified.
+		By scaling and shifting BIC, one can find that the distributional relation
+		\begin{equation}
+			\frac{BIC_i - BIC_*}{\sqrt{2k_i}} + \sqrt{\frac{k_i}{2}} \log(n) \, \dot\sim \, \Gamma \left( \frac{k_i}{2}, \frac{2}{\sqrt{2k_i}} \right)
+		\end{equation}
+		will hold for a sufficient sample size. Thus, using this relation, the approximate expectation
+		\begin{equation}
+			E \left[ \frac{BIC_i - BIC_*}{\sqrt{2k_i}} \right] \approx \sqrt{\frac{k_i}{2}} (1-\log(n))
+		\end{equation}
+		is a defensible estimate. Note that for $n > 2$, this quantity will be maximized when $k_i = 1$. Thus, assuming that most practitioners will not be performing model
+		selection with a sample size of less than 3, we propose that $\sqrt{\frac{1}{2}} (1-\log(n)) + 2$ be used as a standardized BIC threshold under which a model must be
+		in order to be considered a serious candidate for selection. This follows the logic that we take the most liberal expectation possible, and allow for 2 standard
+		deviations of leeway to account for potential variability. To ensure that the largest candidate model always meets this threshold, we will define standardized BIC
+		for model $M_*$ as $\sqrt{\frac{1}{2}} (1-\log(n))$.
+		\begin{definition}[Standardized BIC for model $M_*$]
+			The \textit{standardized BIC} for linear model $M_*$ is defined as the quantity $\overline{BIC}_* = \sqrt{\frac{1}{2}} (1-\log(n))$.
+		\end{definition}
+		
+		We will again choose parsimony as the rule of choice for selecting a model from those that meet threshold, with lower standardized BIC being the tiebreaker in the
+		case of equally most parsimonious models in consideration. The full selection procedure involving BIC can be see below.
+		\begin{algorithm}
+			\caption{Distribution-Informed Model Selection Procedure (BIC)}
+			\begin{algorithmic}[1]
+			  %\Statex \textbullet~\textbf{Parameters:} $n, t \in \mathbb{N}$, where $t < n$.
+			  \State Take steps to ensure with reasonable certainty that $M_*$ does not exhibit lack of fit.
+			  \State For $i = 1,...,m$, calculate the \textit{standardized BIC} for model $M_i$ as 
+			  $\overline{BIC}_i = \frac{BIC_i - BIC_*}{\sqrt{2k_i}}$. Define the standardized AIC for model
+			  $M_*$ as $\overline{BIC}_* = \sqrt{\frac{1}{2}} (1-\log(n))$.
+			  \State Categorize all models with a standardized AIC of $\sqrt{\frac{1}{2}} (1-\log(n)) + 2$ or lower as
+			  being candidates for selection.
+			  \State Among candidate models for selection, select the most parsimonious model, i.e. the model
+			  with the fewest estimated parameters. If there is a tie, let lower standardized BIC be the
+			  tiebreaker.
+			\end{algorithmic}
+		\end{algorithm}
+
+		This procedure will have many of the same advantages as the one involving BIC. However, it relies on an asymptotically consistent criterion over one that
+		is asymptotically efficient. Thus, if description is desired over prediction, this version of the algorithm may be preferred. Additionally, if parsimony
+		is to be preferred, this algorithm employing the stringent penalty term of BIC could also be of use.
+
+		While the above section formulation procedures to be used in tandem with AIC, BIC, and AICc (in the case of linear regression) for model selection, it should be
+		noted that the general principles used in these procedures could easily be extended to other likelihood-based information criteria of a similar form. As long
+		as the difference in criterion values between the largest candidate model and a nested model follows the general pattern of the likelihood ratio test statistic
+		offset by a constant difference in penalty terms, dividing the difference by $\sqrt{2k_i}$ should result in a quantity with approximately unit variance across
+		all $k_i$, assuming that a given candidate $M_i$ is properly specified. However, in the case of criteria with a random penalty term such as TIC, or criteria that
+		are not likelihood based such as $C_p$, this argument will not hold.
+		
+		With these methods in hand, we proceed to the following section in which simulation studies are performed to illustrate the efficacy of this new algorithm.
 
 		\section{Simulations for Predictive and Descriptive Ability} \label{sec:sim_model_select}
+
+		The following subsections detail simulation studies performed using the model selection procedures above. The first subsection involves a simulation wherein
+		the covariates to be included in a normal linear regression model are to be selected. The algorithm for AIC, AICc, and BIC will be employed here, with the
+		performance descriptive and predictive performance of each algorithm compared to other methods of model selection involving these criteria. The second subsection
+		involves a simulatin wherein the within-subject covariance structure of a generalized least squares model is to be selected. The algorithm involving AIC will be
+		employed in this scenario, and its ability to select the correct covariance structure will be compared to the ability of other methods of model selection involving
+		AIC.
+
+		\pagebreak
+
+		\subsection{Simulation to Select Covariates for a Normal Linear Regression Model}
+
+		The data generatating process for this simulation is to be as follows. The $n$ by 1 outcome vector $y = [y_1,...,y_n]$ will be generated for $i = 1,...,n$ according
+		to
+		\begin{equation}
+			y_i = 2.0 + 1.0 x_{i1} + 1.0 x_{i2} + \epsilon_i , 
+		\end{equation}
+		where $\epsilon_i \stackrel{iid}{\sim} N(0,4)$ is a randomly generated normal error, and $x_{i1}$ and $x_{i2}$ are completely $iid$ covariates generated according to
+		a $Uniform(0,5)$ distribution. This formulation is one of a normal linear regression model with an intercept, an effect for each covariate presented, and
+		demonstrating homoskedasticity and normality.
+
+		In addition to to drawing $x_{i1}$ and $x_{i2}$ for each $i=1,...,n$, we will additionally draw extraneous $iid$ $x_{i3},x_{i4},x_{i5},x_{i6}$ each according to a
+		$Uniform(0,5)$ distribution. These will be viewed as additional covariates that a researcher may be considering for inclusion in a model that in reality have
+		no effect on or relationship with the outcome of interest.
+		
+		Our candidate models will consist of all normal regression models that include an intercept term in addition to an effect for at least one of 
+		$x_{i1},x_{i2},x_{i3},x_{i4},x_{i5},$ or $x_{i6}$. Thus, the largest candidate model in this scenario will be the model that includes an intercept
+		in addition to all other available covariates, and all other candidates models will be nested within this model. Note that while this model is not
+		misspecified as it contains requisite structure, it is over-specified and includes covariates that have no effect on the outcome. Additionally, the
+		true model, containing an intercept and effects for $x_{i1}$ and $x_{i2}$, is present in our collection of candidate models.
+
+		For each iteration of the simulation, the entire collection of candidates will be under consideration, and various model selection methods will be
+		used to select a chosen model. The selection algorithms for AIC, BIC, and AICc presented in the previous section will be employed, with each selecting a model
+		for selection. Additionally, a model will be selected using minimum AIC, BIC, and AICc. Lastly, the "Rule of 2" will be used to select a model using AIC,
+		BIC, and AICc in that the most parsimonious model within 2 of the minimum criterion value will be selected, with lower criterion value to be used as a 
+		tiebreaker. This makes for 3 selection methods involving each criterion value for 9 selected models each simulation iteration.
+
+		The descriptive and predictive efficacy of each method, among each flavor of information criteria, will be evaluated after each method has selected a model.
+		To measure descriptive ability, each method will be assessed as to whether the selected model is the true, generating model. After all simulation iterations,
+		the proportion of times each method chose the true model will be calculated and presented as method "accuracy." To measure predictive ability, a separate
+		validation sample $y^* = [y^*_1,...,y^*_t]$ will be drawn according to the true generating distribution, along with corresponding covariates. Using this
+		validation sample, the Predictive Sum of Squared Residuals Ratio (PSSRR) for each final selected model will be calculated according to
+		\begin{equation}
+			PSSRR = \frac{\sum_{i=1}^{t} (y^*_i - \hat{y}^*_i)^2}{\sum_{i=1}^{t} (y^*_i - (2.0 + 1.0x_{i1} + 1.0x_{i2}))^2}
+		\end{equation}
+		This ratio consists of the sum of squares of the differences of the the predictions of the selected model, fit on sample $y$, from the validation sample $y_*$,
+		divided by the sum of the square of the difference of each validation observation divided by its true mean, which is known in the case of this simulation. In essense,
+		the denominator serves as the best possible sum of squared errors we could reasonably achieve in a selected model of the correct form and the exactly correct regression
+		coefficients. If a chosen model is doing close to as well as this ideal model, then this ratio will be close to 1; however, this ratio will be inflated if the selected model
+		cannot make predictions that perform as well. This measure will be calculated for each method for each simulation iteration, and the average of this measure will be calculated
+		across all iterations for each method.
+
+		The simulation will be performed for $n = 100,200,...,1000$. For each of these values of $n$, the size of the validation sample $t$ will be
+		$1000$ to ensure we can compare pSSRR across difference values of $n$ used to select and fit a model. The simulation will be performed $1000$ times for each value of $n$,
+		with summary statistics to be calculated afterwards. A full summary of the simulation procedure can be found below.
+		\begin{algorithm}
+			\caption{Model Selection Simulation to Compare Selected Normal Linear Regression Models}
+			\begin{algorithmic}[1]
+			  \Statex For $n = 100,200,...,1000$, do the following:
+			  \State Draw a test sample of size $n$ using the specified true model, and a validation sample of size 1000.
+			  \State Fit all candidate models using the test data.
+			  \State Calculate the AIC, standardized AIC, AICc, standardized AICc, BIC, and standardized BIC for each fitted model.
+			  \State Perform each model selection method.
+			  \State For each method, record if the model selected was the true model, and the pSSRR of the selected model using the validation sample.
+			  \State Repeat steps 1-5 1000 times.
+			\end{algorithmic}
+		\end{algorithm}
+
+		This simulation was performed in Julia, version 1.8.1 (Bezanson et al., 2017). Visualization of the generated simulation results was performed in R, version 4.2.1 (R Core Team, 2023).
+		Results will be presented for each selection method stratified by respective information criteria so that the efficacy of each new selection method can be compared to the
+		alternatives using each information criterion.
+
+		The following table and plot present descriptive results as they pertain to the selection methods related to AIC.
+		\begin{table}[H]
+			\centering
+			\ttabbox[\FBwidth]
+			{\caption{\label{tab:sim1_aic_accuracy_tab}Simulation 1 Descriptive Results, AIC-Based Methods}}
+			{
+			\begin{tabular}{ c|c|c|c}
+			$n$ & \vtop{\hbox{\strut Minimum AIC}\hbox{\strut Accuracy}} & \vtop{\hbox{\strut AIC Rule of 2}\hbox{\strut Accuracy}} & \vtop{\hbox{\strut Standardized AIC} \hbox{\strut Accuracy}} \\
+			 \hline
+			 100 & 0.487 & 0.798 & 0.974 \\
+			 200 & 0.484 & 0.797 & 0.975 \\
+			 300 & 0.532 & 0.828 & 0.977 \\
+			 400 & 0.496 & 0.799 & 0.972 \\
+			 500 & 0.496 & 0.784 & 0.975 \\
+			 600 & 0.490 & 0.796 & 0.977 \\
+			 700 & 0.493 & 0.774 & 0.972 \\
+			 800 & 0.488 & 0.797 & 0.979 \\
+			 900 & 0.507 & 0.815 & 0.981 \\
+			 1000 & 0.500 & 0.814 & 0.982 \\
+			 \Xhline{3\arrayrulewidth}
+			\end{tabular}
+			}
+		\end{table}
+
+		\begin{figure}[H]
+			\centering
+			\captionsetup{justification=centering}
+			\includegraphics[width=1\textwidth]{figures/sim1_AIC_accuracy_plot.pdf}
+			\caption{\label{fig:sim1_aic_accuracy_plot} Simulation 1 Accuracy vs $n$, AIC-Based Methods}
+		\end{figure}
+
+		We observe here that the minimum AIC method only seems to select the true model about half of the time across all $n$. The "Rule of 2" method seems to perform relatively better,
+		selecting the true model about 80\% of the time across all $n$. The standardized AIC method seems to have the best accuracy among the AIC-based methods, selecting the true model
+		greater than 97\% of the time for each given $n$.
+
+		However, AIC is known to overfit models as it is an asymptotically efficient criterion, not an asymptotically consistent one. We now observe the predictive efficacy in this simulation
+		of these three methods in the table and plot below.
+
+		\begin{table}[H]
+			\centering
+			\ttabbox[\FBwidth]
+			{\caption{\label{tab:sim1_aic_prediction_tab}Simulation 1 Predictive Results, AIC-Based Methods}}
+			{
+			\begin{tabular}{ c|c|c|c}
+			$n$ & \vtop{\hbox{\strut Minimum AIC}\hbox{\strut Average PSSRR}} & \vtop{\hbox{\strut AIC Rule of 2}\hbox{\strut Average PSSRR}} & \vtop{\hbox{\strut Standardized AIC}\hbox{\strut Average PSSRR}} \\
+			 \hline
+			 100 & 1.057931 & 1.045174 & 1.034914 \\
+			 200 & 1.027461 & 1.021289 & 1.016000 \\
+			 300 & 1.018102 & 1.014429 & 1.011465 \\
+			 400 & 1.013949 & 1.010666 & 1.008233 \\
+			 500 & 1.010926 & 1.008596 & 1.006399 \\
+			 600 & 1.009102 & 1.006999 & 1.005266 \\
+			 700 & 1.007614 & 1.006055 & 1.004498 \\
+			 800 & 1.006629 & 1.005011 & 1.003884 \\
+			 900 & 1.005691 & 1.004467 & 1.003446 \\
+			 1000 & 1.005324 & 1.004029 & 1.003107 \\
+			 \Xhline{3\arrayrulewidth}
+			\end{tabular}
+			}
+		\end{table}
+
+		\begin{figure}[H]
+			\centering
+			\captionsetup{justification=centering}
+			\includegraphics[width=1\textwidth]{figures/sim1_AIC_prediction_plot.pdf}
+			\caption{\label{fig:sim1_aic_prediction_plot} Simulation 1 Average PSSRR vs $n$, AIC-Based Methods}
+		\end{figure}
+
+		We observe here that as $n$ increases, the PSSRR of each method does seem to be converging to 1, and thus predictive improving is improving across all methods. However,
+		the standardized AIC method possesses the lowest PSSRR as each value of $n$, and thus seems to perform the best both in terms of accuracy and prediction across AIC-based
+		methods in this simulation scenario.
+
+		We now move onto the results that pertain to the AICc-based methods employed in this simulation. The following table and plot display the across across different values
+		of $n$ for each of these AICc-based methods. 
+
+		\begin{table}[H]
+			\centering
+			\ttabbox[\FBwidth]
+			{\caption{\label{tab:sim1_aicc_accuracy_tab}Simulation 1 Descriptive Results, AICc-Based Methods}}
+			{
+			\begin{tabular}{ c|c|c|c}
+			$n$ & \vtop{\hbox{\strut Minimum AICc}\hbox{\strut Accuracy}} & \vtop{\hbox{\strut AICc Rule of 2}\hbox{\strut Accuracy}} & \vtop{\hbox{\strut Standardized AICc}\hbox{\strut Accuracy}} \\
+			 \hline
+			 100 & 0.545  &  0.830 &  0.992 \\
+			 200 & 0.504  &  0.807 &  0.993 \\
+			 300 & 0.546  &  0.830 &  0.991 \\
+			 400 & 0.509  &  0.804 &  0.990 \\
+			 500 & 0.502  &  0.791 &  0.991 \\
+			 600 & 0.502  &  0.799 &  0.989 \\
+			 700 & 0.500  &  0.777 &  0.985 \\
+			 800 & 0.492  &  0.801 &  0.995 \\
+			 900 & 0.514  &  0.817 &  0.996 \\
+			 1000 &  0.502  &  0.818 &  0.990 \\
+			 \Xhline{3\arrayrulewidth}
+			\end{tabular}
+			}
+		\end{table}
+
+		\begin{figure}[H]
+			\centering
+			\captionsetup{justification=centering}
+			\includegraphics[width=1\textwidth]{figures/sim1_AICc_accuracy_plot.pdf}
+			\caption{\label{fig:sim1_aicc_accuracy_plot} Simulation 1 Accuracy vs $n$, AICc-Based Methods}
+		\end{figure}
+
+		The results here run parallel to what was seen with the AIC-based methods. Minimum AICc on its own performs the poorest, the "Rule of 2" is an improvement, and standardized
+		AICc performs best. Standardized AICc seems to improve upon the descriptive efficacy of AICc as compared to other methods. We move onto displaying results for AICc-based
+		methods as they pertain to predictive efficacy. 
+
+		\begin{table}[H]
+			\centering
+			\ttabbox[\FBwidth]
+			{\caption{\label{tab:sim1_aicc_prediction_tab}Simulation 1 Predictive Results, AICc-Based Methods}}
+			{
+			\begin{tabular}{ c|c|c|c}
+			$n$ & \vtop{\hbox{\strut Minimum AICc}\hbox{\strut Average PSSRR}} & \vtop{\hbox{\strut AICc Rule of 2}\hbox{\strut Average PSSRR}} & \vtop{\hbox{\strut Standardized AICc}\hbox{\strut Average PSSRR}} \\
+			 \hline
+			 100 & 1.055535 & 1.043757 & 1.033973 \\
+			 200 & 1.027060 & 1.021015 & 1.015214 \\
+			 300 & 1.017908 & 1.014381 & 1.011069 \\
+			 400 & 1.013779 & 1.010584 & 1.007919 \\
+			 500 & 1.010899 & 1.008488 & 1.006101 \\
+			 600 & 1.009019 & 1.006955 & 1.005085 \\
+			 700 & 1.007593 & 1.006021 & 1.004376 \\
+			 800 & 1.006618 & 1.005008 & 1.003702 \\
+			 900 & 1.005656 & 1.004456 & 1.003313 \\
+			1000 & 1.005301 & 1.004012 & 1.003081 \\
+			 \Xhline{3\arrayrulewidth}
+			\end{tabular}
+			}
+		\end{table}
+
+		\begin{figure}[H]
+			\centering
+			\captionsetup{justification=centering}
+			\includegraphics[width=1\textwidth]{figures/sim1_AICc_prediction_plot.pdf}
+			\caption{\label{fig:sim1_aicc_prediction_plot} Simulation 1 Average PSSRR vs $n$, AICc-Based Methods}
+		\end{figure}
+
+		We see once again that predictive efficacy increases for all three methods as $n$ increases. The standardized AICc method possesses the best PSSRR at all values of $n$,
+		even the relatively small sample sizes, despite relying on asymptotic properties, when the minimum AICc method in particular relies on no such asymptotic properties as
+		an exactly unbiased estimator of the expected Kullback-Leibler discrepancy. This may be attributable to a difference in how each method treats variability. The minimum
+		AICc method, while relying on an exactly unbiased estimator, does not account for the variability of this estimate, while standardized AICc, despite relying on large-sample
+		properties to do so, does account for variability. The "Rule of 2" method applied to AICc does outperform the minimum AICc method, likely due to the intuitive principle
+		it applies of throwing out models that show clear lack of fit followed by using the tenet of parsimony. However, it does so in an ad hoc manner, unlike the method which
+		uses standardized AICc.
+
+		Lastly, we move onto the results generated for BIC-based methods. The following table and plot show the descriptive results for BIC-based model selection methods used
+		in this simulation.
+
+		\begin{table}[H]
+			\centering
+			\ttabbox[\FBwidth]
+			{\caption{\label{tab:sim1_bic_accuracy_tab}Simulation 1 Descriptive Results, BIC-Based Methods}}
+			{
+			\begin{tabular}{ c|c|c|c}
+			$n$ & \vtop{\hbox{\strut Minimum BIC}\hbox{\strut Accuracy}} & \vtop{\hbox{\strut BIC Rule of 2}\hbox{\strut Accuracy}} & \vtop{\hbox{\strut Standardized BIC} \hbox{\strut Accuracy}} \\
+			 \hline
+			 100 & 0.870 & 0.950 & 0.986 \\
+			 200 & 0.905 & 0.971 & 0.998 \\
+			 300 & 0.927 & 0.976 & 0.999 \\
+			 400 & 0.936 & 0.980 & 0.999 \\
+			 500 & 0.946 & 0.983 & 1.000 \\
+			 600 & 0.947 & 0.975 & 1.000 \\
+			 700 & 0.940 & 0.980 & 1.000 \\
+			 800 & 0.962 & 0.986 & 1.000 \\
+			 900 & 0.966 & 0.991 & 1.000 \\
+			1000 & 0.959 & 0.981 & 0.999 \\
+			 \Xhline{3\arrayrulewidth}
+			\end{tabular}
+			}
+		\end{table}
+
+		\begin{figure}[H]
+			\centering
+			\captionsetup{justification=centering}
+			\includegraphics[width=1\textwidth]{figures/sim1_BIC_accuracy_plot.pdf}
+			\caption{\label{fig:sim1_bic_accuracy_plot} Simulation 1 Accuracy vs $n$, BIC-Based Methods}
+		\end{figure}
+
+		First we note that all three BIC-based methods seem to perform well in terms of accuracy across all values of $n$, with the percentage of times each method selected the true model
+		at each $n$ residing at around 90\% of higher. This is in line with what is known about the descriptive ability of BIC in the case of effects of equal magnitude. However, the
+		"Rule of 2" method offers an increase in accuracy over the minimum BIC method, and standardized BIC offers a further increase in accuracy, several times selecting selecting the
+		correct model in 1000 out of 1000 simulation iterations performed for a given $n$. Thus, while this consistent criterion does well in terms of description across all methods, the
+		standardized BIC procedure only seems to enhance this quality. Let us move on to the following plot and table which display the predictive results for these BIC-based methods.
+
+		\begin{table}[H]
+			\centering
+			\ttabbox[\FBwidth]
+			{\caption{\label{tab:sim1_bic_prediction_tab}Simulation 1 Predictive Results, AIC-Based Methods}}
+			{
+			\begin{tabular}{ c|c|c|c}
+			$n$ & \vtop{\hbox{\strut Minimum BIC}\hbox{\strut Average PSSRR}} & \vtop{\hbox{\strut BIC Rule of 2}\hbox{\strut Average PSSRR}} & \vtop{\hbox{\strut Standardized BIC}\hbox{\strut Average PSSRR}} \\
+			 \hline
+			 100 & 1.041740 & 1.036791 & 1.037950 \\
+			 200 & 1.018562 & 1.016186 & 1.015076 \\
+			 300 & 1.012640 & 1.011438 & 1.010783 \\
+			 400 & 1.009004 & 1.008190 & 1.007739 \\
+			 500 & 1.006877 & 1.006258 & 1.005883 \\
+			 600 & 1.005626 & 1.005296 & 1.004923 \\
+			 700 & 1.004814 & 1.004485 & 1.004193 \\
+			 800 & 1.004066 & 1.003818 & 1.003633 \\
+			 900 & 1.003577 & 1.003345 & 1.003267 \\
+			1000 & 1.003244 & 1.003119 & 1.002991 \\
+			 \Xhline{3\arrayrulewidth}
+			\end{tabular}
+			}
+		\end{table}
+
+		\begin{figure}[H]
+			\centering
+			\captionsetup{justification=centering}
+			\includegraphics[width=1\textwidth]{figures/sim1_BIC_prediction_plot.pdf}
+			\caption{\label{fig:sim1_bic_prediction_plot} Simulation 1 Average PSSRR vs $n$, BIC-Based Methods}
+		\end{figure}
+
+		The predictive results are quite close across all three methods. This is understandable as each method seems to be selecting the same model, correctly-specified model most
+		of the time, and thus we would expect certain agreement in predictive performance. However, for all values of $n$ except for $n = 100$, the standardized BIC method has a slight
+		edge over its BIC-based counterparts in terms of predictive efficacy. Thus, while the improvement due to this method does seem modest compared to the cases of AIC and AICc,
+		it is still present. We may also note that the BIC "Rule of 2" was justified using a similar, but much less rigorous, argument involving the distribution of the difference of
+		criterion values (Kass and Raftery, 1995). Thus, it is somewhat natural that the "Rule of 2" would perform similarly to standardized BIC, and standardized BIC serves to further
+		formalize and refine the arguments first used to justify the "Rule of 2" for BIC.
+		
+		In the case of these three criterion, we have seen that the new model selection procedures presented in this chapter can offer tangible advantages in terms of both description
+		and prediction. The asymptotic nature of the justification for the procedure did not seem to severely inhibit its performance even in relatively small sample sizes, and as
+		$n$ increased, the method appeared to converge to the performance of other methods. Thus, these new model selection procedures appear to be very competitive as compared to
+		procedures involving the same criterion used.
+
+		\subsection{Simulation to Select Covariance Structure for a Longitudinal Model}
+
+		The simulation presented previously in this chapter employed different model selection methods to determine which covariates should be included in a normal linear regression.
+		While variable selection is an important aspect of model selection, it is not the only aspect of a model that need be determined. In this section, a simulation will be presented
+		in which the covariance structure of a longitudinal model is selected in addition to the fixed effects included in the model.
+
+		The true generating model for this simulation will be as follows. For $i = 1,...,q$, let $y_{\cdot i} = [y_{1 i},y_{2 i},y_{3 i},y_{4 i},y_{5 i},]$ denote a response vector of 5
+		responses from an individual. Let the true distribution of $y_{\cdot i}$ for a given $i$ be
+		\begin{equation}
+			y_{\cdot i} \sim MVN( \mu_i \mathbf{1}_5, \Sigma) ,
+		\end{equation}
+		where $\mathbf{1}_5$ is a 5 by 1 vector of ones, the quantity
+		\begin{equation}
+			\mu_i = 2.0 + 2.0 x_{i1} + 2.0 x_{i2}
+		\end{equation}
+		is the mean of all observations in $y_{\cdot i}$ that depends on the covariates $x_{i1}$ and $x_{i2}$, and the matrix
+		\begin{equation}
+			\Sigma = 
+			\begin{bmatrix}
+				8.0 & 4.0 & 4.0 & 4.0 & 4.0 \\
+				4.0 & 8.0 & 4.0 & 4.0 & 4.0 \\
+				4.0 & 4.0 & 8.0 & 4.0 & 4.0 \\
+				4.0 & 4.0 & 4.0 & 8.0 & 4.0 \\
+				4.0 & 4.0 & 4.0 & 4.0 & 8.0 \\
+			\end{bmatrix}
+		\end{equation}
+		is the covariance matrix among all observations present in $y_{\cdot i}$. Thus, observations are linear with regards to the covariates $x_{i1}$ and $x_{i2}$, but are correlated
+		with a structure of compound symmetry within each subject. The total number of observations in the sample $y = [y_{\cdot 1},...,y_{\cdot q}]$ will be $n = 5q$.
+
+		For each $i = 1,...,q$, $x_{i1}$ and $x_{i2}$ will be drawn according to an independent $Uniform(0,5)$ distribution. These covariates will then be used to determine the mean
+		$\mu_i$, and the vector of observations $y_{\cdot i}$ will be drawn from the above specified multivariate normal distribution. Additionally, another covariate which we will
+		call $x_{i3}$ will be drawn according to a $Uniform(0,5)$ distribution. This covariate can be viewed as extraneous information we possess that is not related to outcome of
+		interest. 
+
+		Our candidate models will consist of models with an intercept and a fixed effect for at least one of $x_{i1}$,$x_{i2}$, or $x_{i3}$. However, we will additionally consider models
+		with four different covariance structures for each of these mean structures. The first candidate structure will propose a covariance structure of the form
+		\begin{equation}
+			\Sigma = 
+			\begin{bmatrix}
+				\sigma^2 & \rho & \rho & \rho & \rho \\
+				\rho & \sigma^2 & \rho & \rho & \rho \\
+				\rho & \rho & \sigma^2 & \rho & \rho \\
+				\rho & \rho & \rho & \sigma^2 & \rho \\
+				\rho & \rho & \rho & \rho & \sigma^2 \\
+			\end{bmatrix}
+			.
+		\end{equation}
+		This covariance structure is properly specified as it bears the form of the compound symmetry found in the true generating model. The second proposed covariance structure will be
+		of the form
+		\begin{equation}
+			\Sigma = 
+			\begin{bmatrix}
+				\sigma^2 & \rho & \rho^2 & \rho^3 & \rho^4 \\
+				\rho & \sigma^2 & \rho & \rho^2 & \rho^3 \\
+				\rho^2 & \rho & \sigma^2 & \rho & \rho^2 \\
+				\rho^3 & \rho^2 & \rho & \sigma^2 & \rho \\
+				\rho^4 & \rho^3 & \rho^2 & \rho & \sigma^2 \\
+			\end{bmatrix}
+			,
+		\end{equation}
+		this being an auto-regressive covariance structure of order one. This covariance structure is misspecified in this case, yet has the same number of parameters to be estimated as the
+		true model and thus is equally as parsimonious. The third covariance structure is one such that 
+				\begin{equation}
+			\Sigma = 
+			\begin{bmatrix}
+				\sigma^2 & 0 & 0 & 0 & 0 \\
+				0 & \sigma^2 & 0 & 0 & 0 \\
+				0 & 0 & \sigma^2 & 0 & 0 \\
+				0 & 0 & 0 & \sigma^2 & 0 \\
+				0 & 0 & 0 & 0 & \sigma^2 \\
+			\end{bmatrix}
+			,
+		\end{equation}
+		which assumes independence between all observations, even those shared by the same subject. This is akin to the assumptions of a normal linear regression model, and in this case will be
+		an under-specified model with too few estimated parameters. The final covariance structure that will be considered in candidate models will have the form
+		\begin{equation}
+			\Sigma = 
+			\begin{bmatrix}
+				\sigma^2 & \rho_{12} & \rho_{13} & \rho_{14} & \rho_{15} \\
+				\rho_{12} & \sigma^2 & \rho_{23} & \rho_{24} & \rho_{25} \\
+				\rho_{13} & \rho_{23} & \sigma^2 & \rho_{34} & \rho_{35} \\
+				\rho_{14} & \rho_{24} & \rho_{34} & \sigma^2 & \rho_{45} \\
+				\rho_{15} & \rho_{25} & \rho_{35} & \rho_{45} & \sigma^2 \\
+			\end{bmatrix}
+			.
+		\end{equation}
+		This model allows for an unstructured covariance matrix and is technically not misspecified, but it over-specified in that it will estimate more parameters than are needed. The model
+		with all three potential covariates included and an unstructured covariance matrix will serve as the largest candidate model in this simulation, as all other combinations of potential
+		mean and covariance structures are nested within this model. Each of these candidate models are to be fit using generalized least squares with the residual maximum likelihood (Diggle et al., 2002).
+
+		For each simulation iteration, data will be generated and the candidate models will be fit. Then, a model will be chosen using each of the three model selection algorithms involving
+		AIC used in the previous simulation, those being minimum AIC, selecting the most parsimonious model with 2 AIC of the minimum AIC model, and the standardized AIC procedure developed in this
+		chapter. Whether or not each method selects a model with the correct covariance structure, correct mean structure, and correct overall structure will be recorded for each iteration, and
+		summarized after all iterations have been performed.
+
+		The simulation will be performed for $q = 50, 100,$ and $150$, and thus for overall sample sizes of $250, 500,$ and $750$. The simulation will be performed $1000$ times for each sample size,
+		with summary statistics to be calculated afterwards. A full summary of the simulation procedure can be found below.
+		\begin{algorithm}
+			\caption{Model Selection Simulation to Compare Selected Covariance Structures in a Longitudinal Model}
+			\begin{algorithmic}[1]
+			  \Statex For $n = 250, 500,$ and $750$, do the following:
+			  \State Draw a test sample of size $n$ using the specified true model.
+			  \State Fit all candidate models using the data.
+			  \State Calculate the AIC and standardized AIC for each fitted model.
+			  \State Perform each model selection method.
+			  \State For each method, record if the model selected was the true model.
+			  \State Repeat steps 1-5 1000 times.
+			\end{algorithmic}
+		\end{algorithm}
+
+		This simulation was performed in R, version 4.2.1 (R Core Team, 2023). The following table summarizes the performance of each model selection method in the simulation with
+		regards to choosing a model with the correct covariance structure, that being one of compound symmetry.
+
+		\begin{table}[H]
+			\centering
+			\ttabbox[\FBwidth]
+			{\caption{\label{tab:sim2_aic_cov_accuracy_tab}Simulation 2 Results - Proportion Selecting Correct Covariance Structure}}
+			{
+			\begin{tabular}{ c|c|c|c}
+			$n$ & \vtop{\hbox{\strut Minimum AIC}\hbox{\strut Accuracy}} & \vtop{\hbox{\strut AIC Rule of 2}\hbox{\strut Accuracy}} & \vtop{\hbox{\strut Standardized AIC}\hbox{\strut Accuracy}} \\
+			 \hline
+			 250 & 0.959  &  0.976 &  0.996 \\
+			 500 & 0.967  &  0.984 &  1.000 \\
+			 750 & 0.966  &  0.981 &  0.998 \\
+			 \Xhline{3\arrayrulewidth}
+			\end{tabular}
+			}
+		\end{table}
+
+		We note that all three methods seem to do a good job of selecting the correct covariance structure, with the "Rule of 2" method providing slight improvement over minimum AIC, and
+		standardized AIC providing slightly more improvement. This was to be expected, as the covariance structure present in the true generating model is relatively strong and likely
+		is readily apparent from the data. We now observe the following table which elucidates how each method performed in terms of choosing a model with the correct mean structure.
+
+		\begin{table}[H]
+			\centering
+			\ttabbox[\FBwidth]
+			{\caption{\label{tab:sim2_aic_mean_accuracy_tab}Simulation 2 Results - Proportion Selecting Correct Mean Structure}}
+			{
+			\begin{tabular}{ c|c|c|c}
+			$n$ & \vtop{\hbox{\strut Minimum AIC}\hbox{\strut Accuracy}} & \vtop{\hbox{\strut AIC Rule of 2}\hbox{\strut Accuracy}} & \vtop{\hbox{\strut Standardized AIC}\hbox{\strut Accuracy}} \\
+			 \hline
+			 250 & 0.938  &  0.979 &  0.999 \\
+			 500 & 0.957  &  0.991 &  1.000 \\
+			 750 & 0.958  &  0.982 &  0.998 \\
+			 \Xhline{3\arrayrulewidth}
+			\end{tabular}
+			}
+		\end{table}
+
+		Once again, we observe that all three methods do rather well as selecting the correct mean structure, but that the standardized AIC method performs the best by a slight margin. We will
+		now synthesize the results already discussed in the following table, which shows the proportion of time each method chose both the correct mean structure and covariance structure.
+
+		\begin{table}[H]
+			\centering
+			\ttabbox[\FBwidth]
+			{\caption{\label{tab:sim2_aic_accuracy_tab}Simulation 2 Results - Proportion Selecting Correct Overall Model}}
+			{
+			\begin{tabular}{ c|c|c|c}
+			$n$ & \vtop{\hbox{\strut Minimum AIC}\hbox{\strut Accuracy}} & \vtop{\hbox{\strut AIC Rule of 2}\hbox{\strut Accuracy}} & \vtop{\hbox{\strut Standardized AIC}\hbox{\strut Accuracy}} \\
+			 \hline
+			 250 & 0.898  &  0.960 &  0.995 \\
+			 500 & 0.925  &  0.975 &  1.000 \\
+			 750 & 0.928  &  0.966 &  0.997 \\
+			 \Xhline{3\arrayrulewidth}
+			\end{tabular}
+			}
+		\end{table}
+
+		We see a familiar pattern here as all methods again do relatively well in choosing the correct true model. However, the gaps in performance between each method are slightly more pronounced
+		than in only the covariance or mean cases, likely on account of being akin to the sum of those individual gaps. Thus, while standardized AIC provides only a marginal boost in performance
+		in selecting the correct mean or covariance structure in this simulation, these advantages combine when trying to select the correct model on the whole. 
+
+
+
+
+
+
+
+		
+
+
+		
+
+		
+		
+
 		

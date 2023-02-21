@@ -19,13 +19,13 @@
 		regards to a set of observations with \textit{parsimony} and \textit{interpretability}. These traits often go hand-in-hand with the two main objectives of model selection and 
 		statistical modeling in general, those being statistical inference and prediction of future data. The priority in balancing these different aspects and objectives may change depending
 		on the modeling problem at hand, similar to the physics example presented above where the simplicity of one model is preferred over the edge in aligning with empirical data of another.
-		Thus, it is imperative for the statistician to keep them in mind when considering a model selection problem the tendencies of various model selection procedures to value certain
+		Thus, it is imperative for the statistician to keep these considerations in mind when considering a model selection problem the tendencies of various model selection procedures to value certain
 		traits of models over others.
 
 		When performing statistical model selection, the use of likelihood-based information criteria is commonplace. Akaike pioneered the first such likelihood-based information criteria
 		with the resultant quantity coming to be known as the Akaike information criterion, or AIC for short (Akaike, 1974). AIC features a likelihood-based goodness-of-fit term and a
-		penalty term for greater complexity of the model, thus providing a balance between these two aspects. Akaike derived AIC as an estimator to the expected Kullback-Leibler divergence,
-		which is itself a relative measure of the separation between one probability distribution and another (Kullback and Leibler, 1951). The Kullback-Leibler divergence itself ignores constants
+		penalty term for greater complexity of the model, thus providing a balance between these two aspects. Akaike derived AIC as an estimator to the expected Kullback-Leibler discrepancy,
+		which is itself a relative measure of the separation between one probability distribution and another (Kullback and Leibler, 1951). The Kullback-Leibler discrepancy itself ignores constants
 		associated only with the true generating distribution that are present in the Kullback-Leibler information from which the discrepancy is derived, causing AIC to have relative meaning when these constants
 		are the same across different models fit using the same data, but little absolute meaning. In the case of application of AIC, the probability distributions of interest are those of the true generating model
 		for our data and our proposed model that has been fit using the data. The lower the value of AIC for a fitted model is, the lower our estimate for the Kullback-Leibler divergence,
@@ -66,10 +66,9 @@
 		when comparing BIC values (Kass and Raftery, 1995). However, these cutoffs possess thin justification in terms of the the distributional properties of the likelihood-based information
 		critera in question.
 
-		If one wishes to perform model selection that relies on distributional properties, then the likelihood ratio test may be of interest. The likelihood ratio test assesses the
-		goodness-of-fit between two statistical models and provides a hypothesis test framework for choosing between them (Wilks, 1938). The procedure tests the assumption that
+		If one wishes to perform model selection that relies on distributional properties, then the likelihood ratio test may be of interest. The procedure tests the assumption that
 		a smaller, nested model fits the data just as well as a larger model with higher dimensionality, and additionally carries an implicit assumption that the larger model does
-		not exhibit substantial lack of fit itself. Thus, one must make some effort to ensure that this larger candidate model does not exhibit gross lack of fit.
+		not exhibit substantial lack of fit itself (Wilks, 1938). Thus, one must make some effort to ensure that this larger candidate model does not exhibit gross lack of fit.
 
 		Various methods exist to assess misspecification of a model, with most being tuned to a specific family of models or aspects of misspecification. In the case of linear regression,
 		plotting the fitted residuals against the fitted values or individual covariates is a common form of visually assessing whether the linear regression assumptions of linearity and
