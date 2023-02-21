@@ -12,6 +12,9 @@
 *.cb2
 .*.lb
 
+## Exclude .html reports
+*.html
+
 ## Intermediate documents:
 *.dvi
 *.xdv
