@@ -1,5 +1,5 @@
 \doublespace
-\Chapter{GOODNESS-OF-FIT PROCEDURE FOR LINEAR MODELS}
+\Chapter{GOODNESS-OF-FIT PROCEDURE FOR NORAML LINEAR REGRESSION MODELS}
 
 	The preceding chapter presented a new model selection procedure that relies on the distributional properties of differences in information criteria values to guide
 	selection in a manner that does not rely only on rules of thumb. However, for such properties to be justified, it was first required that the largest candidate model
@@ -7,9 +7,223 @@
 	that can be employed to help justify such an assumption.
 		
 		\section{Asymptotic Variance of Log-Likelihood GOF Term} \label{sec:asymp_var}
+
+		We will now explore the variance of the log-likelihood goodness-of-fit term present in likelihood-based information criteria. We will assume that we are in a
+		scenario where a normal linear regression model is being fit to the data of interest, and that this model is not misspecified. Thus, this model contains requisite
+		structure and is of the proper parametric family, and contains the requisite mean structure, although the mean structure may contain extraneous variables in the
+		case of an over-specified model.
+
+		Assuming a linear model has been fit using maximum likelihood with fitted parameters $\hat{\theta}$, the goodness-of-fit term can be decomposed as
+		\begin{equation}
+			-2 \ell (\hat{\theta}  ) = n \log(2 \pi) + n + n \log(\hat{\sigma}^2 ) ,
+		\end{equation}
+		where $\hat{\sigma}^2$ denotes the maximum likelihood estimate for the error variance $\sigma^2$. Note that the only term here that is random is
+		the $n \log(\hat{\sigma}^2)$ term. Thus, if we can quantify the variability of this term, we can quantify the variability of the entire goodness-of-fit
+		term. Additionally, we can go even further and quantify the variability of an entire likelihood-based information criteria with a constant penalty
+		term for this fitted model.
+
+		To this end, we first consider $\hat{\sigma}^2$. As the linear model is assumed to not be misspecified, and $\hat{\sigma}^2$ is a maximum likelihood
+		estimator, this quantity will have an asymptotic variance related to the inverse of the Fisher information (Fisher, 1922). In the case of a single
+		observation, the Fisher information as it relates to the parameter vector $\theta = [\beta, \sigma^2]$, where $\beta$ is the regression coefficients
+		present in the model, can be shown to be
+		\begin{equation}
+			- E \left[ \frac{\partial^2 \ell (\hat{\theta}  )}{\partial \theta^2} \right] = \mathcal{I}_{n}(\theta) =
+			\begin{bmatrix}
+				\frac{\mathbf{X}' \mathbf{X}}{\sigma^2} & \mathbf{0}' \\
+				\mathbf{0} & \frac{n}{2 \sigma^4} \\
+			\end{bmatrix}
+			,
+		\end{equation}
+		where $\mathbf{X}$ is the design matrix of the regression, and $\mathbf{0}$ is a column vector of zeroes. Thus, if we assume to have a single observation
+		such that $n=1$, take the inverse of the Fisher information matrix, and isolate the entry related to the error variance $\sigma^2$, we see that
+		\begin{equation}
+			\mathcal{I}_{1}^{-1}(\sigma ^2) = 2 \sigma ^4 .
+		\end{equation}
+		
+		Using the above relation, and applying the property of asymptotic normality of the MLE $\hat{\sigma}^2$ in this case of a properly specified normal linear
+		regression model, we see that the asymptotic distribution
+		\begin{equation}
+			\sqrt{n} (\hat{\sigma}^2 - \sigma^2) \xrightarrow[]{d} N(0, 2 \sigma ^4 )
+		\end{equation}
+		should hold. Thus, we have established an asymptotic variance for $\hat{\sigma}^2$.
+
+		However, further work is required to arrive at what we seek. To find the variance of $-2 \ell (\hat{\theta}  )$, we must find the variance of $n \log(\hat{\sigma}^2)$.
+		Additionally, the above asymptotic relation involves the true $\sigma^2$ to which we will not have access in most modeling scenarios.
+
+		We will solve both of these issues by employing the delta method (Rao, 1965). We propose a transformation of the form
+		\begin{equation}
+			g(x) = \log(x) .
+		\end{equation}
+		Note that this transformation has the derivative
+		\begin{equation}
+			g'(x) = \frac{1}{x} .
+		\end{equation}
+		Thus, applying the delta method to our above asymptotic distribution with $g(x)$ as the function of interest, we see that
+		\begin{equation}
+			\sqrt{n} ( \log (\hat{\sigma}^2) - \log(\sigma^2)) \xrightarrow[]{d} N(0, 2)
+		\end{equation}
+		Note that the asymptotic distribution on the right-hand side is now complete free of the parameter $\sigma^2$, with the variance of this asymptotic distribution reducing
+		to the constant 2.
+
+		Armed with the above asymptotic relationship and assuming that this asymptotic property approximately holds in a setting with a finite $n$, we have that
+		\begin{equation}
+			n\log(\hat{\sigma}^2) \, \dot\sim \, N \left( n\log(\sigma^2), 2n \right)
+		\end{equation}
+		Thus, assuming that the model is appropriately specified, the variance of $n\log(\hat{\sigma}^2)$ will be approximately $2n$. Applying this back to the goodness-of-fit term,
+		we see that the approximation
+		\begin{equation}
+			Var \left[ -2 \ell (\hat{\theta}  ) \right] \approx 2n
+		\end{equation}
+		is justified. Furthermore, $2n$ could also serve as an approximation to the variance of AIC, BIC, or AICc for this correctly specified linear regression model. This approximation
+		is extremely easy to compute, and has the same form no matter the complexity of the design matrix $X$ or value of the true parameters $\theta$, making it useful as a
+		general tool.
+
+		It should be noted that this approximation does rely on asymptotic properties. In the Appendix, an exact variance for $-2 \ell (\hat{\theta})$ is found which does
+		not rely on asymptotic properties. However, this variance is more complicated to compute than the simple approximation $2n$, and was not found to provide any meaningful
+		benefit over $2n$ when used in procedures developed later in this chapter. However, the derivation of this variance is presented for completeness.
 		
 		\section{Sandwich Estimator for Variance of Log-Likelihood GOF Term} \label{sec:sand_var}
+
+		The preceding section developed an approximated variance for the term $-2 \ell (\hat{\theta})$ using asymptotic properties of maximum likelihood estimators under the assumption
+		that a normal linear regression model is properly specified. This section will develop an estimator for the variance of $n\log(\hat{\sigma}^2)$, and thus $-2 \ell (\hat{\theta})$ in
+		the case of a fitted normal linear regression model, that need not assume that the model is correctly specified.
+
+		Assume that we once again fit a linear regression model with assumed parameters $\theta = [\beta, \sigma^2]$ to our data, and we do not know whether this model is correctly specified.
+		We wish to construct an estimator for $Var \left[ -2 \ell (\hat{\theta}  ) \right]$. This estimator will be constructed using the White robust sandwich variance estimator employing
+		much of the notation related to this development that was introduced in Chapter 2 (White, 1980).
+
+		We let $I_{n} (\theta)$ denote the observed information matrix with regards to our specified linear regression model. With $\mathbf{X}$ denoting the $n$ by $p$ design matrix, we see that
+		the quantity $A_n (\theta)$ used in the White estimator is found to be 
+		\begin{equation}
+			A_n(\theta) = \frac{1}{n}
+			\begin{bmatrix}
+				\frac{X'X}{\sigma^2} & \left[ \frac{-(y-X\beta)'X}{\sigma^4} \right]' \\
+				\left[ \frac{-(y-X\beta)'X}{\sigma^4} \right] &  \frac{n}{2 \sigma^4} - \frac{(y-X\beta)'(y-X\beta)}{\sigma^6}
+				\end{bmatrix}
+				= -\frac{1}{n} I_n(\theta) .
+		\end{equation}
+		Now let $x_i$ be the $i$th row of the design matrix $\mathbf{X}$, and $y_i$ be the $i$th observation of the observation vector $y$. With this in mind, we can define the score components
+		for individual observations in our sample as
+		\begin{equation}
+			U_i(\theta) = 
+			\begin{bmatrix}
+				\frac{(y_i-x_i \beta)x_i'}{\sigma^2} \\
+				\frac{-1}{2 \sigma^2} + \frac{(y_i - x_i \beta)^2}{2 \sigma^4}
+			\end{bmatrix}
+			.
+		\end{equation}
+		With this quantity defined, we can then use it to describe the matrix $B_n (\theta)$ used in the White estimator as
+		\begin{equation}
+			B_n(\theta) = \frac{1}{n} \sum_{i=1}^{n} U_i(\theta) U_i(\theta)' .
+		\end{equation}
+		Note that this matrix is an estimator for the expectation of the outer product of the score vector.
+
+		Thus, with $B_n(\theta)$ and $A_n(\theta)$ defined, these can be evaluated at the maximum likelihood estimator $\hat{\theta}$ and be used to define
+		\begin{equation}
+			\begin{split}
+				C_n(\hat{\theta}) & = A^{-1}_n(\hat{\theta}) B_n(\hat{\theta}) A^{-1}_n(\hat{\theta}) \\
+				& = n I_n^{-1}(\hat{\theta}) [\sum_{i=1}^{n} U_i(\hat{\theta}) U_i(\hat{\theta})'] I_n^{-1}(\hat{\theta}) ,
+			\end{split}
+		\end{equation}
+		where $C_n(\hat{\theta})$ will be a $p+1$ by $p+1$ matrix that can be used as an estimator of the variance-covariance matrix of $\hat{\theta}$ that is robust to misspecification
+		of the model. Consider the bottom rightmost element of this matrix, thus the $p+1$th element of the $p+1$th column of the matrix. This element will correspond to the large-sample
+		robust variance of $\hat{\sigma}^2$. Let $s(\theta)$ refer to this corresponding element in the case of the theoretical matrix $C(\theta)$, and $s_n(\hat{\theta})$ refer to this
+		corresponding element in its estimator $C_n(\hat{\theta})$. By White's results, it can then be seen that
+		\begin{equation}
+			\sqrt{n} (\hat{\sigma}^2 - \sigma_*^2) \xrightarrow[]{d} N(0, s(\theta_*)) ,
+		\end{equation}
+		where $\sigma_*^2$ denotes the pseudo-true parameter related to $\sigma^2$ in the case of potential misspecification.
+
+		We will again employ the delta method to transform this distribution to a form that is more suitable. We again define a transformation of
+		\begin{equation}
+			g(x) = \log(x) ,
+		\end{equation}
+		and note that this function has a first derivative of
+		\begin{equation}
+			g'(x) = \frac{1}{x} .
+		\end{equation}
+		Applying this transformation to the asymptotic distribution presented in (4.14), we arrive at the relation
+		\begin{equation}
+			\sqrt{n} ( \log (\hat{\sigma}^2) - \log(\sigma_*^2)) \xrightarrow[]{d} N(0, \frac{1}{\sigma_*^4} s(\theta_*)) .
+		\end{equation}
+		Using this asymptotic distribution, one can arrive at an approximate distribution for $n\log(\hat{\sigma}^2)$ as
+		\begin{equation}
+			n\log(\hat{\sigma}^2) \, \dot\sim \, N \left( n\log(\sigma_* ^2), \frac{n}{\sigma_*^4} s(\theta_*) \right) ,
+		\end{equation}
+		which could be suitable for use in finite sample sizes that are sufficiently large. However, $\sigma_*^2$ and $s(\theta_*)$ are likely to be unknown in practical modeling
+		applications. Thus, estimating these quantities with $\hat{\sigma}^2$ and $s_n(\hat{\theta})$ respectively, a reasonable estimate for the variance of $n\log(\hat{\sigma}^2)$ can
+		be found to be
+		\begin{equation}
+			Var \left[ n\log(\hat{\sigma}^2) \right] \approx \frac{n}{\hat{\sigma}^4} s_n(\hat{\theta}) .
+		\end{equation}
+		By the relation presented in (4.1) in the previous section, it is clear that this variance estimate is also suitable for $Var \left[ -2 \ell (\hat{\theta}  ) \right]$, and therefore
+		likelihood-based information criteria as a whole that possess a constant penalty term. This estimator should converge to our previously derived value $2n$ in the case of a correctly
+		specified model, as the sandwich estimator component will converge to the expected Fisher information used in section 4.1, and the MLE $\hat{\sigma}^2$ should converge to the true
+		parameter value $\sigma^2$. However, this estimator need not assume correct specification, and should be relatively robust to model misspecification.
+		
+		For the remainder of this thesis, this estimator will be referred to as $\widehat{Var}[GOF]$ such that for a fitted normal linear regression model
+		\begin{equation}
+			\widehat{Var}[GOF] = \frac{n}{\hat{\sigma}^4} s_n(\hat{\theta})
+		\end{equation}
+		for fitted maximum likelihood estimates $\hat{\theta}$. This notation will be used because this quantity is estimating $Var[GOF]$, the true variance of the likelihood goodness-of-fit
+		term.
 		
 		\section{Bootstrap Test for Goodness-Of-Fit of Linear Model} \label{sec:boot_test}
 
-		\section{Comparative Simulation Across Different GOF Procedures} \label{sec:gof_sim}
+		The previous sections have established an asymptotic variance for the likelihood goodness-of-fit term in the case of a correctly specified normal linear regression model, and an
+		estimator for this variance that does not assume the model is correctly specified. We will now synthesize these two developments to form a general goodness-of-fit procedure to
+		test a hypothesis that a given normal linear regression model is correctly specified.
+
+		Under the null hypothesis that a normal linear regression model is correctly specified, the estimator $\widehat{Var}[GOF]$ should be close to the theoretical value $2n$ for a
+		sufficient sample size. Thus, we need some way to probabilistically determine whether a fitted model demonstrates this property, or whether it appears to violate the null
+		hypothesis.
+		
+		We propose the use of the non-parametric bootstrap to obtain an empirical estimate for the sampling distribution of $\widehat{Var}[GOF]$. Once this empirical distribution
+		has been obtained, the null hypothesis can be tested by observing whether a bootstrap interval for $Var[GOF]$ contains the theoretical value $2n$, as the approximation
+		$Var[GOF] \approx 2n$ should hold for sufficient sample sizes under the null hypothesis. If the $100*(1-\alpha)$\% bootstrap confidence interval does not contain the 
+		$2n$, we reject the null hypothesis and conclude that the model is misspecified; however, if the interval does contain $2n$, we do not hav sufficient evidence to reject
+		the null hypothesis, and the proposed model does not demonstrate lack-of-fit. Note that in the case of a model that is merely overspecified, the null hypothesis is technically
+		true as the model contains requisite structure.
+
+		A full summary of the proposed procedure can be found below.
+		\begin{algorithm}
+			\caption{Bootstrap Goodness-of-Fit Test for a Normal Linear Regression Model}
+			\begin{algorithmic}[1]
+			  \Statex For test level $\alpha$, candidate normal linear model $M$, bootstrap iteraions $B$, sample size of $n$, and a null hypothesis that $M$
+			  is correctly or overspecified:
+			  \State Resample, with replacement, outcomes with covariates to generate a bootstrap sample of size $n$.
+			  \State Fit model $M$ to this bootstrap sample, and with this fitted model, calculate $\widehat{Var}[GOF]$
+			  and record this statistic.
+			  \State Repeat steps 1-2 $B$ times to generate an empirical bootstrap distribution for $\widehat{Var}[GOF]$.
+			  \State Construct a $100*(1-\alpha)$\% bootstrap CI for $Var[GOF]$.
+			  \State If this interval does not contain $2n$, reject the null hypothesis at the $alpha$ level. If it does contain
+			  $2n$, the null hypothesis was not rejected and model $M$ does not appear to exhibit lack of fit. 
+			\end{algorithmic}
+		\end{algorithm}
+
+		This procedure can be used to assess the general hypothesis that a normal linear regression model is properly specified against the alternative that it displays lack of fit.
+		Unlike other goodness-of-fit tests and procedures, this method does not test a specific assumption of linear regression such as normality or homoskedasticity, but rather
+		all assumptions of normal linear regression as if any of them are violated, the property that $Var[GOF] \approx 2n$ is not guaranteed to hold. This allows the test to detect
+		many forms of misspecification from mean misspecification to distributional misspecification to heteroskedasticity. The following section will demonstrate the efficacy of
+		this procedure to both maintain the desired size when the null hypothesis is true and display power to reject the null hypothesis when it is false in a variety of different
+		scenarios.
+		
+		While the following simulations will employ a percentile interval as the bootstrap confidence interval method of choice, the pracitioner is not limited to using this method
+		and may use any bootstrap interval they so choose as long as it is theoretically justifiable. Additionally, the non-parametric bootstrap is employed above to avoid further
+		assumptions. However, it has been found that the residual bootstrap may also work just as well in this procedure, and a practitioner may decided to employ the test
+		using this method instead if so desired. However, all simulations presented in this thesis will use the non-parametric bootstrap flavor of the procedure.
+		
+		\section{Comparative Simulations Across Different GOF Procedures} \label{sec:gof_sim}
+
+		The following subsections detail simulation studies performed using the goodness-of-fit procedure presented above. The first subsection details a scenario where the null
+		hypothesis of the test is true, and demonstrates that the proposed bootstrap test can approximately maintain the desired size in this scenario. The second subsection 
+		explores the power of the test in the case of mean misspecification, and the thrid subsection explores the power of the test in the case of heteroskedasticity induced by
+		unobserved covariates.
+
+		\subsection{Simulation to Establish Type I Error Rate of Bootstrap GOF Test}
+
+
+		\subsection{Simulation to Establish Power of Bootstrap GOF Test - Mean misspecification}
+
+
+		\subsection{Simulation to Establish Power of Bootstrap GOF Test - Heteroskedasticity Induced by Unobserved Covariates}

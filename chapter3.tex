@@ -213,11 +213,7 @@
 
 		It bears repeating that this procedure is based on the distributional properties used in the likelihood ratio test, which only hold in an asymptotic sense under the
 		null. Thus, even if all other assumptions involved in this procedure are met, results may not align with expectations if the sample size is too small. This is not
-		dissimilar to the case of using just AIC on its own, as AIC also is only an asymptotically unbiased estimator of the expected Kullback–Leibler discrepancy. In the
-		Appendix, a modification to this procedure is demonstrated that can be used in the case of nested normal linear regression models that employs the distributional
-		properties of the F-Test to remove the reliance on the asymptotics of the likelihood ratio test (Allen, 1998). However, this version of the procedure is both limited
-		to only normal linear regression and was found to provide only marginal benefit in small sample sizes for a substantial cost in computational complexity, and thus
-		will not be expanded upon beyond the reference in the Appendix. However, it is presented for completeness.
+		dissimilar to the case of using just AIC on its own, as AIC also is only an asymptotically unbiased estimator of the expected Kullback–Leibler discrepancy.
 
 		Recall that AICc is exactly unbiased even in small sample sizes, unlike its counterpart AIC. We will now proceed to derive quantities related to using AICc,
 		in the case of normal linear regression models, within the general framework of the model selection procedure for AIC presented above. Much of the theoretical
@@ -231,7 +227,7 @@
 		Observing the difference in AICc between model $M_i$ and model $M_*$, we see that
 		this will take the form
 		\begin{equation}
-			AICc_i - AICc_* = (-2 \ell (\hat{\theta}_i) + 2 \ell (\hat{\theta}_*) ) + (2(p-k_i)(\frac{n}{n-p+k_i-1}) - 2p(\frac{n}{n-p-1})) .
+			AICc_i - AICc_* = (-2 \ell (\hat{\theta}_i) + 2 \ell (\hat{\theta}_*) ) + \left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right] .
 		\end{equation}
 		Note the appearance of $p$, the number of estimated parameters in model $M_*$, in this relation, where it was absent in the corresponding relation related to AIC.
 
@@ -247,17 +243,24 @@
 		\begin{equation}
 			Var \left[ \frac{AICc_i - AICc_*}{\sqrt{2k_i}} \right] \approx 1 
 		\end{equation}
-		will hold for a sufficient sample size. Thus, under the same assumption, the approximate relation
+		will hold for a sufficient sample size. However, one may note that by doing this standardization operation, we are introducing reliance on asymptotics into this quantity
+		related to AICc, which itself does not rely on asymptotics as AIC does. In the Appendix, a modification to this standardization procedure is demonstrated that can
+		be used in the case of nested normal linear regression models that employs the distributional properties of the F-Test to remove this reliance on the asymptotics of the
+		likelihood ratio test (Allen, 1998). However, this version of the procedure was found to provide only marginal benefit in small sample sizes for a substantial cost in
+		computational complexity, and thus will not be expanded upon beyond the reference in the Appendix. However, it is presented for completeness, and as an option to use
+		in order to standardize AICc in small sample sizes in a way that makes no reliance on asymptotics.
+		
+		Moving forward under the same assumptions as the null hypothesis of the likelihood ratio test, the approximate relation
 		\begin{equation}
 			\begin{split}
-				\frac{AICc_i - AICc_*}{\sqrt{2k_i}} - \frac{(2(p-k_i)(\frac{n}{n-p+k_i-1}) - 2p(\frac{n}{n-p-1}))}{\sqrt{2k_i}} \, \dot\sim \, \\ 
+				\frac{AICc_i - AICc_*}{\sqrt{2k_i}} - \frac{\left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right]}{\sqrt{2k_i}} \, \dot\sim \, \\ 
 				\Gamma \left( \frac{k_i}{2}, \frac{2}{\sqrt{2k_i}} \right)
 			\end{split}
 		\end{equation}
 		will hold due to a transformation of the assumed chi-squared distribution. Thus, the expected value of standardized AIC, assuming
 		that the nested model is correctly specified, will approximately be
 		\begin{equation}
-			E \left[ \frac{AICc_i - AICc_*}{\sqrt{2k}} \right] \approx \sqrt{\frac{k_i}{2}} + \frac{(2(p-k_i)(\frac{n}{n-p+k_i-1}) - 2p(\frac{n}{n-p-1}))}{\sqrt{2k_i}}
+			E \left[ \frac{AICc_i - AICc_*}{\sqrt{2k}} \right] \approx \sqrt{\frac{k_i}{2}} + \frac{\left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right]}{\sqrt{2k_i}}
 		\end{equation}
 
 		Due to the dependence of this approximate expectation on $p$, it not as clear how in general this quantity will look as $k_i$ increases
@@ -267,7 +270,7 @@
 		to be the maximum value of this expectation.
 		\begin{definition}[Standardized AICc (Linear Regression) for model $M_*$]
 			The \textit{standardized AICc} for linear regression model $M_*$ is defined as the quantity
-			$\max_{k_i} \sqrt{\frac{k_i}{2}} + \frac{(2(p-k_i)(\frac{n}{n-p+k_i-1}) - 2p(\frac{n}{n-p-1}))}{\sqrt{2k_i}}$.
+			$\max_{k_i} \sqrt{\frac{k_i}{2}} + \frac{\left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right]}{\sqrt{2k_i}}$.
 		\end{definition}
 
 		Finally, after dividing models into those that meet this standardized AICc cutoff and those that do not, we can use parsimony to select
@@ -280,12 +283,12 @@
 			\begin{algorithmic}[1]
 			  %\Statex \textbullet~\textbf{Parameters:} $n, t \in \mathbb{N}$, where $t < n$.
 			  \State Take steps to ensure with reasonable certainty that $M_*$ does not exhibit lack of fit.
-			  \State For each distinct value of $k_i$, calculate $\sqrt{\frac{k_i}{2}} + \frac{(2(p-k_i)(\frac{n}{n-p+k_i-1}) - 2p(\frac{n}{n-p-1}))}{\sqrt{2k_i}}$
+			  \State For each distinct value of $k_i$, calculate $\sqrt{\frac{k_i}{2}} + \frac{\left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right]}{\sqrt{2k_i}}$
 			  \State For $i = 1,...,m$, calculate the \textit{standardized AICc} for model $M_i$ as 
 			  $\overline{AICc}_i = \frac{AICc_i - AICc_*}{\sqrt{2k_i}}$. Define the standardized AICc for model
-			  $M_*$ as $\overline{AICc}_* = \max_{k_i} \left[ \sqrt{\frac{k_i}{2}} + \frac{(2(p-k_i)(\frac{n}{n-p+k_i-1}) - 2p(\frac{n}{n-p-1}))}{\sqrt{2k_i}} \right]$.
+			  $M_*$ as $\overline{AICc}_* = \max_{k_i} \left[ \sqrt{\frac{k_i}{2}} + \frac{\left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right]}{\sqrt{2k_i}} \right]$.
 			  \State Categorize all models with a standardized AICc of
-			  $ \max_{k_i} \left[ \sqrt{\frac{k_i}{2}} + \frac{(2(p-k_i)(\frac{n}{n-p+k_i-1}) - 2p(\frac{n}{n-p-1}))}{\sqrt{2k_i}} \right] + 2$
+			  $ \max_{k_i} \left[ \sqrt{\frac{k_i}{2}} + \frac{\left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right]}{\sqrt{2k_i}} \right] + 2$
 			  or lower as being candidates for selection.
 			  \State Among candidate models for selection, select the most parsimonious model, i.e. the model
 			  with the fewest estimated parameters. If there is a tie, let lower standardized AICc be the
@@ -343,9 +346,9 @@
 			  %\Statex \textbullet~\textbf{Parameters:} $n, t \in \mathbb{N}$, where $t < n$.
 			  \State Take steps to ensure with reasonable certainty that $M_*$ does not exhibit lack of fit.
 			  \State For $i = 1,...,m$, calculate the \textit{standardized BIC} for model $M_i$ as 
-			  $\overline{BIC}_i = \frac{BIC_i - BIC_*}{\sqrt{2k_i}}$. Define the standardized AIC for model
+			  $\overline{BIC}_i = \frac{BIC_i - BIC_*}{\sqrt{2k_i}}$. Define the standardized BIC for model
 			  $M_*$ as $\overline{BIC}_* = \sqrt{\frac{1}{2}} (1-\log(n))$.
-			  \State Categorize all models with a standardized AIC of $\sqrt{\frac{1}{2}} (1-\log(n)) + 2$ or lower as
+			  \State Categorize all models with a standardized BIC of $\sqrt{\frac{1}{2}} (1-\log(n)) + 2$ or lower as
 			  being candidates for selection.
 			  \State Among candidate models for selection, select the most parsimonious model, i.e. the model
 			  with the fewest estimated parameters. If there is a tie, let lower standardized BIC be the
@@ -374,8 +377,6 @@
 		involves a simulatin wherein the within-subject covariance structure of a generalized least squares model is to be selected. The algorithm involving AIC will be
 		employed in this scenario, and its ability to select the correct covariance structure will be compared to the ability of other methods of model selection involving
 		AIC.
-
-		\pagebreak
 
 		\subsection{Simulation to Select Covariates for a Normal Linear Regression Model}
 
@@ -423,10 +424,10 @@
 		$1000$ to ensure we can compare pSSRR across difference values of $n$ used to select and fit a model. The simulation will be performed $1000$ times for each value of $n$,
 		with summary statistics to be calculated afterwards. A full summary of the simulation procedure can be found below.
 		\begin{algorithm}
-			\caption{Model Selection Simulation to Compare Selected Normal Linear Regression Models}
+			\caption*{\textbf{Simulation 1} Model Selection Simulation to Compare Selected Normal Linear Regression Models}
 			\begin{algorithmic}[1]
 			  \Statex For $n = 100,200,...,1000$, do the following:
-			  \State Draw a test sample of size $n$ using the specified true model, and a validation sample of size 1000.
+			  \State Draw a test sample of size $n$ using the specified true model, and a validation sample of size $1000$.
 			  \State Fit all candidate models using the test data.
 			  \State Calculate the AIC, standardized AIC, AICc, standardized AICc, BIC, and standardized BIC for each fitted model.
 			  \State Perform each model selection method.
@@ -442,6 +443,8 @@
 		The following table and plot present descriptive results as they pertain to the selection methods related to AIC.
 		\begin{table}[H]
 			\centering
+			\small\addtolength{\tabcolsep}{-3pt}
+			\setlength\extrarowheight{-3pt}
 			\ttabbox[\FBwidth]
 			{\caption{\label{tab:sim1_aic_accuracy_tab}Simulation 1 Descriptive Results, AIC-Based Methods}}
 			{
@@ -479,6 +482,8 @@
 
 		\begin{table}[H]
 			\centering
+			\small\addtolength{\tabcolsep}{-3pt}
+			\setlength\extrarowheight{-3pt}
 			\ttabbox[\FBwidth]
 			{\caption{\label{tab:sim1_aic_prediction_tab}Simulation 1 Predictive Results, AIC-Based Methods}}
 			{
@@ -516,6 +521,8 @@
 
 		\begin{table}[H]
 			\centering
+			\small\addtolength{\tabcolsep}{-3pt}
+			\setlength\extrarowheight{-3pt}
 			\ttabbox[\FBwidth]
 			{\caption{\label{tab:sim1_aicc_accuracy_tab}Simulation 1 Descriptive Results, AICc-Based Methods}}
 			{
@@ -550,6 +557,8 @@
 
 		\begin{table}[H]
 			\centering
+			\small\addtolength{\tabcolsep}{-3pt}
+			\setlength\extrarowheight{-3pt}
 			\ttabbox[\FBwidth]
 			{\caption{\label{tab:sim1_aicc_prediction_tab}Simulation 1 Predictive Results, AICc-Based Methods}}
 			{
@@ -591,6 +600,8 @@
 
 		\begin{table}[H]
 			\centering
+			\small\addtolength{\tabcolsep}{-3pt}
+			\setlength\extrarowheight{-3pt}
 			\ttabbox[\FBwidth]
 			{\caption{\label{tab:sim1_bic_accuracy_tab}Simulation 1 Descriptive Results, BIC-Based Methods}}
 			{
@@ -627,6 +638,8 @@
 
 		\begin{table}[H]
 			\centering
+			\small\addtolength{\tabcolsep}{-3pt}
+			\setlength\extrarowheight{-3pt}
 			\ttabbox[\FBwidth]
 			{\caption{\label{tab:sim1_bic_prediction_tab}Simulation 1 Predictive Results, AIC-Based Methods}}
 			{
@@ -676,9 +689,9 @@
 		The true generating model for this simulation will be as follows. For $i = 1,...,q$, let $y_{\cdot i} = [y_{1 i},y_{2 i},y_{3 i},y_{4 i},y_{5 i},]$ denote a response vector of 5
 		responses from an individual. Let the true distribution of $y_{\cdot i}$ for a given $i$ be
 		\begin{equation}
-			y_{\cdot i} \sim MVN( \mu_i \mathbf{1}_5, \Sigma) ,
+			y_{\cdot i} \sim MVN( \mu_i \mathbf{1}, \Sigma) ,
 		\end{equation}
-		where $\mathbf{1}_5$ is a 5 by 1 vector of ones, the quantity
+		where $\mathbf{1}$ is a vector of ones, the quantity
 		\begin{equation}
 			\mu_i = 2.0 + 2.0 x_{i1} + 2.0 x_{i2}
 		\end{equation}
@@ -765,7 +778,7 @@
 		The simulation will be performed for $q = 50, 100,$ and $150$, and thus for overall sample sizes of $250, 500,$ and $750$. The simulation will be performed $1000$ times for each sample size,
 		with summary statistics to be calculated afterwards. A full summary of the simulation procedure can be found below.
 		\begin{algorithm}
-			\caption{Model Selection Simulation to Compare Selected Covariance Structures in a Longitudinal Model}
+			\caption*{\textbf{Simulation 2} Model Selection Simulation to Compare Selected Covariance Structures in a Longitudinal Model}
 			\begin{algorithmic}[1]
 			  \Statex For $n = 250, 500,$ and $750$, do the following:
 			  \State Draw a test sample of size $n$ using the specified true model.
@@ -782,6 +795,8 @@
 
 		\begin{table}[H]
 			\centering
+			\small\addtolength{\tabcolsep}{-3pt}
+			\setlength\extrarowheight{-3pt}
 			\ttabbox[\FBwidth]
 			{\caption{\label{tab:sim2_aic_cov_accuracy_tab}Simulation 2 Results - Proportion Selecting Correct Covariance Structure}}
 			{
@@ -802,6 +817,8 @@
 
 		\begin{table}[H]
 			\centering
+			\small\addtolength{\tabcolsep}{-3pt}
+			\setlength\extrarowheight{-3pt}
 			\ttabbox[\FBwidth]
 			{\caption{\label{tab:sim2_aic_mean_accuracy_tab}Simulation 2 Results - Proportion Selecting Correct Mean Structure}}
 			{
@@ -821,6 +838,8 @@
 
 		\begin{table}[H]
 			\centering
+			\small\addtolength{\tabcolsep}{-3pt}
+			\setlength\extrarowheight{-3pt}
 			\ttabbox[\FBwidth]
 			{\caption{\label{tab:sim2_aic_accuracy_tab}Simulation 2 Results - Proportion Selecting Correct Overall Model}}
 			{

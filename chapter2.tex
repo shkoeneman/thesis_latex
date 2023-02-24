@@ -362,7 +362,8 @@
 		of interest grows in computational complexity (Efron and Tibshirani, 1993). If one keeps these limitations in mind, the bootstrap procedure can be used in a wide variety of settings with few
 		other assumptions to be made.
 
-		Variations and extensions of the bootstrap procedure detailed above have been developed. The \textit{parametric bootstrap} involves drawing a sample from a fitted model many times and calculating
+		Variations and extensions of the bootstrap procedure detailed above have been developed. The method described above involving resampling with replacement from the original sample is sometimes
+		referred to as the \textit{non-parametric bootstrap} in contrast to the following methods. The \textit{parametric bootstrap} involves drawing a sample from a fitted model many times and calculating
 		a statistic, thus generating an empirical distribution for a statistic of interest (Dekking, 2005). This method assumes that the fitted model provides a good approximation to drawing from the
 		population, but can be useful when a certain model need be assumed. The \textit{residual bootstrap} involves resampling with replacement the residuals from a regression model, and then adding
 		these back onto the original fitted values $\hat{y}$ to form a new observation while retaining the original covariates associated with that fitted value (Efron and Tibshirani, 1993). This procedure
