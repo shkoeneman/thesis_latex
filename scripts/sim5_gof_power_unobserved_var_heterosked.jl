@@ -17,12 +17,12 @@ using Distributed
 @everywhere using CSV
 
 #Set random seed
-@everywhere Random.seed!(myid()+100000)
+@everywhere Random.seed!(myid()+100)
 
 #Set our initial parameters
 intercept = 2.0
-b1 = 1.0
-b2 = 1.0
+b1 = 2.0
+b2 = 2.0
 true_sig = 2
 
 #True model will be linear, but with heteroskedasticity
@@ -32,7 +32,7 @@ ns = 100:100:1000
 
 #Number of iterations
 num_iters = 1000
-boot_iters = 500
+boot_iters = 1000
 level = .05
 
 #Define functions we will need
@@ -102,7 +102,7 @@ plot_data = @distributed (append!) for kk = 1:length(ns)
             #Bootstrap sample
             boot_dataset = dataset[sample(1:n,n,replace=true),:]
             #Fit model
-            model_lm = lm(@formula(y ~ x + y),boot_dataset)
+            model_lm = lm(@formula(y ~ x + z),boot_dataset)
             #Get statistics
             results = asymp_var_sandwich(model_lm)
             #Calculate from delta method

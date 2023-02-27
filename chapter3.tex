@@ -37,7 +37,7 @@
 
 		\pagebreak
 
-		\begin{algorithm}
+		\begin{algorithm}[H]
 			\caption{Distribution-Informed Model Selection Procedure (AIC)}
 			\begin{algorithmic}[1]
 			  %\Statex \textbullet~\textbf{Parameters:} $n, t \in \mathbb{N}$, where $t < n$.
@@ -278,7 +278,7 @@
 		use lower standardized AICc as the tiebreaker once again, which is equivalent to using AICc as the tiebreaker. A full presentation of
 		the algorithm can be seen below.
 
-		\begin{algorithm}
+		\begin{algorithm}[H]
 			\caption{Distribution-Informed Model Selection Procedure (AICc for Linear Regression)}
 			\begin{algorithmic}[1]
 			  %\Statex \textbullet~\textbf{Parameters:} $n, t \in \mathbb{N}$, where $t < n$.
@@ -340,7 +340,7 @@
 		
 		We will again choose parsimony as the rule of choice for selecting a model from those that meet threshold, with lower standardized BIC being the tiebreaker in the
 		case of equally most parsimonious models in consideration. The full selection procedure involving BIC can be see below.
-		\begin{algorithm}
+		\begin{algorithm}[H]
 			\caption{Distribution-Informed Model Selection Procedure (BIC)}
 			\begin{algorithmic}[1]
 			  %\Statex \textbullet~\textbf{Parameters:} $n, t \in \mathbb{N}$, where $t < n$.
@@ -423,7 +423,7 @@
 		The simulation will be performed for $n = 100,200,...,1000$. For each of these values of $n$, the size of the validation sample $t$ will be
 		$1000$ to ensure we can compare pSSRR across difference values of $n$ used to select and fit a model. The simulation will be performed $1000$ times for each value of $n$,
 		with summary statistics to be calculated afterwards. A full summary of the simulation procedure can be found below.
-		\begin{algorithm}
+		\begin{algorithm}[H]
 			\caption*{\textbf{Simulation 1} Model Selection Simulation to Compare Selected Normal Linear Regression Models}
 			\begin{algorithmic}[1]
 			  \Statex For $n = 100,200,...,1000$, do the following:
@@ -777,7 +777,7 @@
 
 		The simulation will be performed for $q = 50, 100,$ and $150$, and thus for overall sample sizes of $250, 500,$ and $750$. The simulation will be performed $1000$ times for each sample size,
 		with summary statistics to be calculated afterwards. A full summary of the simulation procedure can be found below.
-		\begin{algorithm}
+		\begin{algorithm}[H]
 			\caption*{\textbf{Simulation 2} Model Selection Simulation to Compare Selected Covariance Structures in a Longitudinal Model}
 			\begin{algorithmic}[1]
 			  \Statex For $n = 250, 500,$ and $750$, do the following:

@@ -8,20 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-
-
-#For working with matrices
 library(Matrix)
-#For some plotting and organizaitonal features
-library(tidyverse)
-#For working with numbers out to greater precision
-library(Rmpfr)
-#For Digamma and Trigamma calculation functions
-library(PDQutils)
-#For arbitrary levels of precision when doing matrix operations
-library(gmp)
-#Set an initial seed
-library(matrixcalc)
 library(ggplot2)
 library(reshape2)
 ```
@@ -46,8 +33,12 @@ plot(fitted(model), resid(model))
 #Make a nicer plot to output
 plot_data <- data.frame(fitted = fitted(model),
                         residuals = resid(model))
-ggplot(plot_data, aes(x=fitted, y=residuals)) +
-  geom_point() 
-
-
+p <- ggplot(plot_data, aes(x=fitted, y=residuals)) +
+  geom_point(size = 1.0) +
+  labs(title = "",
+       x = "Fitted Value",
+       y = "Residual Value") +
+  theme_bw()
+p
+ggsave("../figures/sim5_rsidual_plot.pdf")
 ```

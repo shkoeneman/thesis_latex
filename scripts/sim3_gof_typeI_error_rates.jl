@@ -2,7 +2,7 @@
 
 using Distributed
 #Add additional processes
-#addprocs(length(Sys.cpu_info())-1)
+addprocs(length(Sys.cpu_info())-1)
 
 @everywhere using LinearAlgebra
 @everywhere using Random
@@ -17,12 +17,12 @@ using Distributed
 @everywhere using CSV
 
 #Set random seed
-@everywhere Random.seed!(myid()+100000)
+@everywhere Random.seed!(myid()+10000)
 
 #Set our initial parameters
 intercept = 2.0
-b1 = 1.0
-b2 = 1.0
+b1 = 2.0
+b2 = 2.0
 true_sig = 2
 
 #True model will be linear, but with heteroskedasticity
@@ -32,7 +32,7 @@ ns = 100:100:1000
 
 #Number of iterations
 num_iters = 1000
-boot_iters = 500
+boot_iters = 1000
 level = .05
 
 #Define functions we will need
@@ -154,7 +154,7 @@ plot_data = @distributed (append!) for kk = 1:length(ns)
     )
 
 end
-
+print(plot_data)
 #Save this plotting data to plot in R
 CSV.write("H:/Dissertation/writing_thesis/thesis_tex_files/data/table_data_sim3.csv",plot_data)
 

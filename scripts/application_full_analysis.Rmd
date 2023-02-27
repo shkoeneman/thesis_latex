@@ -1,0 +1,231 @@
+---
+title: "Application Analysis for Thesis"
+author: "Scott Koeneman"
+date: "Feruary 24, 2023"
+output: html_document
+---
+
+```{r setup, echo=TRUE, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list=objects())
+#For working with matrices
+library(Matrix)
+#For some plotting and organizaitonal features
+library(tidyverse)
+#For working with numbers out to greater precision
+library(Rmpfr)
+#For Digamma and Trigamma calculation functions
+library(PDQutils)
+#For arbitrary levels of precision when doing matrix operations
+library(gmp)
+#Set an initial seed
+library(matrixcalc)
+
+
+#Define a helper function to get sandwich estimator of variance for sigmahat^2
+#Takes as an argument a fit linear model
+asymp_var_sandwich_sighat2 <- function(model){
+  
+  #Extract what we need from this model
+  n <- length(model$model$TARGET_deathRate)
+  y <- matrix(model$model$TARGET_deathRate,nrow=n,ncol=1)
+  X <- model.matrix(model)
+  
+  #Get estimated parameters
+  Beta <- solve(t(X) %*% X) %*% t(X) %*% y
+  sighat2 <- (t(y - (X %*% Beta)) %*% (y - (X %*% Beta))*(1/n))[1,1]
+  
+  #Calculate observed information matrices and central terms based on score
+  Info <- cbind(rbind((t(X) %*% X)/sighat2,t(y - (X %*% Beta)) %*% X/sighat2^2),rbind(t(t(y - (X %*% Beta)) %*% X/sighat2^2),
+              -n/(2*sighat2^2) + ((t(y - (X %*% Beta)) %*% (y - (X %*% Beta)))[1,1])/sighat2^3))
+  Info_inv <- solve(Info)
+
+  #Calc matrix as accorting to Halbert White paper 
+  
+  #Calc central term
+  cent_term <- matrix(0,nrow=nrow(Info_inv),ncol=ncol(Info_inv))
+
+  for(j in 1:n){
+    score <- matrix(c(as.vector((y[j,1] - (X[j,] %*% Beta)[[1]])*X[j,]/(sighat2)),
+                       ( (y[j,1] - (X[j,] %*% Beta)[[1]])^2/(2*sighat2^2) - (1/(2*sighat2)))),
+                     ncol = 1, nrow = length(Beta)+1)
+    cent_term <- cent_term + (score %*% t(score))
+  }
+  
+  #Return results
+  return(list(
+    asymp_var = (Info_inv %*% cent_term %*% Info_inv)[nrow(Info_inv),ncol(Info_inv)],
+    sighat2 = sighat2
+    ))
+  
+}
+
+```
+
+
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+#Set seed
+set.seed(11041996)
+
+#Load in our data
+#full_data <- read.csv("../data/death_data_application_trimmed_final.csv")
+full_data <- read.csv("../data/death_data_application_final_cleaned.csv")
+N <- nrow(full_data)
+
+#Data was collected as of 2013 census, and 2013 data from cancer.gov
+
+#Outcome will be:
+#TARGET_deathRate, the mean per capita (100,000) cancer mortalities for this county
+
+#Variables included in the model will be:
+#indidenceRate: mean per capita (100,000) cancer diagnoses for this county
+#medIncome: Median income of the county
+#povertyPercent: Percent of county in poverty
+#MedianAge: Median Age of county residents
+#AvgHouseholdSize: Mean Household size of county
+#PercentMarried: Percent of county residents who are married
+#Maybe?
+#BirthRate: Number of live births relative to number of women in county
+
+#Largest candidate model formula
+largest_form <- formula(TARGET_deathRate ~ 1 + incidenceRate + medIncome + povertyPercent +
+         MedianAge + AvgHouseholdSize + PercentMarried + BirthRate)
+
+#Fit largest candidate model
+largest_fit <- lm(largest_form, data = full_data)
+summary(largest_fit)
+AIC(largest_fit)
+# Look at point estimate for sandwich estimator
+results <- asymp_var_sandwich_sighat2(largest_fit)
+print(N^2*(1/(results$sighat2^2))*results$asymp_var)
+
+#Get residual plot for sanity
+#Nicer plot
+plot_data <- data.frame(fitted = fitted(largest_fit),
+                        residuals = resid(largest_fit))
+p <- ggplot(plot_data, aes(x=fitted, y=residuals)) +
+  geom_point(size = 1.0) +
+  labs(title = "",
+       x = "Fitted Value",
+       y = "Residual Value") +
+  theme_bw()
+p
+ggsave("../figures/application_residual_plot.pdf")
+  
+#Perform bootstrap test
+#Do bootstrapping
+B <- 1000
+boot_dist <- numeric(B)
+for(ii in 1:B){
+  boot_data <- full_data[sample(1:N,N,replace = TRUE),]
+  results <- asymp_var_sandwich_sighat2(lm(largest_form,data=boot_data))
+  boot_dist[ii] <- N^2*(1/(results$sighat2^2))*results$asymp_var
+}
+#Get quantiles and perform test
+print(quantile(boot_dist,.025))
+print(quantile(boot_dist,.975))
+print(as.numeric(2*N < quantile(boot_dist,.025) | 2*N > quantile(boot_dist,.975)))
+#Linear model not rejected at this level, no lack of fit!
+
+
+
+#We then proceed with this largest candidate model
+#We will force an intercept, age, incidenceRate into the model 
+#We will look at all other models that have at least 1 of the
+#other variables included
+meas_vars <- c("medIncome", "povertyPercent", "AvgHouseholdSize", "PercentMarried", "BirthRate")
+
+all_formulas <- lapply(seq_along(meas_vars), function(x) combn(meas_vars, x, simplify = FALSE))
+all_formulas <- unlist(all_formulas, recursive = FALSE)
+#print number of candidate models
+print(length(all_formulas))
+#Allocate storage for this 
+temp <- data.frame(Index = 1:length(all_formulas),
+                AIC = numeric(length(all_formulas)),
+                k = numeric(length(all_formulas)),
+                Contains_medIncome = logical(length(all_formulas))
+                )
+for(ii in 1:length(all_formulas)){
+  these_vars <- all_formulas[[ii]]
+  this_formula <- as.formula(paste0("TARGET_deathRate ~ 1 + incidenceRate + MedianAge + ",
+                                    paste(these_vars,collapse="+")))
+  this_fit <- lm(this_formula, data = full_data)
+  temp$AIC[ii] <- AIC(this_fit)
+  temp$k[ii] <- length(meas_vars) - length(these_vars)
+  temp$Contains_medIncome[ii] <- ("medIncome" %in% these_vars)
+}
+#Last model will be largest candidate model
+cand_AIC <- temp$AIC[length(temp$AIC)]
+#Calculate standardized AIC
+temp <- temp %>%
+  mutate(AIC_Diff = AIC - cand_AIC) %>%
+  mutate(Stand_AIC_Diff = ifelse(k == 0, 0, AIC_Diff/sqrt(2*(k))))
+#Do nice plot
+p <- ggplot(temp, aes(x = k, y = Stand_AIC_Diff)) +
+  geom_point(size = 2, shape = 1) +
+  geom_hline(yintercept=-sqrt(1/2)+2, linetype="dashed", color = "purple") +
+  labs(title = "Standardized AIC vs. DOF Difference",
+       x = "DOF Difference",
+       y = "Standardized AIC") +
+  theme_bw()
+p
+ggsave("../figures/application_plot_uncolored.pdf")
+
+
+#Do nice plot with "Waist" dots colored
+p <- ggplot(temp, aes(x = k, y = Stand_AIC_Diff, color = Contains_medIncome)) +
+  geom_point(size = 2, shape = 1) +
+  geom_hline(yintercept=-sqrt(1/2)+2, linetype="dashed", color = "purple") +
+  labs(title = "Standardized AIC vs. DOF Difference",
+       x = "DOF Difference",
+       y = "Standardized AIC",
+       color = "Contains Median Income Variable\n") +
+  scale_color_manual(labels = c("No", "Yes"),
+                     values = c("red", "green")) +
+  theme_bw()
+p
+ggsave("../figures/application_plot_colors.pdf")
+
+#Select our model
+
+stand_AIC_index <- temp %>% filter(Stand_AIC_Diff <= -sqrt(1/2)+2 ) %>%
+      arrange(desc(k), Stand_AIC_Diff) %>%
+      .$Index %>%
+      as.vector %>%
+      .[1]
+these_vars <- all_formulas[[stand_AIC_index]]
+this_formula <- as.formula(paste0("TARGET_deathRate ~ 1 + incidenceRate + MedianAge + ",paste(these_vars,collapse="+")))
+this_fit <- lm(this_formula, data = full_data)
+summary(this_fit)
+
+
+
+####################################
+### Other methods for comparison ###
+####################################
+
+#Rule of 2 would choose:
+rule_of_2_index <- temp %>% filter(AIC <= (min(temp$AIC)+2) ) %>%
+      arrange(desc(k), AIC) %>%
+      .$Index %>%
+      as.vector %>%
+      .[1]
+these_vars <- all_formulas[[rule_of_2_index]]
+this_formula <- as.formula(paste0("TARGET_deathRate ~ 1 + incidenceRate + MedianAge + ",paste(these_vars,collapse="+")))
+this_fit <- lm(this_formula, data = full_data)
+summary(this_fit)
+
+#Minimum AIC would choose:
+min_AIC_index <- temp %>% 
+      arrange(AIC) %>%
+      .$Index %>%
+      as.vector %>%
+      .[1]
+these_vars <- all_formulas[[min_AIC_index]]
+this_formula <- as.formula(paste0("TARGET_deathRate ~ 1 + incidenceRate + MedianAge + ",paste(these_vars,collapse="+")))
+this_fit <- lm(this_formula, data = full_data)
+summary(this_fit)
+
+```
+
