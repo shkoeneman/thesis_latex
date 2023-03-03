@@ -16,8 +16,8 @@ library(reshape2)
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 #Set some initial params
 intercept <- 2
-b1 <- 1
-b2 <- 1
+b1 <- 2.0
+b2 <- 2.0
 true_sig <- 2
 
 #Draw data

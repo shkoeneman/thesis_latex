@@ -15,7 +15,7 @@ scripts in the repository are not tracked so as to save space.
 The "scripts" directory contains R and Julia scripts to generate all of the results presented in the thesis. These scripts tend to
 write output to the "data" and "figures" directories.
 
-The "data" directory contains generated dumps of .csv files that are used to construct tables in the .tex files, as well as data used
+The "data" directory contains generated dumps of .csv files that are used to construct tables in the .tex files, as well as datasets used
 in applications.
 
 The "figures" directory is empty on the remote repository so as to not track changes to binary files, but if the scripts are run,
