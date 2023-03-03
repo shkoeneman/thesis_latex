@@ -195,7 +195,7 @@ Thus, we have a form for the first moment of the logarithm of a central chi-squa
 Now moving onto calculating the second moment of $Y$, we take the next derivative of the moment generating function with respect to $t$ and see that
 \begin{equation}
 	\begin{split}
-		\frac{\partial^2 M_Y(t)}{\partial^2 t} = (\log 2)^2 2^t  \frac{\Gamma (t + \frac{\nu}{2})}{\Gamma (\frac{\nu}{2})} + 2^{t+1} \log 2 \frac{\Gamma ' (t + \frac{\nu}{2})}{\Gamma (\frac{\nu}{2})} + \\ 
+		\frac{\partial^2 M_Y(t)}{\partial t^2} = (\log 2)^2 2^t  \frac{\Gamma (t + \frac{\nu}{2})}{\Gamma (\frac{\nu}{2})} + 2^{t+1} \log 2 \frac{\Gamma ' (t + \frac{\nu}{2})}{\Gamma (\frac{\nu}{2})} + \\ 
 		2^t \frac{\Gamma '' (t + \frac{\nu}{2})}{\Gamma (\frac{\nu}{2})} \\
 	\end{split}
 \end{equation}
@@ -213,7 +213,7 @@ Thus, moving to calculate the second moment of $Y$, we see that
 	E \left[ Y^2 \right] =  \left. \frac{\partial^2 M_Y(t)}{\partial t^2} \right|_{t=0} =
 	(\log 2)^2 + \psi^{(0)} \left( \frac{\nu}{2} \right) 2 \log 2  + \frac{\Gamma '' (\frac{\nu}{2})}{\Gamma (\frac{\nu}{2})} .
 \end{equation}
-Using the identity established above involving the trigamma function, we see that thi can be expressed as
+Using the identity established above involving the trigamma function, we see that this moment can be expressed as
 \begin{equation}
 	E \left[ Y^2 \right] =
 	(\log 2)^2 + \psi^{(0)} \left( \frac{\nu}{2} \right) 2 \log 2  + \psi^{(1)} \left( \frac{\nu}{2} \right) + \left( \psi^{(0)} \left( \frac{\nu}{2} \right) \right)^2 .
