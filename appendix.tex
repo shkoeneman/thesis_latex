@@ -31,7 +31,7 @@ estimated parameters in model $M_*$. Recall that the likelihood goodness-of-fit 
 \begin{equation}
 	-2 \ell (\hat{\theta}) = n \log(2 \pi) + n + n \log(\hat{\sigma} ^2 ) ,
 \end{equation}
-where $\hat{\sigma} ^2$ is the estimated error variance of a fitted linear regression model. Applying this relation to our difference if goodness-of-fit
+where $\hat{\sigma} ^2$ is the estimated error variance of a fitted linear regression model. Applying this relation to our difference in goodness-of-fit
 terms, and denoting the estimated error variance for model $M_*$ as $\hat{\sigma}_* ^2$ and for model $M_i$ as $\hat{\sigma^2_i}$, we can see that
 \begin{equation}
 	\begin{split}
@@ -44,8 +44,8 @@ Thus, applying this equivalence to our AIC difference, we see that
 	AICc_i - AICc_* = n\log \left( \frac{\hat{\sigma}^2_i}{\hat{\sigma}^2_*} \right) + \left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right] .
 \end{equation}
 Now, we consider the F-Test for nested normal linear regression models. This test has a null hypothesis that the nested model fits just as well as the
-larger model, or equivalently, that the true value of the additional effects present in the larger model is 0 (Allen, 1998). Let us denote the sum
-of squared errors for model $M_*$ as $SSE_*$ and for model $M_i$ as $M_i$. The form and distribution for the test statistic $F_i$ of the F-Test 
+larger model, or equivalently, that the true value of the additional effects present in the larger model are 0 (Allen, 1998). Let us denote the sum
+of squared errors for model $M_*$ as $SSE_*$ and for model $M_i$ as $SSE_i$. The form and distribution for the test statistic $F_i$ of the F-Test 
 performed between model $M_*$ and model $M_i$ would, under the null hypothesis, be
 \begin{equation}
 	\frac{\frac{SSE_i - SSE_*}{k_i}}{\frac{SSE_*}{n-(p+k_i)}} = F_i \sim F_{k_i, n-(p+k_i)} ,
@@ -64,11 +64,11 @@ then taking the log of each side, we see that
 \end{equation}
 Thus, the quantity $F_i$, which is known to have an exact F distribution under the F-Test null hypothesis, can be shown to be transformed to
 be equivalent to the form of the difference in likelihood goodness-of-fit terms in the case of nested normal linear regression models.
-It is then natural to express the difference in AIC values as
+It is then natural to express the difference in AICc values as
 \begin{equation}
 	\begin{split}
 	AICc_i - AICc_* = n \log \left( \frac{k_i}{n-p-k_i} F_i + 1 \right) + \\
-	\left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right]
+	\left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right] .
 	\end{split}
 \end{equation}
 Therefore, under the F-Test null hypothesis, one knows that the exact distribution of this AIC difference will be a transformation of the
@@ -77,8 +77,8 @@ to have unit variance $\forall i$, and additionally formulate an informed cutoff
 test properties.
 
 However, the transformation applied to $F_i$ is complex, and does not result in any commonly known distribution. Therefore to estimate
-the mean and variance of $AICc_i - AICc_*$, we propose taking many samples from an F distribution distributed the same as $F_i$
-using software, applying the transformation including the constant of $\left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right]$ to each sampled value,
+the mean and variance of $AICc_i - AICc_*$, we propose taking many samples using software from an F distribution distributed the same as $F_i$,
+applying the transformation including the constant of $\left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right]$ to each sampled value,
 and then empirically estimating a mean and variance. This can be done for each distinct $k_i$, as the distribution will be the same for models with
 the same difference in number of estimated parameters from the reference model. In this way, if enough samples are taken, one can obtain precise estimates
 of the exact mean and variance of $AICc_i - AICc_*$.
@@ -92,7 +92,7 @@ information criteria with constant penalty terms as well with minor tweaks.
 
 While this procedure is intriguing, implementation of it in practice has shown that the benefits in small sample sizes appear to only be
 marginal as compared to the likelihood ratio test version of the procedure. Additionally, this procedure can be far more computationally
-intestive as a Monte Carlo simulation needs to be performed for each distinct $k_i$ to determine distributional properties, and a sufficient
+intestive as a Monte Carlo simulation to determine distributional properties needs to be performed for each distinct $k_i$, and a sufficient
 number of iterations in each simulation must be done to achieve acceptable precision. This procedure is also limited in scope to selecting
 from among a collection of normal linear regression models, even if applied to a criterion other than AICc, as the F-Test properties only hold
 for such models.
@@ -103,9 +103,9 @@ sake of completeness.
 
 \section*{Exact Variance of the Likelihood Goodness-of-Fit Term for a Correctly Specified Linear Model}
 
-This section will derive an exact variance for the variance of the goodness-of-fit term $-2 \ell (\hat{\theta} )$ in the case of a properly specified
+This section will derive an exact variance for the goodness-of-fit term $-2 \ell (\hat{\theta} )$ in the case of a properly specified
 linear model. We assume that this linear regression model has a full rank $n$ by $p$ design matrix $\mathbf{X}$, true parameters $\beta$ and $\sigma^2$,
-and maximum likelihood estimates $\hat{\beta}$ and $\hat{sigma}^2$. It can be shown that the estimate $\hat{sigma}^2$ can be expressed as
+and maximum likelihood estimates $\hat{\beta}$ and $\hat{\sigma}^2$. It can be shown that the estimate $\hat{\sigma}^2$ can be expressed as
 \begin{equation}
 	\hat{\sigma}^2 =  \frac{1}{n} (y-\mathbf{X}\hat{\beta})'(y-\mathbf{X}\hat{\beta}) = \frac{1}{n} y'(I_n - \mathbf{X}(\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}')y ,
 \end{equation}
@@ -122,7 +122,7 @@ true mean of the response vector $y$. By the properties of quadratic forms of mu
 \begin{equation}
 	y'Ay = \frac{n \hat{\sigma}^2}{\sigma^2} \sim \chi^2_{rank \left( A \right) } (\mu 'A\mu) ,
 \end{equation}
-where $\left( A \right)$ is the degrees of freedom and $\mu 'A \mu$ is the non-centrality parameter of this chi-squared distribution.
+where $rank \left( A \right)$ is the degrees of freedom and $\mu 'A \mu$ is the non-centrality parameter of this chi-squared distribution.
 
 Note that, as we assume $\mathbf{X}$ is full rank, $rank(\mathbf{X}) = p$. Furthermore, it can be seen that
 \begin{equation}
@@ -140,7 +140,7 @@ Thus, noting that $\sigma^2 A$ is idempotent, it can be seen that
 	& = rank \left( \sigma^2 A \right) .
 	\end{split}
 \end{equation}
-Therefore, as $rank \left( \sigma^2 A \right) = rank \left( A \right)$ as $\sigma^2$ is a scalar constant, then $rank \left( A \right) = p$. This will be the degrees of
+Therefore, as $rank \left( \sigma^2 A \right) = rank \left( A \right)$ since $\sigma^2$ is a scalar constant, then $rank \left( A \right) = p$. This will be the degrees of
 freedom in the chi-squared distribution presented above.
 
 Now, we observe the non-centrality parameter $\mu 'A \mu = (\mathbf{X} \beta)'A(\mathbf{X} \beta)$. Note that
@@ -148,7 +148,7 @@ Now, we observe the non-centrality parameter $\mu 'A \mu = (\mathbf{X} \beta)'A(
 	\begin{split}
 	A(\mathbf{X} \beta) & = \frac{1}{\sigma^2} (I_n - \mathbf{X} (\mathbf{X}' \mathbf{X})^{-1} \mathbf{X}')\mathbf{X}\beta  \\ 
 	& = \frac{1}{\sigma^2} (\mathbf{X} \beta - \mathbf{X} \beta) \\
-	& = 0 .
+	& = \mathbf{0} .
 	\end{split}
 \end{equation}
 Thus, by extension $\mu 'A \mu = 0$, and this distribution is a central chi-squared distribution.
@@ -169,7 +169,7 @@ to determine the variance of the likelihood goodness of fit term $-2 \ell (\hat{
 quantities differing only by a multiplicative constant. Thus, if we can calculate $Var \left[ \log \hat{\sigma}^2 \right]$, which is itself the variance
 of the natural logarithm of a variable distributed as $\chi^2_{n-p}$, we can easily obtain $Var \left[ n \log \hat{\sigma}^2 \right]$.
 
-Thus, we now derive the variance of the logarithm of a central chi-square distribution. Let $X \sim \chi^2_{\nu}$, and let $Y = \log(X)$. Note that
+Thus, we now derive the variance of the logarithm of a central chi-square distributed random variable. Let $X \sim \chi^2_{\nu}$, and let $Y = \log(X)$. Note that
 the moment generating function of $Y$ can be expressed as
 \begin{equation}
 	M_Y (t) = E \left[ e^{yt} \right] = E \left[ e^{t\log(x)} \right] = E \left[ e^{\log x^t} \right] = E \left[ x^t \right] .
@@ -179,7 +179,7 @@ closed form (Lancaster, 1969) of
 \begin{equation}
 	E \left[ x^t \right] = 2^t \frac{\Gamma (t + \frac{\nu}{2})}{\Gamma (\frac{\nu}{2})} = E \left[ e^{yt} \right] = M_Y (t) .
 \end{equation}
-We will use this relation to find the moments of $Y$, the logarithm of a central chi-squared distribution.
+We will use this relation to find the moments of $Y$, the logarithm of a central chi-squared random variable.
 
 Taking the first derivative with respect to $t$, we see that
 \begin{equation}
@@ -188,7 +188,7 @@ Taking the first derivative with respect to $t$, we see that
 Note that in general $\frac{\Gamma ' (z)}{\Gamma (z)} = \psi^{(0)}(z)$, where $\psi^{(0)}(z)$ is the digamma function. With this in mind, we see that the first moment of
 $Y$ can be calculated as
 \begin{equation}
-	E \left[ Y^1 \right] =  \left. \frac{\partial M_Y(t)}{\partial t} \right|_{t=0} = \log 2 + \psi^{(0)} \left( \frac{\nu}{2} \right)
+	E \left[ Y^1 \right] =  \left. \frac{\partial M_Y(t)}{\partial t} \right|_{t=0} = \log 2 + \psi^{(0)} \left( \frac{\nu}{2} \right) .
 \end{equation}
 Thus, we have a form for the first moment of the logarithm of a central chi-squared random variable.
 
@@ -196,7 +196,7 @@ Now moving onto calculating the second moment of $Y$, we take the next derivativ
 \begin{equation}
 	\begin{split}
 		\frac{\partial^2 M_Y(t)}{\partial t^2} = (\log 2)^2 2^t  \frac{\Gamma (t + \frac{\nu}{2})}{\Gamma (\frac{\nu}{2})} + 2^{t+1} \log 2 \frac{\Gamma ' (t + \frac{\nu}{2})}{\Gamma (\frac{\nu}{2})} + \\ 
-		2^t \frac{\Gamma '' (t + \frac{\nu}{2})}{\Gamma (\frac{\nu}{2})} \\
+		2^t \frac{\Gamma '' (t + \frac{\nu}{2})}{\Gamma (\frac{\nu}{2})} .\\
 	\end{split}
 \end{equation}
 This expression can be simplified by introducing the trigamma function $ \psi^{(1)}(z)$. Noting that the trigamma function is the derivative with respect
