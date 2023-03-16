@@ -1,4 +1,45 @@
 \doublespace
-\Chapter{CONCLUSIONS AND DISCUSSION}
-		\section{Conclusions and Discussion}
+\Chapter{DISCUSSION AND CONCLUSIONS}
+
+		In this thesis, a new method of model selection using likelihood-based information criteria was developed in addition to a new goodness-of-fit test
+		to be employed for normal linear regression models. This chapter features a summary and discussion of these developments followed by section
+		detailing potential future developments and final conclusions. 
+
+		\section{Summary and Discussion}
+
+		The "Rule of 2" has been widely used as a rule of thumb in conjunction with likelihood-based information criteria such as AIC and BIC. Despite the
+		demonstrated efficacy of this rule, it possesses little theoretical backing and was largely supported by empirical results. One of the stated
+		goals of this thesis was to explore the distributional properties of likelihood-based information criteria as a means to form alternative methods of
+		model selection using these criteria that possess firmer justification.
+		
+		Using distributional properties of the likelihood ratio test, Chapter 3 developed a new model selection procedure that standardizes the variance of
+		a difference in crierion value between the largest candidate model and another nested candidate model. The assumption of unit variance of this
+		quantity will hold under the assumption that the nested model contains requisite structure with regards to the the true model, with an additional
+		implicit assumption that the largest candidate model itself does not display gross lack of fit. Using this standardized quantity, an acceptable
+		cutoff for feasibility of a model was formulated using further distributional theory with final selection of a model being done using the principle
+		of parsimony.
+
+		Various iterations of this procedure involving different model selection criteria were shown in a simulation study to be able to improve on the descriptive
+		and predictive efficacy of other methods of model selection involving those same information criteria.  Additionally, the method was demonstrated to
+		be able to be used both for variable selection and correlation structure selection. Thus, the task to develop an effective new method of model selection
+		involving likelihood-based information criteria with more theoretical backing was accomplished.
+
+		To complement this new model selection procedure, Chapter 4 developed a novel goodness-of-fit procedure to be used with normal linear regression models.
+		The procedure involves findings related to the variance of the goodness-of-fit term for likelihood-based information criteria, and leverage these
+		results to produce a bootstrap hypothesis test with the null hypothesis that a fitted normal linear regression model is properly specified. The alternative
+		hypothesis for this test is that the fitted model is misspecified in some way.
+
+		Simulation results showed that this goodness-of-fit test is roughly able to maintain the desired Type I error rate when the null hypothesis is true, subject
+		to possession of a sufficient sample size. Simulation results also demonstrated that this test can detect forms of misspecification that other common
+		goodness-of-fit tests cannot, such as mean misspecification or heterskedaticity on account of an unobserved variable. Thus, the test was shown to be of use
+		when assessing the appropriateness of a given linear regression model.
+
+		The model selection procedure and goodness-of-fit test outlined above were synthesized in Chapter 5 in an example application using real data. A proposed
+		largest candidate linear model was first validated as a reasonable modeling option using the goodness-of-fit test. Following this, the new model selection
+		procedure was employed to choose a best model from among the largest model and a collection of nested candidates. This demonstration displays how the
+		two developments can be employed together for a holistic approach to model selection.
+
+		\section{Future Work and Conclusion}
+		
+		
 		
