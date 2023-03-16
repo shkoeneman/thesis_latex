@@ -7,7 +7,7 @@
 		
 		\section{Likelihood-Based Information Criteria}
 
-		Let us introduce some notation that will serve us in the rest of this thesis. Say that one has an $n$ by 1  vector of observations $y$ and wishes to formulate a
+		Let us introduce some notation that will serve us for the remainder of this thesis. Say that one has an $n$ by 1  vector of observations $y$ and wishes to formulate a
 		statistical model for these outcomes. We will call this model our \textit{candidate} model, and we will find it in a \textit{parametric class} of probability distributions.
 		Let the parameters for the class in question be denoted as $\theta$, a vector of size $p$ by 1. Thus, all possible models of the same parametric class can be denoted
 		as
@@ -23,7 +23,7 @@
 			I(\theta) = E \left[ \log \frac{g(y)}{f(y|\theta)} \right],
 		\end{equation}
 		where the expectation is taken with respect to the true model $g(y)$. While the Kullback-Leibler information is not a distance measure, it has some of the same properties in
-		that the larger the separation between $g(y)$ and $f(y|\theta)$ is, then the larger $I(\theta)$ will be in general (Cavanaugh and Neath, 2019).
+		that the larger the separation between $g(y)$ and $f(y|\theta)$, the larger $I(\theta)$ will be in general (Cavanaugh and Neath, 2019).
 		
 		Next, let us define the \textit{Kullback-Leibler discrepancy} as
 		\begin{equation}
@@ -34,94 +34,96 @@
 			2 I(\theta) = d(\theta) - E \left[ -2 \log g(y) \right].
 		\end{equation}
 		This relation shows that any dependence of the Kullback-Leibler information on $\theta$ is captured by the Kullback-Leibler discrepancy, as the two only differ by a positive
-		multiplicative constant of 2 and a term that only depends on $g(y)$. Thus, ranking models of the same class but with different parameter values based on the Kullback-Leibler
+		multiplicative constant of 2 and a term that only depends on $g(y)$. Thus, ranking models of the same class, but with different parameter values, using the Kullback-Leibler
 		discrepancy will be equivalent to doing so using the Kullback-Leibler information (Kullback, 1968).
 		
-		Let a $p$ by 1 vector of the estimates for these parameters be denoted as $\hat{\theta}$. These would be obtained through the process of fitting a candidate model in the
-		parametric class at hand, perhaps by using the method of maximum likelihood. Evaluating the Kullback-Leibler discrepancy at this value of the parameter, we observe
+		Let a $p$ by 1 vector of the estimates for the $\theta$ parameters be denoted as $\hat{\theta}$. These would be obtained through the process of fitting a candidate model in the
+		parametric class at hand, perhaps by using the method of maximum likelihood. Evaluating the Kullback-Leibler discrepancy at this value estimated of the parameter, we obtain
 		\begin{equation}
 			d(\hat{\theta}) = E [ -2 \log f(y | \theta)]|_{\theta = \hat{\theta}}.
 		\end{equation}
 
 		This quantity would give us a theoretical measurement of the separation between our fitted candidate model $f(y|\hat{\theta})$ and the true model $g(y)$. However, to
-		evaluate this expecation requires knowledge of the true generating model $g(y)$. In practice, in any situation where we are concerned with model selecting and fitting,
-		we will not possess knowledge of this true model, or else we would not need to formulate a model in the first place.
+		evaluate this expecation requires knowledge of the true generating model $g(y)$. In practice, in any situation where we are concerned with selecting and fitting models,
+		we will not possess knowledge of this true model.
 
 		However, while this exact quantity is likely unable to be accessed in practical applications, one may find that its expectation, $E[d(\hat{\theta})]$, can be estimated. An
-		effort to do so is what led to the formulation of the \textit{Akaike Information Criterion}, colloquially known as \textit{AIC}. For a fitted model $f(y|\hat{\theta})$,
+		effort to do so is what led to the formulation of the \textit{Akaike information criterion}, colloquially known as \textit{AIC}. For a fitted model $f(y|\hat{\theta})$,
 		AIC is evaluated as
 		\begin{equation}
 			AIC = -2 \log f(y|\hat{\theta}) + 2 p,
 		\end{equation}
-		with this quantity serving as an asymptotically unbiased estimator for the expected Kullback-Leibler discrepancy subject to assumptions being met (Akaike, 1974). AIC was derived
+		with this statistic serving as an asymptotically unbiased estimator for the expected Kullback-Leibler discrepancy subject to assumptions being met (Akaike, 1974). Specifically, AIC was derived
 		under the assumption that the true generating model $g(y)$ belongs to the parametric class $\mathcal{F}(p)$, and thus the property of being asymptotically unbiased only
-		holds in this scenario. Being an estimator of the expected Kullback-Leibler discrepancy, smaller values of AIC for models therefore indicate smaller discrepancy of a candidate
-		model from the generating model.  
+		holds in this scenario. Being an estimator of the expected Kullback-Leibler discrepancy, smaller values of AIC for models therefore indicate smaller discrepancies of candidate
+		models from the generating model.  
 
 		One may notice several features of the form of AIC. Using $\ell(\hat{\theta}|y)$ to denote the log-likelihood of the fitted model, AIC can equivalently be expressed as
 		\begin{equation}
 			AIC = -2 \ell(\hat{\theta}|y) + 2 p.
 		\end{equation}
 		This $-2 \ell(\hat{\theta}|y)$ term based on the empirical log-likelihood is known as the \textit{goodness-of-fit} term as it represents the degree to which the fitted model
-		conforms to the observed data $y$ (Cavanaugh and Neath, 2019). This term will only grow smaller as complexity is added to the model. Note that this quantity can be viewed as
-		a statistic as it depends both on the data $y$, and the quantity $\hat{\theta}$ which was likely determined using the data $y$ itself.
+		conforms to the observed data $y$ (Cavanaugh and Neath, 2019). This term will only grow smaller as complexity is added to the model. Note that this quantity is
+		a statistic as it depends on the data $y$, and the estimate $\hat{\theta}$ which was likely determined using the data $y$ itself.
 
 		The second term of AIC, that being $2 p$, is commonly referred to as the \textit{penalty} term. This term serves as a bias correction to the goodness-of-fit term to form an asymptotically
 		unbiased estimator, as the likelihood-based goodness-of-fit term on its own is biased (Cavanaugh and Neath, 2019). This term also serves to penalize models with more fitted parameters and
-		thus more complexity, as this term will grow with $p$ and cause higher values of AIC. Note also that the penalty term is a constant with respect to the sample $y$, unlike the goodness-of-fit
-		term which can be viewed as a statistic with variability with respect to the sample $y$. Thus, the goodness-of-fit term and penalty term serve to harmonize and provide tradeoffs between
-		conformity to data, which will only stay equal or rise as more parameters are added, vs. parsimony, that being simplicity and frugality with regards to including extraneous, unnecessary
+		thus more complexity, as this term will grow with $p$ and cause higher values of AIC. Thus, the goodness-of-fit term and penalty term serve to harmonize and provide tradeoffs between
+		conformity to data, which can only increase as more parameters are added, versus parsimony, that being simplicity and frugality with regards to including extraneous, unnecessary
 		parameters.
 
-		As noted prior, AIC is only asymptotically unbiased as the penalty term only serves as a sufficient bias correction as the sample size $n$ tends toward infinity. It is well-documented that
-		in small sample sizes when this asymptotic property does not hold, even as an approximation, that AIC can be subtantially biased (Brewer et al., 2016). Thus, this led to the development of the 
-		\textit{corrected Akaike Information Criterion}, oftentimes called \textit{AICc}. AICc was first proposed by Sugiura as a means to develop an exactly unbiased estimator for the expected
-		Kullback-Leibler discrepancy of a fitted linear regression model, thus allowing AICc to be safely used in a similar manner to AIC in small sample sizes (Sugiura, 1978). Assuming that
-		$\ell(\hat{\theta}|y)$ is the log-likelihood of a fitted linear regression model assuming normality and homoskedasticity, then the form of AICc is 
+		As noted prior, AIC is only asymptotically unbiased . The penalty term of AIC only serves as a sufficient bias correction as the sample size $n$ tends toward infinity. It is well-documented that
+		in small sample sizes when this asymptotic property does not hold, even as an approximation, that AIC can be subtantially biased (Brewer et al., 2016). This has led to the development of the 
+		\textit{corrected Akaike information criterion}, generallt denoted \textit{AICc}. AICc was first proposed by Sugiura as a means to develop an exactly unbiased estimator for the expected
+		Kullback-Leibler discrepancy of a fitted normal linear regression model, thus allowing AICc to be safely used in a similar manner to AIC in small sample sizes (Sugiura, 1978). The form of AICc is 
 		\begin{equation}
-			AICc = -2 \ell(\hat{\theta}|y) + \frac{2 p n}{n - p - 1},
+			AICc = -2 \ell(\hat{\theta}|y) + \frac{2 r n}{n - r - 1},
 		\end{equation}
-		where $p$ in this case specifically denotes the number of estimated regression coefficients in the model. Note that while the goodness-of-fit term matches exactly the goodness-of-fit term
+		where $r$ in this case specifically denotes the number of estimated regression coefficients in the model. Note that while the goodness-of-fit term matches exactly the goodness-of-fit term
 		of AIC, the penalty term here has been adjusted to provide an exact bias adjustment in the case of  normal linear regression. Since AICc was first derived, work has been done that unifies
-		the justification of AIC and AICc in the linear regression framework such that it becomes clear how the two criteria are related (Cavanaugh, 1997). AICc will converge to AIC in large sample
-		sizes, as the penalty term for AICc will converge to $2p$, but in small sample sizes, AICc can provide better results when used for model selection than AIC (Burnham and Anderson, 2003).
-		However, one must be mindful that AICc is derived with a specific parametric family in mind and does not have the broad generalizability of AIC in any singular form.
+		the justification of AIC and AICc in the linear regression framework such that it becomes clear how the two criteria are developed in a parallel fashion (Cavanaugh, 1997). AICc will converge
+		to AIC in large sample sizes, as the penalty term for AICc will converge to $2p$, but in small sample sizes, AICc can provide better results when used for model selection than AIC
+		(Burnham and Anderson, 2003). However, one must be mindful that AICc is derived with a specific parametric family in mind and does not have the broad generalizability of AIC in any singular form.
 
-		Although AICc was initially derived only for normal linear regression models, it has been extended to other parametric families since that time. AICc was first extended to autoregressive
-		moving-average models a bit over a decade after it was first formulated for linear regression (Hurvich et al., 1990). It has since been extended to various other modeling frameworks
-		including vector autoregressive models (Hurvich and Tsai, 1993), generalized linear models with a dispersion parameter (Hurvich and Tsai, 1995), and longitudinal models with a known
-		covariance structure (Azari et al., 2006). These variations of AICc follow the same general pattern as the initial derivation for normal linear regression in that while the goodness-of-fit
-		terms remains the same, the penalty term is adjusted to provide an exact bias adjustment that does not rely on asymptotic properties.
+		Although AICc was initially derived only for normal linear regression models, it has been extended to other parametric families since that time. AICc was first extended to non-linear regression
+		and autoregressive frameworks a bit over a decade after it was first formulated for normal linear regression (Hurvich and Tsai, 1989). This was soon followed by an extension to autoregressive
+		moving-average models (Hurvich et al., 1990). AICc has subsequently been extended to various other modeling frameworks including vector autoregressive models (Hurvich and Tsai, 1993), generalized
+		linear models with a dispersion parameter (Hurvich and Tsai, 1995), and longitudinal models with a known covariance structure (Azari et al., 2006). These justifications of AICc follow the same general
+		pattern as the initial derivation for normal linear regression, in that while the goodness-of-fit terms remains the same, the penalty term is adjusted to provide an exact bias adjustment that does
+		not rely on asymptotic properties.
 
-		Not all likelihood-based information criterion were formulated as estimators of a discrepancy measure. The \textit{Bayesian Information Criteria}, often known as \textit{BIC}, looks similar in
-		form to AIC as it has the likelihood goodness-of-fit term in addition to a penalty term, as it is defined for a fitted model as
+		Not all likelihood-based information criterion were formulated as estimators of a discrepancy measure. The \textit{Bayesian information criteria}, often denoted as \textit{BIC}, looks similar in
+		form to AIC as it has the likelihood goodness-of-fit term in addition to a penalty term. It is defined for a fitted model as
 		\begin{equation}
 			BIC = -2 \ell(\hat{\theta}|y) + p \log (n).
 		\end{equation}
-		BIC was first derived and justified in the case of the regular exponential family as a means to help select the model which is \textit{a posteriori} most probable in the Bayesian sense in
-		large-sample settings, and models with lower BIC are to be considered more probable (Schwarz, 1978). BIC has since been generalized to justify its use in other modeling frameworks beyond
+		BIC was first derived and justified in the case of the regular exponential family to select the model which is \textit{a posteriori} most probable in the Bayesian sense in
+		large-sample settings (Schwarz, 1978). Models with lower BIC are to be considered more probable. BIC has since been generalized to justify its use in other modeling frameworks beyond
 		the case of models from the regular exponential family (Cavanaugh and Neath, 1999). It it worth noting that while BIC bears resemblance to AIC, it does not seek to estimate any discrepancy
 		measure, and rather provides a large-sample estimator of a transformation of the Bayesian posterior probability associated with the candidate model.
 
-		Note that when $n$ is relatively larger than $p$, penalty term of BIC will be much more stringent than that of AIC, while the goodness-of-fit term remains the same. This gives BIC a tendency to
-		choose models that are more parsimonious than AIC in practice when performing selection on the same group of candidate models (Neath and Cavanuagh, 2011). It is also fundamentally different
+		Note that when $n$ is relatively larger than $p$, the penalty term of BIC will be much more stringent than that of AIC, while the goodness-of-fit term remains the same. This gives BIC a tendency to
+		choose models that are more parsimonious than AIC when performing selection on the same group of candidate models (Neath and Cavanuagh, 2011). BIC is also fundamentally different
 		from AIC in that it is an \textit{asymptotically consistent} criterion,  whereas AIC is an \textit{asymptotically efficient} criterion. An asymptotically consistent criteron will asymptotically
 		select the fitted model having correct structure with probability one, provided the generating model is of a finite dimension and is in the set of candidate models. An asymptotically efficient
-		criterion will asymptotically select the fitted candidate model which minizes the mean squared error of prediction with probability one, even if the generating model is of infinite dimension or outside of the
-		set of candidate models.
+		criterion will asymptotically select the fitted candidate model which minimizes the mean squared error of prediction with probability one, even if the generating model is of infinite dimension
+		or outside of the set of candidate models.
 
 		Thus, it is has been espoused that AIC and the variant AICc are to be preferred when \textit{prediction} is of chief importance when performing model selection, and that BIC is to be preferred
 		when \textit{description} is of chief importance when performing model selection. Simulation studies have shown that this recommendation has some merit (Neath and Cavanuagh, 2011). However, these
-		ideas of consistency and efficiency only hold in the asymptotic sense, and choosing the model with the minimum criterion value is not guaranteed to possess the traits of either property in
-		finite sample sizes. This had lead to the development of rules of thumb for using these criterion beyond the simply choosing the minimum AIC, BIC, or AICc model.
+		ideas of consistency and efficiency only hold in the asymptotic sense, and choosing the model with the minimum criterion value provides no guarantee that the model possesses the traits of either
+		property in finite sample sizes.
+		
+		Additionally, each criterion has sampling variability in finite sample sizes. Thus, if selecting a model with the minimum criterion value is the method of choice, this may lead to a model that is
+		deficient in prediction or description by chance. This has lead to the development of rules of thumb for using these criterion beyond the simply choosing the minimum AIC, BIC, or AICc model.
 
-		As stated in the introduction, Burnham and Anderson (2002) developed the recommendations which can be found in Table 1.1 for using AIC in finite sample sizes. This paradigm states that models
+		As stated in the introduction, Burnham and Anderson (2002) developed the recommendations which can be found in Table 1.1 for using AIC in finite sample settings. This paradigm states that models
 		that are within 2 units of AIC of the minimum AIC model are not to be discounted. Thus, if there are multiple models that are within this threshold, then it may be prudent to treat each of them
 		as a valid candidate for selection, and select a model based on parsimony, scientific intuition, or some other method. However, the thresholds presented in Table 1.1 were created using empirical
-		observation, and do not have any probabilistic justification behind them beyond that.
+		observation, and do not have any apparent probabilistic justification behind them.
 
-		Kass and Raftery (1995) developed similar recommendations for BIC, producing the Table 2.1.
-		\begin{table}[h]
+		Kass and Raftery (1995) developed similar recommendations for BIC, producing Table 2.1.
+		\begin{table}[H]
 		\centering
 		\ttabbox[\FBwidth]
 		{\caption{\label{tab:Kass_Raftery_Table}Kass and Raftery BIC Difference Reference Table}}
@@ -138,11 +140,11 @@
 		}
 		\end{table}
 		This table makes recommendations similar to the one presented for AIC in that models within 2 BIC of the minimum BIC model are suggested to be in just as much contention for selection as
-		the minimum BIC model. These BIC cutoffs were motivated using an argument centered around Bayes factors and an approximate $t$ distribution, but still lack a degree of specificity when it comes 
-		to accounting for comparisons of models differing greatly in number of parameters or accounting for vast differences in sample sizes between different model selection outings. Methods with
-		more probabilistic rigor, but still in the vein of identifying contender candidate models and selecting from among them, will be developed and explored later in this thesis.
+		the minimum BIC model. These BIC cutoffs were motivated using an argument centered around Bayes factors (Jeffreys, 1961) and an approximate $t$ distribution, but still lack a degree of specificity
+		when it comes to accounting for comparisons of models differing greatly in number of parameters or accounting for vast differences in sample sizes between different model selection outings.
+		Methods with more probabilistic rigor, but still in the vein of identifying contender candidate models and selecting from among them, will be developed and explored later in this thesis.
 
-		It is worth mentioning that not all likelihood-based information criteria follow the pattern of a goodnes-of-fit term that can be viewed as a random statistic offset by a penalty term that
+		It is worth mentioning that not all likelihood-based information criteria follow the pattern of a goodness-of-fit term that can be viewed as a statistic offset by a penalty term that
 		can be viewed as a constant for the model at hand. The \textit{Takeuchi information criterion} was developed as an extension of the Akaike information criterion that relaxes the
 		assumption that the true generating model $g(y)$ belongs to the parametric class $\mathcal{F}(p)$ (Takeuchi, 1976). For a fitted model $f(y|\hat{\theta})$, TIC has the form
 		\begin{equation}
@@ -156,79 +158,75 @@
 		\begin{equation}
 			J(\hat{\theta}) = E \left. \left[ \left\{ \frac{\partial \log f(y|\theta)}{\partial \theta} \right\} \left\{ \frac{\partial \log f(y|\theta)}{\partial \theta} \right\}'  \right] \right|_{\theta = \hat{\theta}}
 		\end{equation}
-		are estimators of the Fisher information matrix and the outer product of the score, respectively, when evaluated at the true values of the parameter $\theta$. As this penalty term needs
-		to be estimated from the data, it is not a fixed constant as is the case for AIC, AICc, and BIC. However, while this needs to be calculated and is itself an estimate, the advantage of
-		the TIC penalty term is that it is not formulated under the assumption that the true model belongs to the same class as the fitted candidate model. Bootstrap estimators of the TIC
-		penalty term have also been developed (Cavanaugh and Shumway, 1997). This allows for an alternative way to calculate this non-fixed penalty term.
+		are quantities that must be estimated in order to calculate the given penalty term. As this penalty term needs to be estimated from the data, it is not a fixed constant as is the case
+		for AIC, AICc, and BIC. However, the advantage of the TIC penalty term is that it is not formulated under the assumption that the true model belongs to the same class as the fitted candidate
+		model. Bootstrap estimators of the TIC penalty term have also been developed (Cavanaugh and Shumway, 1997). This allows for an alternative approach for this non-fixed penalty term.
 
 		Finally, it is also worth noting that not all information criteria are likelihood-based, as is the case for the examples given above. The \textit{conceptual predictive statistic}, often
 		referred to as $C_p$, was developed as a screening tool for linear regression analysis (Mallows, 1973). For a linear regression model the statistic has the form
 		\begin{equation}
 			C_p = \frac{SS_{Res}}{\tilde{\sigma}^2} - n + 2p ,
 		\end{equation}
-		where $SS_{Res}$ is the fitted model's sum of squared residuals and $\tilde{\sigma}^2$ represents an unbiased estimator of the error variance $\sigma^2$. If the candidate model is correctly
+		where $SS_{Res}$ is the sum of squared residuals for the fitted model and $\tilde{\sigma}^2$ represents an unbiased estimator of the error variance $\sigma^2$. If the candidate model is correctly
 		specified or overspecified, then one should expect $C_p$ to be approximately $p$. If the candidate model is underspecified, then $C_p$ is designed to exceed $p$. This is in contrast to AIC
-		where it is simply advocated that lower values of the criterion mean models closer to the generating model, and where specific values have little meaning.
+		where it is simply advocated that lower values of the criterion are associated with models closer to the generating model, and where specific values have little meaning.
 		
-		Additionally, unlike AIC which was derived using the Kullback-Leibler discrepancy as a motivation, $C_p$ was derived using instead the \textit{Gauss discrepancy} between the true regression model $f(y|\theta, X_o)$ and fitted
-		model $f(y|\hat{\theta}, X)$, which is defined as
-		\begin{equation}
-			d(\hat{\theta}) = (X_o \beta_o - X \hat{\beta})'(X_o \beta_o - X \hat{\beta}) .
-		\end{equation}
-		The Gauss discrepancy bears a form similar to that of the sum of squared residuals and serves as a way to measure the disparity between the true model and the fitted model. $C_p$ was
-		designed as an approximately unbiased estimate of the expectation of the Gauss discrepancy. Thus, while $C_p$ and AIC are both discrepancy-based selection criterion, only AIC is
-		likelihood-based.
+		Additionally, unlike AIC which was derived using the Kullback-Leibler discrepancy as a motivation, $C_p$ was derived using instead the \textit{Gauss discrepancy} between the true regression model
+		$f(y|\theta)$ and fitted model $f(y|\hat{\theta})$. The Gauss discrepancy can be described as the squared Euclidean distance between the true mean vector and the mean vector proposed by the fitted
+		model, with no appearance of terms related to likelihoods, and serves as a way to measure the disparity between the true model and the fitted model. $C_p$ was designed as an approximately unbiased
+		estimate of the expectation of the Gauss discrepancy. Thus, while $C_p$ and AIC are both discrepancy-based selection criterion, only AIC is likelihood-based.
 
-		The above is not an exhaustive account of likelihood-based information criterion and their related topics, but should serve as sufficient background for the developments presented
+		The above is not an exhaustive account of likelihood-based information criterion and related constructs, but should serve as sufficient background for the developments presented
 		later in this thesis. Chapter 3 will develop a model selection procedure that can be used with likelihood-based information criteria with a non-random penalty term, and specific
 		derivations related to its usage with AIC, AICc, and BIC will be presented.
 		
 		\section{Goodness-of-Fit Assessment}
 
-		While the likelihood goodness-of-fit term found in many information criteria helps to measure conformity of the model to the data of interest, there exist other methods of
-		assessing conformity of a specified model to the data. Broadly, the term \textit{goodness-of-fit} as it pertains to statistical modeling refers the degree to which a certain model
-		aligns with what can be found in the observed data. Assessments of this property can take the form of visual diagnostics, quantitative diagnostics, or formal hypothesis tests to help
-		determine whether assumptions of a given model are met within the data. While this section will focus on assessments of the goodness-of-fit of linear regression models as these are of
+		While the likelihood goodness-of-fit term found in many information criteria serves to measure conformity of the model to the data of interest, there exist other methods of
+		assessing conformity of a specified model to the data. Broadly, the term \textit{goodness-of-fit} as it pertains to statistical modeling refers to the degree to which a certain model
+		and its associated assumptions align with the observed data. Assessments of this property can take the form of visual diagnostics, quantitative diagnostics, or formal hypothesis tests to help
+		determine whether the assumptions of a given model are met. While this section will focus on assessments of the goodness-of-fit of traditional normal linear regression models, as these are of
 		chief relevance to this thesis, it is worth noting that assessments of goodness-of-fit exist for many other modeling paradigms as well, and many of the same principles apply.
 
-		Linear regression analysis makes a number of assumptions about the data at hand. These include that each data point is independent given the set of predictors at hand, that the
-		outcomes follow a normal distribution with a mean that is a linear function of the covariates, with this property being referred to as \textit{linearity}, and a variance that is constant
-		across different values of the observed quantity and the covariates, with this latter property being referred to as \textit{homoskedasticity} (Kutner et al., 2005). One method of visually
-		assessing the assumptions of linearity and homoskedasticity when using linear regression is to plot the residuals of a linear regression against either their corresponding predictor
-		values or the corresponding observed value of the outcome (Miles, 2014). Across different values of the predictors and observed values, the residuals should not exhibit any specific pattern
-		other than a mean of 0 and equal variance if the assumptions of the linear regression model are met. Thus, deviations from this pattern in the form of the collectively plotted residuals
-		vs. predictors or observed values looking like a curve, or changing in spread, can indicate violations to linearity and homoskedasticity respectively.
+		Linear regression analysis makes a number of assumptions about the data at hand. Perhaps the most basic assumption is that each data point is independent given the set of predictors at hand.
+		Additionally, it's assumed that the outcomes, conditioned on the covariates, have a mean that is a linear function of the covariates, with this property being referred to as \textit{linearity},
+		with errors that are normally distributed with a mean of zero. These errors are assumed to be independent and identically distributed with a constant variance across all observation, with this
+		constant variance property being referred to as \textit{homoskedasticity} (Kutner et al., 2005). One method of visually assessing the assumptions of linearity and homoskedasticity when using linear
+		regression is to plot the residuals of a linear regression against either their corresponding predictor values or the corresponding observed value of the outcome (Miles, 2014). Across different values
+		of the predictors and observed values, the residuals should not exhibit any specific pattern other than a mean of zero and constant variance if the assumptions of the linear regression model are met.
+		Thus, deviations from this pattern in the form of the collectively plotted residuals versus the predictors or observed values that exhibit curvature, or a change in spread, can indicate violations
+		to linearity and homoskedasticity, respectively.
 
 		However, this method of visual inspection carries with it certain limitations. When there is a large number of predictors present in a model, it may be impractical to visually inspect every
-		possible residual plot with any degree of scrutiny. Additionally, there may be deviations that are undetectable upon visual inspection, such as a curved pattern that is less noticeable
-		due to the scale of the predictors. If homoskedasticity is induced by covariates that have not been observed, a visual inspection will likely not reveal this form of
-		violation of homoskedasticity.
+		possible residual plot with any degree of scrutiny. Additionally, there may be patterns in deviations that are undetectable upon visual inspection, such as a curved pattern that is less noticeable
+		due to the scale of the predictors. If \textit{heteroskedasticity}, meaning the absence of homoskedasticity, is induced by covariates that have not been observed, a visual inspection will likely
+		not reveal this violation of assumptions.
 
-		Hypothesis test for the goodness-of-fit of a linear model offer an alternative to visual methods. These tests often have a null hypothesis that a model does not exhibit lack of fit in 
-		some manner, with an alternative that the assumptions of the model are violated in some way. One such test is the \textit{Breusch-Pagan test}, which possesses a null hypothesis that a linear
-		regression model does not violate homoskedasticity (Breusch and Pagan, 1979). This test involves performing an auxiliary linear regression on a transformation of the squared residuals from
-		the candidate linear regression model against the covariates of interest. This is followed by the generation of a test statistic of half of the explained sum of squares of the auxiliary
-		regression, a quantity that has a $\chi_{p-1}$ distribution under the null hypothesis of homoskedasticity. Essentially, the more of the variation in the squared residuals is explained by the
-		auxiliary regression back upon the other covariates, the more one suspects violations to homoskedasticity.
+		Hypothesis tests for the goodness-of-fit of a linear model offer an alternative to visual methods. These tests posit a null hypothesis that the model adequately accommodates the data and that
+		the associated assumptions are satisfied, with an alternative that the assumptions are violated in some fundamental way. One such test is the \textit{Breusch-Pagan test}, which posits a null hypothesis
+		that a linear regression model does not violate homoskedasticity (Breusch and Pagan, 1979). This test involves performing an auxiliary linear regression on a transformation of the squared residuals from
+		the candidate linear regression model against the covariates of interest. This is followed by the computation of a test statistic defined as half of the explained sum of squares of the auxiliary
+		regression, a quantity that has an asymptotic $\chi_{p-1}$ distribution under the null hypothesis of homoskedasticity. Essentially, the more of the variation in the squared residuals that is explained
+		by the auxiliary regression, the more one suspects violations to homoskedasticity.
 
 		However, one limitation of the Breusch-Pagan test is that it is only designed to detect a relationship between the covariates and the squared residuals that is linear, and thus it will not
 		produce efficacious results if the heteroskedasticity present is not linear (Waldman, 1983). An alternative to the Breusch-Pagan test in this matter is the \textit{White test} for homoskedasticity,
 		which shares the same null hypothesis of homoskedasticity of a linear model as the Breusch-Pagan test (White, 1980). The White test is similar to the Breusch-Pagan test in that it involves
 		an auxiliary regression with the squared residuals as the outcome, but here, the regressors are all of the covariates in the original fitted model in addition to their squares and cross
-		products. This produces a test statistic that is also distributed $\chi_{p-1}$ under the null hypothesis, but that is also sensitive to deviations to the null hypothesis in the form of
-		heteroskedasticity related to the squares and cross products of regressors as well. Additionally, the test may indicate misspecification of the model if the cross products of certain
+		products. This produces a test statistic that is also asymptotically distributed $\chi_{p-1}$ under the null hypothesis, but that is sensitive to deviations to the null hypothesis in the form of
+		heteroskedasticity related to the squares and cross products of regressors. Additionally, the test may indicate misspecification of the model if the cross products of certain
 		regressors should be included in the model, but are not.
 
-		This note on the White test brings to attention a weakness of the hypothesis test methods as opposed to the visual inspection method presented above in that when a hypothesis is rejected,
-		we can be reasonably confident that an assumption is violated; however, by simply performing the test, we do not glean much information as to how exactly the model is misspecified. In the
-		case of rejection of the White test, one may not know if we reject based on heteroskedasticity from individual predictors or misspecification due to lack of the cross products. This is in 
-		contrast to the method of visually observing residual plots presented above. If one sees a parabolic pattern of the residuals versus a certain predictor, one may be informed that the next 
-		step to try and craft a model exhbiting appropriate goodness-of-fit may be to include a quadratic term for the predictor in question (Miles, 2014). However, hypothesis tests offer little
-		direction other than that the current model exhibits lack of fit in some manner, and further investigation is necessary to determine next steps.
+		The various ways in which the White test can detect misspecification bring to attention a weakness of the hypothesis test methods as opposed to methods of visual inspection.
+		When a hypothesis is rejected, we can be reasonably confident that an assumption is violated; however, by simply performing the test, we do not glean much information as to how exactly the
+		model may be misspecified. In the case of rejection of the White test, one may not know if we reject because cross-products should be included as covariates, or if perhaps there is heteroskedatsticity
+		present related to one of the covariates already present. This is in contrast to the method of visually observing residual plots presented above with which specific issues may be easier to identify.
+		If a plot of the residuals versus a covariate exhibits a curved pattern, one may posit a new model that accounts for this curved relationship (Miles, 2014).
+		However, hypothesis tests offer little direction other than that the current model exhibits lack of fit in some manner, and further investigation is necessary to determine next steps.
 
 		In addition, both the White and Breusch-Pagan tests cannot detect heteroskedasticity induced by unobserved covariates, as their auxiliary regressions only use what has been observed.
 		Thus, these tests can be blind to certain forms of heteroskedasticity, just as in the case of visual inspection of residual plots. Later in this thesis, a method will be developed
-		that is capable of detecting this from of misspecification of a linear model, in addition to other forms.
+		that is capable of detecting this from of misspecification in addition to other forms.
 
 		Other forms of assessment of goodness-of-fit beyond what is mentioned above can be employed. To assess the assumption that the data are normally distributed, the quantiles of the centered
 		and scaled observations at hand can be compared to the quantiles of the standard normal distribution in a scatterplot, thus forming a \textit{Q-Q plot} for normality (Wilks and Gnanadesikan, 1968).
@@ -237,47 +235,46 @@
 		whether a normal linear regression and subsequent inference is appropriate.
 		
 		Hypothesis tests for the equivalence of two distributions also exist. The \textit{Kolmogorov-Smirnov test} is a tool that can be used to assess whether a hypothesized probability distribution
-		fits the empirical distribution of a sample at hand (Smirnov, 1948). In the case of testing the goodness-of-fit of a linear regression, the null hypothesis is that the data are normally
-		distributed, while the alternative is there is a departure from the normal distribution. The test is typically performed by standardizing the observed data to have a mean of 0 and variance of 1,
+		fits the empirical distribution of a sample at hand (Smirnov, 1948). In the case of testing the goodness-of-fit of a linear regression, the null hypothesis is that the residuals are normally
+		distributed, while the alternative is there is a departure from the normal distribution. The test is typically performed by standardizing the residuals to have a variance of 1,
 		followed by performing the test to assess the goodness-of-fit of this empirical distribution in relation to the standard normal distribution (Stephens, 1974). However, like the tests for
 		homoskedasticity detailed above, if the test is rejected, one needs to perform further investigation to elucidate the nature of the misspecification as rejection of the test does not inform
 		as to how the null hypothesis was violated.
 
-		The above presents a brief overview of techniques related to the assessment of the goodness-of-fit of linear regression models, but many other methods exist. Assessment of goodness-of-fit
-		of modeling frameworks is vital in model selection so that one does not make an incorrect assumption from the outset and proceed with a parametric family that may exhibit gross lack of 
-		fit. Chapter 4 of this thesis develops a new hypothesis test for testing the goodness-of-fit of a fitted linear regression model that leverages distributional properties of likelihood-based
+		The above presents a brief overview of techniques related to the assessment of the goodness-of-fit of normal linear regression models, but many other methods exist. Assessment of goodness-of-fit
+		of modeling frameworks is vital in model selection so that one does not make an incorrect assumption from the outset and proceed with a parametric family that may exhibit gross lack-of-fit.
+		Chapter 4 of this thesis develops a new hypothesis test for assessing the goodness-of-fit of a fitted linear regression model that leverages distributional properties of likelihood-based
 		information criteria, and can be used to detect an array of different types of misspecification.
 
 		\section{Likelihood Ratio Test}
 
-		The likelihood principle is one of the foundational constructs of statistics and allows one to leverage the information in a sample to formulate estimates make inference as it pertains
-		to the model parameters. The principle of maximum likelihood can be employed to find parameter estimates with desirable properties (Myung, 2003). Such estimates are often used when
-		fitting candidate models and performing model selection, and the likelihood evaluated at these estimates helps to form the goodness-of-fit term in many information criteria detailed
-		above.
+		The likelihood principle is one of the foundational constructs of statistics and allows one to leverage the information in a sample to formulate estimates and to make inference pertaining
+		to the model parameters. Estimates using the method of maximum likelihood are often used when performing model selection, and the likelihood evaluated at
+		these estimates helps to form the goodness-of-fit term in many information criteria detailed above.
 
 		However, the value of the likelihood extends beyond parameter estimation and quantifying conformity to the data. Wilks first formulated the likelihood ratio test as a means to test the
 		hypothesis that the true parameter $\theta$ is in some specifed subspace $\Theta_o$ of the entire parameter space of the model $\Theta$, with the alternative hypothesis being that
-		$\theta$ is in the complementary space of $\Theta_o$ (Wilks, 1938). The form of the test statistic for the likelihood ratio test is often presented
+		$\theta$ is in the complementary space of $\Theta_o$ (Wilks, 1938). The form of the test statistic for the likelihood ratio test is often presented as
 		\begin{equation}
-			\lambda_{LR} = -2 \left[ \ell (\theta_o) - \ell (\hat{\theta}) \right] ,
+			\lambda_{LR} = -2 \left[ \ell (\hat{\theta_o}) - \ell (\hat{\theta}) \right] ,
 		\end{equation}
-		with $\hat{\theta}$ being the maximum likelihood estimator with regards to the entire parameter space $\Theta$ and $\theta_o$ being the maximum likelihood estimator with regards to the
-		hypothesized space $\Theta_o$. It is worth noting that $\theta_o$ may be some fixed value of the parameter if the hypothesis has been structured as such. Provided that the null hypothesis
+		with $\hat{\theta}$ being the maximum likelihood estimator with regards to the entire parameter space $\Theta$ and $\hat{\theta_o}$ being the maximum likelihood estimator with regards to the
+		hypothesized space $\Theta_o$. It is worth noting that $\hat{\theta_o}$ may be some fixed value of the parameter if the hypothesis has been structured as such. Provided that the null hypothesis
 		is true, it can be shown that $\lambda_{LR}$ converges asymptotically to being distributed as $\chi^2_{k}$, where $k$ is the difference in dimension between the spaces $\Theta$ and
 		$\Theta_o$.
 
-		The typical application of the likelihood ratio test to model selection is in the case of \textit{nested models} where one model that assumes a more restricted parameter space is said
-		to be \textit{nested} within another model with a relatively unrestriced parameter space (Lewis et al., 2011). Commonly in a regression setting this can mean some predictors are
-		included in the larger, non-nested model that are not included in the smaller, nested model, and thus the parameter space is restricted in that the effects for these predictors are
-		fixed to be 0. Additionally, another example of nesting may be a longitudinal model that assumes an unstructed covariance structure that is quite malleable as compared to a nested
-		counterpart assuming a more rigid structure such as compound symmetry.
+		The typical application of the likelihood ratio test as it relates to model selection is in the case of \textit{nested models}. This where one model that assumes a more restricted parameter
+		space is said to be \textit{nested} within another model with a relatively unrestriced parameter space, fitting the paradigm for the likelihood ratio test outlined above (Lewis et al., 2011).
+		Commonly in a regression setting this can mean some predictors are included in the larger, non-nested model that are not included in the smaller, nested model, and thus the parameter space is
+		restricted in that the effects for these predictors are fixed to be zero. Additionally, another example of nesting may be a longitudinal model that assumes an unstructed covariance structure
+		that is quite malleable as compared to a nested counterpart assuming a more rigid structure such as compound symmetry.
 
 		The likelihood ratio test allows one to probabilistically assess whether a model or a nested alternative appears to be a better fit. However, this paradigm of model selection possesses
 		several key limitations. An obvious flaw is that the test is designed around comparing two distinct models and performing inference with regard to whether one or the other is 
 		correctly specified when in reality, many different candidate models may be under consideration, and neither of the two models in question may themselves be correctly specified. 
-		This can lead to issues of multiple comparisons if multiple tests are performed (Lewis et al., 2011). Additionally, even the notion of power, p-values, and statistical significance 
-		become murky when one cannot be sure that the alternative hypothesis is true, as is the case in a single likelihood ratio test for model selection (Akaike, 1974). Thus, while a powerful
-		probabilistic tool, the likelihood ratio test in model selection must be employed with caution.
+		This can lead to issues of multiple comparisons if multiple tests are performed (Lewis et al., 2011). Additionally, the notion of power, p-values, and statistical significance 
+		become murky when one cannot be sure that the alternative hypothesis is true, as is the case in any likelihood ratio test conducted for the purpose of model selection (Akaike, 1974).
+		Thus, while a powerful probabilistic tool, the likelihood ratio test in model selection must be employed with caution.
 
 		The above presents a brief overview of the likelihood ratio test as it pertains to model selection. In Chapter 3 of this thesis, distributional properties of the likelihood ratio test are
 		used to develop a model selection algorithm that relies on probability theory as opposed to ad hoc rules.
