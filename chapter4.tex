@@ -3,7 +3,7 @@
 
 	The preceding chapter presented a new model selection procedure that relies on the distributional properties of differences in information criteria values to guide
 	selection in a manner that does not rely only on rules of thumb. However, for such properties to be justified, it was first required that the largest candidate model
-	in a collection of candidate models does not display lack of fit. This section will develop a new goodness-of-fit procedure to be used with normal linear regression
+	in a collection of candidate models does not display lack-of-fit. This section will develop a new goodness-of-fit procedure to be used with normal linear regression
 	that can be employed to help justify such an assumption.
 		
 		\section{Asymptotic Variance of Log-Likelihood GOF Term} \label{sec:asymp_var}
@@ -197,11 +197,11 @@
 			  \State Repeat steps 1-2 $B$ times to generate an empirical bootstrap distribution for $\widehat{Var}[GOF]$.
 			  \State Construct a $100*(1-\alpha)$\% bootstrap CI for $Var[GOF]$.
 			  \State If this interval does not contain $2n$, reject the null hypothesis at the $\alpha$ level. If it does contain
-			  $2n$, the null hypothesis was not rejected and model $M$ does not appear to exhibit lack of fit. 
+			  $2n$, the null hypothesis was not rejected and model $M$ does not appear to exhibit lack-of-fit. 
 			\end{algorithmic}
 		\end{algorithm}
 
-		This procedure can be used to assess the general hypothesis that a normal linear regression model is properly specified against the alternative that it displays lack of fit.
+		This procedure can be used to assess the general hypothesis that a normal linear regression model is properly specified against the alternative that it displays lack-of-fit.
 		Unlike other goodness-of-fit tests and procedures, this method does not test a specific assumption of linear regression such as normality or homoskedasticity, but rather
 		all assumptions of normal linear regression as if any of them are violated, the property that $Var[GOF] \approx 2n$ is not guaranteed to hold. This allows the test to detect
 		many forms of misspecification from mean misspecification to distributional misspecification to heteroskedasticity. The following section will demonstrate the efficacy of
@@ -231,7 +231,7 @@
 		a $Uniform(0,5)$ distribution. Note this formulation is one of a normal linear regression model with an intercept, an effect for each covariate presented..
 
 		With this generated data in hand, we will proceed to fit a normal linear regression model that includes an intercept and effects for $x_{i1}$ and $x_{i2}$. This model
-		is properly specified, and should not exhibit gross lack of fit. For each iteration of the simulation, the bootstrap goodness-of-fit test presented above will be
+		is properly specified, and should not exhibit gross lack-of-fit. For each iteration of the simulation, the bootstrap goodness-of-fit test presented above will be
 		performed on the fitted model at the $\alpha = .05$ level, and whether the test rejects the null hypothesis will be recorded. In this way, after many simulation iterations
 		we will be able to estimate the Type I error rate of the test in this scenario, as the null hypothesis of the test is true.
 
@@ -362,7 +362,7 @@
 
 		In contrast, the White test and Breusch-Pagan test both seem to only maintain their Type I Error rates established in Simulation 3. This was to be expected
 		as the null hypotheses of these tests are not violated in this scenario. However, it does demonstrate how the inability of the a goodness-of-fit test to detect lack of
-		fit does not mean lack of fit is not present, as these two tests are limited in the scope of misspecification they are able to detect. This is in contrast to the
+		fit does not mean lack-of-fit is not present, as these two tests are limited in the scope of misspecification they are able to detect. This is in contrast to the
 		bootstrap test which possesses a much more general null hypothesis.
 
 		\subsection{Simulation to Establish Power of Bootstrap GOF Test - Heteroskedasticity Induced by Unobserved Covariates}

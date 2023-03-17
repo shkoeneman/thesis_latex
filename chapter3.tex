@@ -40,7 +40,7 @@
 			\caption{Distribution-Informed Model Selection Procedure (AIC)}
 			\begin{algorithmic}[1]
 			  %\Statex \textbullet~\textbf{Parameters:} $n, t \in \mathbb{N}$, where $t < n$.
-			  \State Take steps to ensure with reasonable certainty that $M_*$ does not exhibit lack of fit.
+			  \State Take steps to ensure with reasonable certainty that $M_*$ does not exhibit lack-of-fit.
 			  \State For $i = 1,...,m$, calculate the \textit{standardized AIC} for model $M_i$ as 
 			  $\overline{AIC}_i = \frac{AIC_i - AIC_*}{\sqrt{2k_i}}$. Define the standardized AIC for model
 			  $M_*$ as $\overline{AIC}_* = 0$.
@@ -54,12 +54,12 @@
 
 		We will now illustrate the logic behind this algorithm and justify its usage step by step. Firstly, this algorithm only allows for selection among models of the
 		same parametric class. Thus, one must from the outset have a reasonable degree of certainty that the chosen parametric class, and the largest candidate model
-		within, do not exhibit substantial lack of fit. Section 2.2 of this thesis outlines methods with which one can do this in the case of normal linear regression
+		within, do not exhibit substantial lack-of-fit. Section 2.2 of this thesis outlines methods with which one can do this in the case of normal linear regression
 		models, and Chapter 4 will develop an additional procedure that can be used in this scenario. However, this procedure does not require that the candidate models
 		in question are normal linear regression models, and if a different modeling framework is desired, steps should be taken to ensure that the parametric family
 		of choice seem appropriate.
 
-		Assuming that the largest candidate model does not exhibit lack of fit, we proceed onward. Consider the form of the difference between the AIC of model $M_*$
+		Assuming that the largest candidate model does not exhibit lack-of-fit, we proceed onward. Consider the form of the difference between the AIC of model $M_*$
 		and model $M_i$ $\forall i$. Bearing in mind the definition of quantities presented previously, this difference can be denoted as
 		\begin{equation}
 			AIC_i - AIC_* = \left( -2 \ell (\hat{\theta}_*) + 2 \ell (\hat{\theta}_i) \right) - 2k_i .
@@ -74,7 +74,7 @@
 		model $M_*$ offers a better fit. By our formulation of these models, we could perform this test in good faith as $M_i$ is nested within $M_*$ by 
 		design.
 
-		Therefore, assuming that the largest candidate model does not exhibit gross lack of fit, and assuming that the likelihood ratio test null hypothesis is true, we
+		Therefore, assuming that the largest candidate model does not exhibit gross lack-of-fit, and assuming that the likelihood ratio test null hypothesis is true, we
 		know that this difference in goodness-of-fit terms will be asymptotically distributed as $\chi^2_{k_i}$. By the properties of the centrally distributed chi-squared
 		distribution, this distribution will have a mean of $k_i$ and a variance of $2 k_i$ (Lancaster, 1969).
 
@@ -132,7 +132,7 @@
 		standardized AIC value of less than $-\sqrt{\frac{1}{2}} + 2$. This takes the maximum expected value under proper specification across all potential $M_i$ and allows for 2 standard deviations worth of
 		deviance from this value.
 		
-		If a model does not meet this relatively liberal cutoff, then we can assume that is exhibits notable lack of fit in the comparison of the two likelihood-based goodness-of-fit terms,
+		If a model does not meet this relatively liberal cutoff, then we can assume that is exhibits notable lack-of-fit in the comparison of the two likelihood-based goodness-of-fit terms,
 		and thus should not be considered a serious candidate for selection (Akaike, 1974). However, if a model does meet this cutoff, then it indicates that it exhibits qualities in line with the
 		likelihood ratio test null hypothesis being true, meaning that any restricted model that meets this cutoff seems to fit the data at least as well as the unrestricted largest model.
 		This notion allows us to employ a cutoff loosely based on the notion of hypothesis testing that leverages the distributional results of hypothesis testing, but without the pitfalls
@@ -145,12 +145,12 @@
 		\end{definition}
 		If using the cutoff of $-\sqrt{\frac{1}{2}} + 2$ postulated above, one should note that this convention will always ensure the standardized AIC of model $M_*$ to be less than the
 		cutoff, and thus the largest candidate model will always be in serious contention for selection. This is justified in that from the outset, we assume that this largest
-		candidate model does not exhibit gross lack of fit, thus allowing it to serve as the reference upon which standardized AIC is formed for all other models.
+		candidate model does not exhibit gross lack-of-fit, thus allowing it to serve as the reference upon which standardized AIC is formed for all other models.
 
-		After one has employed the cutoff and separated the contender models from those exhibiting substantial lack of fit, the natural last step is to establish some paradigm
+		After one has employed the cutoff and separated the contender models from those exhibiting substantial lack-of-fit, the natural last step is to establish some paradigm
 		through which one can select a model from among those models that met the cutoff. We propose using \textit{parsimony} to determine which model to choose, and selecting
 		the model with the fewest number of estimated parameters from among those that met the cutoff. The rationale behind this is that all models that meet the cutoff do
-		not seem to exhibit lack of fit, and therefore, choosing the model that provides an adequate fit while containing no seemingly unnecessary information or estimates
+		not seem to exhibit lack-of-fit, and therefore, choosing the model that provides an adequate fit while containing no seemingly unnecessary information or estimates
 		gives one a model with good prospects for both prediction and description.
 		
 		It should be noted that there may be multiple models that meet the cutoff and are equally the most parsimonious. In this case, let the tiebreaker among these tied models be
@@ -221,7 +221,7 @@
 		The situation assumed is much the same wherein we assume all candidate models are of the same parametric family. However, here we additionally assume that we are
 		restricted to the case of normal linear regression. We again assume a largest candidate model exists in which all other models are nested; in the case of linear
 		regression, this will mean that this model includes all possible covariates under consideration. We will once more require from the outset that the largest candidate
-		model does not exhibit substantial lack of fit and appears approriate to use with the data.
+		model does not exhibit substantial lack-of-fit and appears approriate to use with the data.
 
 		Observing the difference in AICc between model $M_i$ and model $M_*$, we see that
 		this will take the form
@@ -281,7 +281,7 @@
 			\caption{Distribution-Informed Model Selection Procedure (AICc for Linear Regression)}
 			\begin{algorithmic}[1]
 			  %\Statex \textbullet~\textbf{Parameters:} $n, t \in \mathbb{N}$, where $t < n$.
-			  \State Take steps to ensure with reasonable certainty that $M_*$ does not exhibit lack of fit.
+			  \State Take steps to ensure with reasonable certainty that $M_*$ does not exhibit lack-of-fit.
 			  \State For each distinct value of $k_i$, calculate $\sqrt{\frac{k_i}{2}} + \frac{\left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right]}{\sqrt{2k_i}}$ .
 			  \State For $i = 1,...,m$, calculate the \textit{standardized AICc} for model $M_i$ as 
 			  $\overline{AICc}_i = \frac{AICc_i - AICc_*}{\sqrt{2k_i}}$. Define the standardized AICc for model
@@ -343,7 +343,7 @@
 			\caption{Distribution-Informed Model Selection Procedure (BIC)}
 			\begin{algorithmic}[1]
 			  %\Statex \textbullet~\textbf{Parameters:} $n, t \in \mathbb{N}$, where $t < n$.
-			  \State Take steps to ensure with reasonable certainty that $M_*$ does not exhibit lack of fit.
+			  \State Take steps to ensure with reasonable certainty that $M_*$ does not exhibit lack-of-fit.
 			  \State For $i = 1,...,m$, calculate the \textit{standardized BIC} for model $M_i$ as 
 			  $\overline{BIC}_i = \frac{BIC_i - BIC_*}{\sqrt{2k_i}}$. Define the standardized BIC for model
 			  $M_*$ as $\overline{BIC}_* = \sqrt{\frac{1}{2}} (1-\log(n))$.
@@ -590,7 +590,7 @@
 		an exactly unbiased estimator of the expected Kullback-Leibler discrepancy, but still is out-performed. This may be attributable to a difference in how each method treats variability. The minimum
 		AICc method, while relying on an exactly unbiased estimator, does not account for the variability of this estimate, while standardized AICc, despite relying on large-sample
 		properties to do so, does account for variability. The "Rule of 2" method applied to AICc does outperform the minimum AICc method, likely due to the intuitive principle
-		it applies of throwing out models that show clear lack of fit followed by using the tenet of parsimony. However, it does so in an ad hoc manner, unlike the method which
+		it applies of throwing out models that show clear lack-of-fit followed by using the tenet of parsimony. However, it does so in an ad hoc manner, unlike the method which
 		uses standardized AICc.
 
 		Lastly, we move onto the results generated for BIC-based methods. The following table and plot show the descriptive results for BIC-based model selection methods used

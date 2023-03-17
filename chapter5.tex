@@ -23,9 +23,9 @@
 		The analysis will commence as follows. Initially, a normal linear regression model with cancer mortality as the outcome, and with an intercept term in addition to all
 		other available variables as covariates, will be fit and considered. The bootstrap goodness-of-fit procedure presented in Chapter 4 will be applied to test the 
 		viability of the proposed linear regression model. If the test rejects that the model is correctly specified at the $\alpha = 0.05$ level, other modeling frameworks
-		will be explored. However, if the null hypothesis is not rejected, we proceed as if the proposed normal linear regression model does not exhibit clear lack of fit.
+		will be explored. However, if the null hypothesis is not rejected, we proceed as if the proposed normal linear regression model does not exhibit clear lack-of-fit.
 
-		Assuming we have a largest candidate model in hand that does not exhibit lack of fit, this model will be used as the basis for model selection using the
+		Assuming we have a largest candidate model in hand that does not exhibit lack-of-fit, this model will be used as the basis for model selection using the
 		AIC-based procedure presented in Chapter 3. The candidate models will be all models that contain an intercept term, an effect for age, an effect for cancer
 		diagnoses, and an effect for at least one other household-related covariate. This will include the largest candidate model, and a collection of models that
 		are nested within this model, allowing for the setup needed to use the standardized AIC model selection algorithm. The procedure will be performed and a final model
@@ -43,7 +43,7 @@
 			\caption{\label{fig:app_residual_plot} Application Largest Candidate Model Residual Plot}
 		\end{figure}
 
-		This residual plot does not appear to reveal any lack of fit in this model. However, it has been noted earlier in this thesis that this method of visual
+		This residual plot does not appear to reveal any lack-of-fit in this model. However, it has been noted earlier in this thesis that this method of visual
 		inspection can mask certain forms of misspecification. Thus, the bootstrap goodness-of-fit test was employed on this largest candidate model to assess
 		goodness-of-fit. The test was performed at the level $\alpha = 0.05$ with $B = 1000$ bootstrap iterations. The generated bootstrap confidence interval
 		was found to be
@@ -52,7 +52,7 @@
 		\end{equation}
 		Note that the value under the null hypothesis for the variance of the likelihood goodness-of-fit term in this scenario is $2n = 600$. Thus, as this interval contains the
 		value of $600$, we would fail to reject the null hypothesis that this largest candidate linear model is properly specified, and are justified in proceeding
-		under the assumption that the model does not show lack of fit.
+		under the assumption that the model does not show lack-of-fit.
 
 		With this in mind, we proceed to selecting a final model. All candidate models were fit to the data, and the standardized AIC of each model was calculated
 		using the established largest candidate model as a reference. The following plot displays each candidate model's standardized AIC vs. its difference in
@@ -86,7 +86,7 @@
 		\end{figure}
 
 		Note that all models below the cutoff line, which are to be treated as serious candidates for selection, contain the median income covariate, while all models
-		above the cutoff, which display lack of fit, do not. The inclusion vs. exclusion of this variable drastically alters the validity of the model as a whole, and
+		above the cutoff, which display lack-of-fit, do not. The inclusion vs. exclusion of this variable drastically alters the validity of the model as a whole, and
 		thus we can say that it appears this single covariate may have a meaningful relationship with cancer mortality at the county level. This negative association between
 		median income and cancer mortality at the county level underscores the importance of work related to socioeconomic disparities in health and healthcare in the United States,
 		and motivates future work to investigate this relationship and possible future policy.
