@@ -12,7 +12,7 @@
 		and the U.S. Census Bureau, with the data in question being being collected in the year 2013.
 		
 		The primary outcome of interest will be cancer mortalities per 100,000 county residents, with data being collected for 300 U.S. counties. Additionally, the study has access to the
-		following covariates for each county: cancer diagnoses per 100,000 county residents, median household income in the county, median age of county residents, mean
+		following covariates for each county: cancer diagnoses per 100,000 county residents, median household income in the county in tens of thousands of dollars, median age of county residents, mean
 		household size of county, percent of households in the county that are in poverty, percent of county residents who are married, and lastly the birth rate of the county expressed
 		as the number of live births in the year 2013 relative to the number of the women in the county.
 
@@ -71,8 +71,8 @@
 		and a term for median age in the county.
 		
 		The effect for median income was found to be negative, indicating that as median income of a county rises, the cancer mortality per capita may tend to
-		decrease.  Interpreting the regression coefficient $-0.0007313$, one could say that as the median income of a county rises a single dollar with all other factors being
-		held equal, we would expect the cancer mortality per 100,000 residents of the county to decrease by $0.0007313$.This aligns with intuition, as it is reasonable
+		decrease.  Interpreting the regression coefficient $-7.313$, one could say that as the median income of a county rises ten-thousand dollars with all other factors being
+		held equal, we would expect the cancer mortality per 100,000 residents of the county to decrease by $7.313$.This aligns with intuition, as it is reasonable
 		that more affluent communities will likely have access to better medical care. However, one might be skeptical that this is the only covariate available with a meaningful
 		relation to cancer mortality, as similar arguments could postulate the importance of other household covariates. Along this line of thinking, the following plot
 		is presented. This plot is similar to Figure 5.2, but now color codes models based on whether they included the variable for a county's median household income.
@@ -89,5 +89,5 @@
 		above the cutoff, which display lack-of-fit, do not. The inclusion vs. exclusion of this variable drastically alters the validity of the model as a whole, and
 		thus we can say that it appears this single covariate may have a meaningful relationship with cancer mortality at the county level. This negative association between
 		median income and cancer mortality at the county level underscores the importance of work related to socioeconomic disparities in health and healthcare in the United States,
-		and motivates future work to investigate this relationship and possible future policy.
+		and motivates future work to investigate this relationship and inform possible future policy.
 

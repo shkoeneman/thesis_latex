@@ -89,10 +89,9 @@
 		and autoregressive frameworks a bit over a decade after it was first formulated for normal linear regression (Hurvich and Tsai, 1989). This was soon followed by an extension to autoregressive
 		moving-average models (Hurvich et al., 1990). AICc has subsequently been extended to various other modeling frameworks including vector autoregressive models (Hurvich and Tsai, 1993), generalized
 		linear models with a dispersion parameter (Hurvich and Tsai, 1995), and longitudinal models with a known covariance structure (Azari et al., 2006). These justifications of AICc follow the same general
-		pattern as the initial derivation for normal linear regression, in that while the goodness-of-fit terms remains the same, the penalty term is adjusted to provide an exact bias adjustment that does
-		not rely on asymptotic properties.
+		pattern as the initial derivation for normal linear regression, in that while the goodness-of-fit terms remains the same, the penalty term is adjusted to provide an improved bias adjustment.
 
-		Not all likelihood-based information criterion were formulated as estimators of a discrepancy measure. The \textit{Bayesian information criteria}, often denoted as \textit{BIC}, looks similar in
+		Not all likelihood-based information criteria were formulated as estimators of a discrepancy measure. The \textit{Bayesian information criterion}, often denoted as \textit{BIC}, looks similar in
 		form to AIC as it has the likelihood goodness-of-fit term in addition to a penalty term. It is defined for a fitted model as
 		\begin{equation}
 			BIC = -2 \ell(\hat{\theta}|y) + p \log (n).
@@ -115,7 +114,7 @@
 		property in finite sample sizes.
 		
 		Additionally, each criterion has sampling variability in finite sample sizes. Thus, if selecting a model with the minimum criterion value is the method of choice, this may lead to a model that is
-		deficient in prediction or description by chance. This has lead to the development of rules of thumb for using these criterion beyond simply choosing the minimum AIC, BIC, or AICc model.
+		deficient in prediction or description by chance. This has lead to the development of rules of thumb for using these criteria beyond simply choosing the minimum AIC, BIC, or AICc model.
 
 		As stated in the introduction, Burnham and Anderson (2002) developed the recommendations which can be found in Table 1.1 for using AIC in finite sample settings. This paradigm states that models
 		that are within 2 units of AIC of the minimum AIC model are not to be discounted. Thus, if there are multiple models that are within this threshold, then it may be prudent to treat each of them
@@ -174,9 +173,9 @@
 		Additionally, unlike AIC which was derived using the Kullback-Leibler discrepancy as a motivation, $C_p$ was derived using instead the \textit{Gauss discrepancy} between the true regression model
 		$f(y|\theta)$ and fitted model $f(y|\hat{\theta})$. The Gauss discrepancy can be described as the squared Euclidean distance between the true mean vector and the mean vector proposed by the fitted
 		model, with no appearance of terms related to likelihoods, and serves as a way to measure the disparity between the true model and the fitted model. $C_p$ was designed as an approximately unbiased
-		estimate of the expectation of the Gauss discrepancy. Thus, while $C_p$ and AIC are both discrepancy-based selection criterion, only AIC is likelihood-based.
+		estimate of the expectation of the Gauss discrepancy. Thus, while $C_p$ and AIC are both discrepancy-based selection criteria, only AIC is likelihood-based.
 
-		The above is not an exhaustive account of likelihood-based information criterion and related constructs, but should serve as sufficient background for the developments presented
+		The above is not an exhaustive account of likelihood-based information criteria and related constructs, but should serve as sufficient background for the developments presented
 		later in this thesis. Chapter 3 will develop a model selection procedure that can be used with likelihood-based information criteria with a non-random penalty term, and specific
 		derivations related to its usage with AIC, AICc, and BIC will be presented.
 		

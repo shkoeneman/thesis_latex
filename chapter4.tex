@@ -19,7 +19,7 @@
 		\end{equation}
 		where $\hat{\sigma}^2$ denotes the maximum likelihood estimate for the error variance $\sigma^2$. Note that the only term here that is random is
 		the $n \log(\hat{\sigma}^2)$ term. Thus, if we can quantify the variability of this term, we can quantify the variability of the entire goodness-of-fit
-		term. Additionally, we can go even further and quantify the variability of an entire likelihood-based information criteria with a constant penalty
+		term. Additionally, we can go even further and quantify the variability of an entire likelihood-based information criterion with a constant penalty
 		term for this fitted model.
 
 		To this end, we first consider $\hat{\sigma}^2$. As the linear model is assumed to not be misspecified, and $\hat{\sigma}^2$ is a maximum likelihood
@@ -220,7 +220,7 @@
 		explores the power of the test in the case of mean misspecification, and the thrid subsection explores the power of the test in the case of heteroskedasticity induced by
 		unobserved covariates.
 
-		\subsection{Simulation to Establish Type I Error Rate of Bootstrap GOF Test}
+		\subsection{Simulation to Establish Type~I Error Rate of Bootstrap GOF Test}
 
 		The data generatating process for this simulation is to be as follows. The $n$ by 1 outcome vector $y = [y_1,...,y_n]$ will be generated for $i = 1,...,n$ according
 		to
@@ -233,16 +233,16 @@
 		With this generated data in hand, we will proceed to fit a normal linear regression model that includes an intercept and effects for $x_{i1}$ and $x_{i2}$. This model
 		is properly specified, and should not exhibit gross lack-of-fit. For each iteration of the simulation, the bootstrap goodness-of-fit test presented above will be
 		performed on the fitted model at the $\alpha = .05$ level, and whether the test rejects the null hypothesis will be recorded. In this way, after many simulation iterations
-		we will be able to estimate the Type I error rate of the test in this scenario, as the null hypothesis of the test is true.
+		we will be able to estimate the Type~I error rate of the test in this scenario, as the null hypothesis of the test is true.
 
 		Additionally, the White test (White, 1980) and the Breusch-Pagan test (Breusch and Pagan, 1979) will also be performed on the fitted model in each simulation iteration, and
 		whether these tests reject the null hypothesis of homoskedasticity will be recorded. This is to establish the ability of these tests to maintain a desired Type
 		I error rate for future simulations.
 
 		The simulation will be performed for $n = 100,200,...,1000$. The number of bootstrap iterations used by the bootstrap goodness-of-fit test will be $B = 1000$ for all simulations.
-		This simulation will be performed $1000$ times for each value of $n$, with Type I error rate to be calculated afterwards. A full summary of the simulation procedure can be found below.
+		This simulation will be performed $1000$ times for each value of $n$, with Type~I error rate to be calculated afterwards. A full summary of the simulation procedure can be found below.
 		\begin{algorithm}[H]
-			\caption*{\textbf{Simulation 3} Type I Error Rate Simulation, Normal Linear Regression Goodness-of-Fit Tests}
+			\caption*{\textbf{Simulation 3} Type~I Error Rate Simulation, Normal Linear Regression Goodness-of-Fit Tests}
 			\begin{algorithmic}[1]
 			  \Statex For $n = 100,200,...,1000$, $B = 1000$, and $\alpha = 0.05$, do the following:
 			  \State Draw a test sample of size $n$ using the specified true model.
@@ -250,7 +250,7 @@
 			  \State Perform the bootstrap goodness-of-fit test, White test, and Breusch-Pagan test at the $\alpha$ level,
 			  and record whether each test rejects its null hypothesis.
 			  \State Repeat steps 1-3 1000 times.
-			  \State Calculate the Type I error rate of each test.
+			  \State Calculate the Type~I error rate of each test.
 			\end{algorithmic}
 		\end{algorithm}
 
@@ -261,7 +261,7 @@
 			\small\addtolength{\tabcolsep}{-3pt}
 			\setlength\extrarowheight{-3pt}
 			\ttabbox[\FBwidth]
-			{\caption{\label{tab:sim3_table}Simulation 3 Results - Type I Error}}
+			{\caption{\label{tab:sim3_table}Simulation 3 Results - Type~I Error}}
 			{
 			\begin{tabular}{ c|c|c|c}
 			$n$ & \vtop{\hbox{\strut Bootstrap}\hbox{\strut Test}} & \vtop{\hbox{\strut White}\hbox{\strut Test}} & \vtop{\hbox{\strut Breusch-Pagan} \hbox{\strut Test}} \\
@@ -281,12 +281,12 @@
 			}
 		\end{table}
 
-		The bootstrap test exhibits slight anti-conservative behavior across all values of $n$ with the empirically determined Type I Error rate exceeding the desired Type I Error rate
-		of $\alpha = 0.05$ in all scenarios. However, as $n$ increases, the empirical Type I Error rate appears to be decreasing towards the desired value. Additionally, the
+		The bootstrap test exhibits slight anti-conservative behavior across all values of $n$ with the empirically determined Type~I error rate exceeding the desired Type~I error rate
+		of $\alpha = 0.05$ in all scenarios. However, as $n$ increases, the empirical Type~I error rate appears to be decreasing towards the desired value. Additionally, the
 		behavior of the test is consistently anti-conservative for the scenarios show. Thus, when using the procedure, one may keep in mind that the test may be more prone to
 		rejection than one might expect, particularly for small sample sizes before asymptotic properties of the bootstrap truly manifest.
 
-		The White and Breusch-Pagan tests roughly maintain the desired Type I Error rate. However, there is some variation in the behavior displayed by the table, as some values
+		The White and Breusch-Pagan tests roughly maintain the desired Type~I error rate. However, there is some variation in the behavior displayed by the table, as some values
 		of $n$ display conservative test behavior while others display anti-conservative behavior. Thus, while the bootstrap test appears to trend from anti-conservative behavior
 		to the desired behavior as $n$ increases, the White and Breusch-Pagan test behavior in finite sample sizes cannot exactly be determined.
 
@@ -308,14 +308,14 @@
 
 		For each simulation iteration, the bootstrap goodness-of-fit test, White test, and Breusch-Pagan test will each be performed at the $\alpha = .05$ level on the 
 		fitted model. The White and Breusch-Pagan tests do not have their null hypotheses violated as the data still exhibits homoskedasticity, and thus they should not be able to
-		detect this form of misspecification with only the ability to maintain their Type I error rates. However, the bootstrap test has its null hypothesis violated,
-		and thus the power of the test in this scenario will be determined. After many simulation iterations, the Type I error rates or power of the test, respectively,
+		detect this form of misspecification with only the ability to maintain their Type~I error rates. However, the bootstrap test has its null hypothesis violated,
+		and thus the power of the test in this scenario will be determined. After many simulation iterations, the Type~I error rates or power of the test, respectively,
 		will be calculated.
 
 		The simulation will again be performed for $n = 100,200,...,1000$, with $B = 1000$ for all simulations. The simulation will be performed $1000$ times for each value of $n$, with
-		Type I error rate and power to be calculated afterwards. A full summary of the simulation procedure can be found below.
+		Type~I error rate and power to be calculated afterwards. A full summary of the simulation procedure can be found below.
 		\begin{algorithm}[H]
-			\caption*{\textbf{Simulation 4} Type I Error Rate and Power Simulation, Mean Misspecification, Normal Linear Regression Goodness-of-Fit Tests}
+			\caption*{\textbf{Simulation 4} Type~I Error Rate and Power Simulation, Mean Misspecification, Normal Linear Regression Goodness-of-Fit Tests}
 			\begin{algorithmic}[1]
 			  \Statex For $n = 100,200,...,1000$, $B = 1000$, and $\alpha = 0.05$, do the following:
 			  \State Draw a test sample of size $n$ using the specified true model.
@@ -323,19 +323,19 @@
 			  \State Perform the bootstrap goodness-of-fit test, White test, and Breusch-Pagan test at the $\alpha$ level,
 			  and record whether each test rejects its null hypothesis.
 			  \State Repeat steps 1-3 1000 times.
-			  \State Calculate the Type I error rate or power of each test.
+			  \State Calculate the Type~I error rate or power of each test.
 			\end{algorithmic}
 		\end{algorithm}
 
 		This simulation was performed in Julia, version 1.8.1 (Bezanson et al., 2017). The results of the simulation can be found in the table below, with the column for the
-		bootstrap test displaying power and the columns for the White and Breusch-Pagan tests displaying Type I error rate.
+		bootstrap test displaying power and the columns for the White and Breusch-Pagan tests displaying Type~I error rate.
 
 		\begin{table}[H]
 			\centering
 			\small\addtolength{\tabcolsep}{-3pt}
 			\setlength\extrarowheight{-3pt}
 			\ttabbox[\FBwidth]
-			{\caption{\label{tab:sim4_table}Simulation 4 Results - Power and Type I Error}}
+			{\caption{\label{tab:sim4_table}Simulation 4 Results - Power and Type~I Error}}
 			{
 			\begin{tabular}{ c|c|c|c}
 			$n$ & \vtop{\hbox{\strut Bootstrap}\hbox{\strut Test}} & \vtop{\hbox{\strut White}\hbox{\strut Test}} & \vtop{\hbox{\strut Breusch-Pagan} \hbox{\strut Test}} \\
@@ -360,7 +360,7 @@
 		with the test seeming to possess near-perfect power once the value of $n$ approaches 1000. Thus, the bootstrap test appears to possess the ability to detect this mean
 		misspecification on account of an unobserved covariate, and the power to detect this rises as the sample size increases as one would expect.
 
-		In contrast, the White test and Breusch-Pagan test both seem to only maintain their Type I Error rates established in Simulation 3. This was to be expected
+		In contrast, the White test and Breusch-Pagan test both seem to only maintain their Type~I error rates established in Simulation 3. This was to be expected
 		as the null hypotheses of these tests are not violated in this scenario. However, it does demonstrate how the inability of the a goodness-of-fit test to detect lack of
 		fit does not mean lack-of-fit is not present, as these two tests are limited in the scope of misspecification they are able to detect. This is in contrast to the
 		bootstrap test which possesses a much more general null hypothesis.
@@ -442,8 +442,8 @@
 			}
 		\end{table}
 
-		The bootstrap test seems to only exhbit power in line with its emprical Type I Error rate displayed in Simulation 3 for $n = 100$, but the power of the test rises
-		rapidly, reaching near-perfect levels by the time $n = 1000$. In contrast, the White test and Breusch-Pagan test exhibit only power in line with their Type I error
+		The bootstrap test seems to only exhbit power in line with its emprical Type~I error rate displayed in Simulation 3 for $n = 100$, but the power of the test rises
+		rapidly, reaching near-perfect levels by the time $n = 1000$. In contrast, the White test and Breusch-Pagan test exhibit only power in line with their Type~I error
 		rates established in Simulation 3, and thus do not seem to be able to detect that the model is misspecified despite the misspecification being a form of
 		heteroskedasticity. This is on account of how these tests are performed, as they rely on looking for heteroskedasticity that is induced by observed covariates.
 		When heteroskedasticity is induced by an unobserved covariate that is not used in the model, the White test and Breusch-Pagan test cannot ascertain that their
