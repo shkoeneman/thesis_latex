@@ -24,17 +24,68 @@
 
 \newcommand{\abstextwithesis}
 {
-Placeholder
+The use of likelihood-based information criteria such as AIC, BIC, and AICc for model selection is commonplace. When using such
+criteria to compare candidate models, lower values of a criterion typically indicate evidence of better model fit. Model 
+selection may be performed by choosing the model from among those under consideration with the minimum value of the information
+criterion of choice. However, this method is not guaranteed to produce optimal results in finite sample sizes.
+
+Another principle in using likelihood-based information criteria for model selection can be dubbed the "Rule of 2." This rule
+of thumb recommends that one should not discount models that possess a criterion value within 2 of the minimum criterion value among
+all candidate models, as opposed to simply choosing the minimum criterion value. This rule can be shown to improve the performance
+of model selection using information criteria in finite sample sizes if first used to identify models that are serious candidates for
+selection followed by selection of one of these models using some other convention.
+
+However, while effective, the "Rule of 2" possesses limited theoretical backing. Its justification largely lies on empirical simulations
+in a limited number of modeling scenarios and does not rely on probability theory or the distributions of the quantities at hand.
+
+In this thesis, the distributional properties of likelihood-based information criteria are explored. These properties are then leveraged
+to produce a new model selection procedure involving information criteria that is similar in spirit to the "Rule of 2," but is backed
+by more formal probability theory. Through simulations, this procedure is shown to be able to produce better efficacy in description and
+prediction in model selection as compared to other methods using the same information criterion. Additionally, a novel goodness-of-fit test
+for normal linear regression models is developed using the distributional properties of information criteria, with further simulations
+displaying the utility of this test. Finally, the model selection procedure and goodness-of-fit test are synthesized in an application
+to real data, demonstrating how both can be used in practice.
+
 }
 
 \newcommand{\pubabstextwithesis}
 {
-Placeholder
+Model selection is a task often undertaken by statisticians and non-statisticians alike. The goals of model selection may be prediction of future
+outcomes, description of a data-generating process, exploration of a relationship within the data, or some combination thereof. To serve these goals,
+various methods of performing model selection have been developed in the past.
+
+One such method of model selection involves the use of likelihood-based information criteria such as AIC, BIC, and AICc. These criteria help one
+to identify a model that offers the best balance of conformity to the data and complexity, and can be used in a variety of different ways. A
+rule of thumb for using likelihood-based information criteria is the "Rule of 2" which prescribes that one should not discount models that possess
+a criterion value within 2 of the minimum criterion value among all candidate models. When applying the principles of this rule, one can often
+find good efficacy in model selection.
+
+However, this "Rule of 2" possesses limited theoretical backing. In this thesis, the distributional properties of likelihood-based information criteria
+are investigated with the goal of producing methods of model selection using likelihood-based information criteria that have sound backing in probability
+and distributional theory. Using distributional results, a new model selection algorithm to select a model from a collection of candidates is presented, along
+with a novel goodness-of-fit test for linear models. The efficacy of these methods are demonstrated in simulation studies, and additionally an example
+application is presented.
 }
 
 \newcommand{\acknowledgement}
 {
-Placeholder
+Firstly, I would like to acknowledge my advisor, Dr. Joe Cavanaugh. Joe has been with me every step of the way in my graduate school journey, and the ideas
+and work in this thesis are as much attributable to him as they are to me. I couldn't have done this without you, Joe. Your mind for statistics, as
+well as your kindness and friendship, have been a blessing that I do not deserve.
+
+I would like to thank the University of Iowa, and specifically the Department of Biostatistics, for taking a chance on me and allowing me to study here these
+past five years. I will always be grateful for the gift that was given me to pursue my PhD at Iowa. I would also like to thank all of my professors and classmates
+who have supported me along the way, from classmates to committee members to fellow RAs to research collaborators. I will miss the department and my research
+groups greatly.
+
+Thank you to my family for supporting me all of these years. Mom, you told me long ago that, just as Spiderman's great power came with great responsibility, so too
+do my gifts come with a responsibility. Thank you for encouraging me to reach higher. Thank you also for loving me so unconditionally. I am truly blessed to have a
+mom like you. To my six brothers and sisters, thank you for being my oldest friends. We've stuck together this long, and I hope we never stop doing so.
+
+Lastly, I would like to thank God, and His Son Jesus Christ, who died for the sins of the world, and conquered death in rising from the dead, so that we could be reconciled
+to the Father. Apart from faith in what God has done, I have no hope in this world or the next, and I thank Him for graciously giving me so much that I do not deserve. If
+you are reading this now, I invite you to consider this message for yourself, that you may be reconciled to a God who desires to know you through trusting in Jesus Christ. I truly
+believe this message, and if you do not consider it on anything else, perhaps consider it based on my own belief that this thesis would be impossible without Him.
 }
 
 \newcommand{\dedication}
