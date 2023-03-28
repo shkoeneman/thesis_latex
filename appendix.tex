@@ -24,7 +24,10 @@ AICc. Thus, nested models differ from the largest candidate model in that they d
 We begin once again by observing the difference in AICc between the largest candidate model $M_*$ and some nested candidate $M_i$. This difference
 will have the familiar form
 \begin{equation}
-	AICc_i - AICc_* = \left( -2 \ell (\hat{\theta}_*) + 2 \ell (\hat{\theta}_i) \right) + \left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right] ,
+	\begin{split}
+	AICc_i - AICc_* = \left( -2 \ell (\hat{\theta}_*) + 2 \ell (\hat{\theta}_i) \right) + \\
+	\left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right] ,
+	\end{split}
 \end{equation}
 where $k_i$ is once again the difference in number of estimated parameters between model $M_*$ and model $M_i$, and $p$ is the total number of
 estimated parameters in model $M_*$. Recall that the likelihood goodness-of-fit term for a normal linear regression model can be expressed as
@@ -41,7 +44,10 @@ terms, and denoting the estimated error variance for model $M_*$ as $\hat{\sigma
 \end{equation}
 Thus, applying this equivalence to our AIC difference, we see that
 \begin{equation}
-	AICc_i - AICc_* = n\log \left( \frac{\hat{\sigma}^2_i}{\hat{\sigma}^2_*} \right) + \left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right] .
+	\begin{split}
+	AICc_i - AICc_* = n\log \left( \frac{\hat{\sigma}^2_i}{\hat{\sigma}^2_*} \right) + \\
+	\left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right] .
+	\end{split}
 \end{equation}
 Now, we consider the F-Test for nested normal linear regression models. This test has a null hypothesis that the nested model fits just as well as the
 larger model, or equivalently, that the true value of the additional effects present in the larger model are 0 (Allen, 1998). Let us denote the sum

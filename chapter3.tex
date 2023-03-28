@@ -42,7 +42,7 @@
 			  %\Statex \textbullet~\textbf{Parameters:} $n, t \in \mathbb{N}$, where $t < n$.
 			  \State Take steps to ensure with reasonable certainty that $M_*$ does not exhibit lack-of-fit.
 			  \State For $i = 1,...,m$, calculate the \textit{standardized AIC} for model $M_i$ as 
-			  $\overline{AIC}_i = \frac{AIC_i - AIC_*}{\sqrt{2k_i}}$. Define the standardized AIC for model
+			  $\overline{AIC}_i = (AIC_i - AIC_*) / \sqrt{2k_i} $. Define the standardized AIC for model
 			  $M_*$ as $\overline{AIC}_* = 0$.
 			  \State Categorize all models with a standardized AIC of $ -\sqrt{\frac{1}{2}} + 2$ or lower as
 			  being candidates for selection.
@@ -100,7 +100,7 @@
 		\textit{standardized AIC}.
 
 		\begin{definition}[Standardized AIC for model $M_i$]
-			The \textit{standardized AIC} for model $M_i$ is defined as $\overline{AIC}_i = \frac{AIC_i - AIC_*}{\sqrt{2k_i}}$.
+			The \textit{standardized AIC} for model $M_i$ is defined as $\overline{AIC}_i = (AIC_i - AIC_*) / \sqrt{2k_i}$.
 		\end{definition}
 
 		This quantity with unit variance across all models holds promise as a means to use the information criterion in a more probabilistically-informed manner. However, while we have established
@@ -226,7 +226,10 @@
 		Observing the difference in AICc between model $M_i$ and model $M_*$, we see that
 		this will take the form
 		\begin{equation}
-			AICc_i - AICc_* = (-2 \ell (\hat{\theta}_i) + 2 \ell (\hat{\theta}_*) ) + \left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right] .
+			\begin{split}
+			AICc_i - AICc_* = (-2 \ell (\hat{\theta}_i) + 2 \ell (\hat{\theta}_*) ) + \\
+			\left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right] .
+			\end{split}
 		\end{equation}
 		Note the appearance of $p$, the number of estimated parameters in model $M_*$, in this relation, where it was absent in the corresponding difference to AIC.
 
@@ -235,7 +238,7 @@
 		across all $i$. This quantity will be referred to as \textit{standardized AICc}.
 
 		\begin{definition}[Standardized AICc (Linear Regression) for model $M_i$]
-			The \textit{standardized AICc} for linear regression model $M_i$ is defined as $\overline{AICc}_i = \frac{AICc_i - AICc_*}{\sqrt{2k_i}}$.
+			The \textit{standardized AICc} for linear regression model $M_i$ is defined as $\overline{AICc}_i = (AICc_i - AICc_*) / \sqrt{2k_i}$.
 		\end{definition}
 
 		From the previous argument when using AIC, it is easy to see that under the null hypothesis for the likelihood ratio test, the approximation
@@ -284,7 +287,7 @@
 			  \State Take steps to ensure with reasonable certainty that $M_*$ does not exhibit lack-of-fit.
 			  \State For each distinct value of $k_i$, calculate $\sqrt{\frac{k_i}{2}} + \left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right] / \sqrt{2k_i}$ .
 			  \State For $i = 1,...,m$, calculate the \textit{standardized AICc} for model $M_i$ as 
-			  $\overline{AICc}_i = \frac{AICc_i - AICc_*}{\sqrt{2k_i}}$. Define the standardized AICc for model
+			  $\overline{AICc}_i = (AICc_i - AICc_*) / \sqrt{2k_i}$. Define the standardized AICc for model
 			  $M_*$ as $\overline{AICc}_* = \max_{k_i} \left[ \sqrt{\frac{k_i}{2}} + \left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right] / \sqrt{2k_i} \right]$.
 			  \State Categorize all models with a standardized AICc of
 			  $ \max_{k_i} \left[ \sqrt{\frac{k_i}{2}} + \left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right] / \sqrt{2k_i} \right] + 2$
@@ -316,7 +319,7 @@
 		\end{equation}
 		will be justified if model $M_*$ is not misspecified. Analogously to AIC and AICc, we will call the above bracketed quantity \textit{standardized BIC}.
 		\begin{definition}[Standardized BIC for model $M_i$]
-			The \textit{standardized BIC} for model $M_i$ is defined as $\overline{BIC}_i = \frac{BIC_i - BIC_*}{\sqrt{2k_i}}$.
+			The \textit{standardized BIC} for model $M_i$ is defined as $\overline{BIC}_i = (BIC_i - BIC_*) / \sqrt{2k_i}$.
 		\end{definition}
 
 		Moving onto the calculation of the expectation of standardized BIC, we once again rely on an approximate gamma distribution assuming model $M_i$ is properly specified.
@@ -345,7 +348,7 @@
 			  %\Statex \textbullet~\textbf{Parameters:} $n, t \in \mathbb{N}$, where $t < n$.
 			  \State Take steps to ensure with reasonable certainty that $M_*$ does not exhibit lack-of-fit.
 			  \State For $i = 1,...,m$, calculate the \textit{standardized BIC} for model $M_i$ as 
-			  $\overline{BIC}_i = \frac{BIC_i - BIC_*}{\sqrt{2k_i}}$. Define the standardized BIC for model
+			  $\overline{BIC}_i = (BIC_i - BIC_*) \ \sqrt{2k_i}$. Define the standardized BIC for model
 			  $M_*$ as $\overline{BIC}_* = \sqrt{\frac{1}{2}} (1-\log(n))$.
 			  \State Categorize all models with a standardized BIC of $\sqrt{\frac{1}{2}} (1-\log(n)) + 2$ or lower as
 			  being candidates for selection.
