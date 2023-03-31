@@ -12,7 +12,7 @@
 		\textit{complexity} of the models at hand. While Newton's model will predict inaccurate behavior in extreme conditions such as bodies moving at relativistic speeds, in the
 		vast majority of applications it will give results that are in line with physical behavior while being far easier to understand, at least for an introductory physics student, than 
 		Einstein's model. Of course, in more sophisticated applications than calculating the velocity of a ball rolling down a hill, one may want Einstein's model, but in this problem of 
-		which model to select when instucting youth, Newton's model is sufficient.
+		which model to select when instructing youth, Newton's model is sufficient.
 
 		This example brings to mind the challenges statisticians face when performing statistical model selection. Model selection is the task of selecting a statistical model from among a
 		collection of candidate models. One can use various techniques to perform model selection, but most will focus in some way on balancing \textit{goodness-of-fit} of the model with
@@ -34,8 +34,8 @@
 
 		Over the course of time, others have produced refinements to Akaike's work either by producing different likelihood-based information criteria, or modifying the ways in which AIC or other
 		criteria are used to select a model. The Bayesian information criterion (BIC) features a Bayesian justification for its usage as opposed to one of discrepancy estimation, but is similar to AIC in that
-		it features a term based on the likelihood and a term that penalizes greater model complexity (Schwarz, 1978). AIC itself is only an unbiased estimator of the expected Kullback-Leibler discrepancy
-		asymptotically, and thus the corrected Akaike information criterion (AICc) was developed to serve as an exactly unbiased estimator in the case of linear regression (Sugiura, 1978).
+		it features a term based on the likelihood and a term that penalizes greater model complexity (Schwarz, 1978). AIC itself is only an asymptotically unbiased estimator of the expected Kullback-Leibler discrepancy,
+		and thus the corrected Akaike information criterion (AICc) was developed to serve as an exactly unbiased estimator in the case of linear regression (Sugiura, 1978).
 		Both BIC and AICc provide potential advantages over AIC, and share the property with AIC that lower values of the criterion indicate more support for a model. Thus, one can select a candidate model
 		from a collection by choosing the model with minimum BIC or AICc, similar to to AIC.
 
@@ -59,11 +59,11 @@
 		}
 		\end{table}	
 		
-		This table contends that any model with an AIC difference of less than $2$ from the minimum AIC model is a model for which the data shows substantial support. Thus, this "Rule of 2" has become a
+		This table contends that any model with an AIC difference of less than $2$ from the minimum AIC model is a model for which the data shows substantial support. Thus, this ``Rule of 2" has become a
 		commonplace rule of thumb when using AIC for model selection, with 2 often being used as the cutoff to dictate a meaningful difference in model fit. The justification for this cutoff originates
 		from empirical observations (Burnham and Anderson, 2003). Additionally, different  arguments have been made for using 2 as a cutoff for a meaningful difference in model fit
 		when comparing BIC values (Kass and Raftery, 1995). However, these cutoffs suffer from thin justification in terms of the the distributional properties of the likelihood-based information
-		critera in question.
+		criteria in question.
 
 		If one wishes to perform model selection that relies on distributional properties, then the likelihood ratio test may be of interest. The procedure tests the assumption that
 		a smaller, nested model fits the data just as well as a larger model with higher dimensionality, and additionally carries an implicit assumption that the larger model does
@@ -79,19 +79,19 @@
 		The main motivation for this thesis is to investigate the distributional properties of likelihood-based information criteria with the hope of producing methods to aid in model selection
 		that rely on probabilistic theory as opposed to ad hoc rules of thumb and visual inspection. The first part of the novel developments in this thesis outlines a new model selection procedure using the distributional
 		results of the likelihood ratio test by applying these to a difference in likelihood-based information criteria. The method can be used with any likelihood-based information criterion
-		with a non-random penalty term, and quantities related to its usage with AIC, BIC, and AICc will be explicity derived. A simulation study follows which demonstrates that this algorithm
+		with a non-random penalty term, and quantities related to its usage with AIC, BIC, and AICc will be explicitly derived. A simulation study follows which demonstrates that this algorithm
 		can provide an improvement in selection of the true model and predictive efficacy over other model selection procedures using the same information criterion.
 		
 		In the second portion of the thesis, distributional properties related to the large-sample distribution of the goodness-of-fit term present in likelihood-based information criteria
 		are established. These properties are then leveraged to create a bootstrap goodness-of-fit test to test the very general hypothesis that a linear regression model is properly specified
-		against the alternative that it is not. The ability of this test to perform as expected when the null hypothesis is true is verified through a simulation study. Another simulation
-		study displays the advantage of this test over existing methods as it pertains to ability to detect subtle, but notable, forms of misspecification.
+		against the alternative that it is not. The ability of this test to perform as expected when the null hypothesis is true is verified through a simulation study. Further simulation
+		studies display the advantage of this test over existing methods as it pertains to ability to detect subtle, but notable, forms of misspecification.
 
 		\section{Overview of the Thesis}
 		The remainder of the thesis is organized as follows. In Chapter~2, we provide some background related to likelihood-based information criteria, goodness-of-fit assessment, and other mathematical
 		constructs that will be of relevance later in the dissertation. In Chapter~3, we propose a new model selection procedure using likelihood-based information criteria that leverages distributional
-		properties. We investigate the performance of the procedure as compared to other methods in an illustrative simulation study.  In Chapter~4, we derive quantities related to the variance of the
-		log-likelihood term used in information criteria, and we use these findings to develop a bootstrap test for the goodness-of-fit of a linear model. A simulation study follows to demonstrate the
+		properties. We investigate the performance of the procedure as compared to other methods in illustrative simulation studies.  In Chapter~4, we derive quantities related to the variance of the
+		log-likelihood term used in information criteria, and we use these findings to develop a bootstrap test for the goodness-of-fit of a linear model. Simulation studies follow to demonstrate the
 		efficacy of the developed procedure. In Chapter~5, we present an analysis using real world data to display the methods developed in this thesis in an applied setting.
 		Finally, Chapter~6 concludes with a brief summary and discussion of the content of the thesis. 
 		

@@ -29,17 +29,17 @@ criteria to compare candidate models, lower values of a criterion typically indi
 selection may be performed by choosing the model from among those under consideration with the minimum value of the information
 criterion of choice. However, this method is not guaranteed to produce optimal results in finite sample sizes.
 
-Another principle in using likelihood-based information criteria for model selection can be dubbed the "Rule of 2." This rule
+Another principle in using likelihood-based information criteria for model selection can be dubbed the ``Rule of 2." This rule
 of thumb recommends that one should not discount models that possess a criterion value within 2 of the minimum criterion value among
 all candidate models, as opposed to simply choosing the minimum criterion value. This rule can be shown to improve the performance
 of model selection using information criteria in finite sample sizes if first used to identify models that are serious candidates for
 selection followed by selection of one of these models using some other convention.
 
-However, while effective, the "Rule of 2" possesses limited theoretical backing. Its justification largely lies on empirical simulations
+However, while effective, the ``Rule of 2" possesses limited theoretical backing. Its justification largely lies on empirical simulations
 in a limited number of modeling scenarios and does not rely on probability theory or the distributions of the quantities at hand.
 
 In this thesis, the distributional properties of likelihood-based information criteria are explored. These properties are then leveraged
-to produce a new model selection procedure involving information criteria that is similar in spirit to the "Rule of 2," but is backed
+to produce a new model selection procedure involving information criteria that is similar in spirit to the ``Rule of 2," but is backed
 by more formal probability theory. Through simulations, this procedure is shown to be able to produce better efficacy in description and
 prediction in model selection as compared to other methods using the same information criterion. Additionally, a novel goodness-of-fit test
 for normal linear regression models is developed using the distributional properties of information criteria, with further simulations
@@ -50,17 +50,17 @@ to real data, demonstrating how both can be used in practice.
 
 \newcommand{\pubabstextwithesis}
 {
-Model selection is a task often undertaken by statisticians and non-statisticians alike. The goals of model selection may be prediction of future
+Model selection is a task often undertaken by statisticians and non-statisticians alike. The goal of model selection may be prediction of future
 outcomes, description of a data-generating process, exploration of a relationship within the data, or some combination thereof. To serve these goals,
 various methods of performing model selection have been developed in the past.
 
 One such method of model selection involves the use of likelihood-based information criteria such as AIC, BIC, and AICc. These criteria help one
 to identify a model that offers the best balance of conformity to the data and complexity, and can be used in a variety of different ways. A
-rule of thumb for using likelihood-based information criteria is the "Rule of 2" which prescribes that one should not discount models that possess
+rule of thumb for using likelihood-based information criteria is the ``Rule of 2" which prescribes that one should not discount models that possess
 a criterion value within 2 of the minimum criterion value among all candidate models. When applying the principles of this rule, one can often
 find good efficacy in model selection.
 
-However, this "Rule of 2" possesses limited theoretical backing. In this thesis, the distributional properties of likelihood-based information criteria
+However, this ``Rule of 2" possesses limited theoretical backing. In this thesis, the distributional properties of likelihood-based information criteria
 are investigated with the goal of producing methods of model selection using likelihood-based information criteria that have sound backing in probability
 and distributional theory. Using distributional results, a new model selection algorithm to select a model from a collection of candidates is presented, along
 with a novel goodness-of-fit test for linear models. The efficacy of these methods are demonstrated in simulation studies, and additionally an example

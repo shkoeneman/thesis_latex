@@ -27,8 +27,8 @@
 
 		Assuming we have a largest candidate model in hand that does not exhibit lack-of-fit, this model will be used as the basis for model selection using the
 		AIC-based procedure presented in Chapter 3. The candidate models will be all models that contain an intercept term, an effect for age, an effect for cancer
-		diagnoses, and an effect for at least one other household-related covariate. This will include the largest candidate model, and a collection of models that
-		are nested within this model, allowing for the setup needed to use the standardized AIC model selection algorithm. The procedure will be performed and a final model
+		diagnoses, and an effect for at least one other household-related covariate. This will include the largest candidate model, and a group of other models that
+		are nested within this model, creating the setup needed to use the standardized AIC model selection algorithm. The procedure will be performed and a final model
 		will be chosen, with a discussion of the covariates chosen to be in the model to follow. This analysis will be performed R, version 4.2.1 (R Core Team, 2023).
 		
 		\section{Application Results} \label{sec:app_res}
@@ -47,16 +47,16 @@
 		inspection can mask certain forms of misspecification. Thus, the bootstrap goodness-of-fit test was employed on this largest candidate model to assess
 		goodness-of-fit. The test was performed at the level $\alpha = 0.05$ with $B = 1000$ bootstrap iterations. The generated bootstrap confidence interval
 		was found to be
-		\begin{equation}
+		\begin{equation*}
 			\left[ 578.9217, 974.5816 \right].
-		\end{equation}
+		\end{equation*}
 		Note that the value under the null hypothesis for the variance of the likelihood goodness-of-fit term in this scenario is $2n = 600$. Thus, as this interval contains the
 		value of $600$, we would fail to reject the null hypothesis that this largest candidate linear model is properly specified, and are justified in proceeding
 		under the assumption that the model does not show lack-of-fit.
 
 		With this in mind, we proceed to selecting a final model. All candidate models were fit to the data, and the standardized AIC of each model was calculated
-		using the established largest candidate model as a reference. The following plot displays each candidate model's standardized AIC vs. its difference in
-		degrees of freedom from the largest candidate model, with the horizontal purple line signifying the cutoff line of $\sqrt{\frac{1}{2}} + 2$.
+		using the established largest candidate model as a reference. The following plot displays each standardized AIC of each candidate model versus the difference in
+		degrees of freedom between the candidate model and the largest candidate model. The horizontal purple line signifies the cutoff line of $\sqrt{\frac{1}{2}} + 2$.
 
 		\begin{figure}[H]
 			\centering
@@ -67,12 +67,12 @@
 
 		All models below the cutoff line are candidates for selection, with models that are below this line and farther to the right to be preferred due to parsimony. Note
 		that there is a single model that appears to have both the maximal value of difference in degrees of freedom, and is below the cutoff. This model is the
-		final selected model, and contains only an effect for median income within a county, in addition to a forced intercept, a term for county cancer indicence,
-		and a term for median age in the county.
+		final selected model, and contains only an effect for median income within a county, in addition to the forced intercept term, term for county cancer incidence,
+		and term for median age in the county.
 		
 		The effect for median income was found to be negative, indicating that as median income of a county rises, the cancer mortality per capita may tend to
 		decrease.  Interpreting the regression coefficient $-7.313$, one could say that as the median income of a county rises ten-thousand dollars with all other factors being
-		held equal, we would expect the cancer mortality per 100,000 residents of the county to decrease by $7.313$.This aligns with intuition, as it is reasonable
+		held equal, we would expect the cancer mortality per 100,000 residents of the county to decrease by $7.313$. This aligns with intuition, as it seems reasonable
 		that more affluent communities will likely have access to better medical care. However, one might be skeptical that this is the only covariate available with a meaningful
 		relation to cancer mortality, as similar arguments could postulate the importance of other household covariates. Along this line of thinking, the following plot
 		is presented. This plot is similar to Figure 5.2, but now color codes models based on whether they included the variable for a county's median household income.
@@ -86,7 +86,7 @@
 		\end{figure}
 
 		Note that all models below the cutoff line, which are to be treated as serious candidates for selection, contain the median income covariate, while all models
-		above the cutoff, which display lack-of-fit, do not. The inclusion vs. exclusion of this variable drastically alters the validity of the model as a whole, and
+		above the cutoff, which display lack-of-fit, do not. The inclusion vs. exclusion of this variable drastically alters the validity of each model as a whole, and
 		thus we can say that it appears this single covariate may have a meaningful relationship with cancer mortality at the county level. This negative association between
 		median income and cancer mortality at the county level underscores the importance of work related to socioeconomic disparities in health and healthcare in the United States,
 		and motivates future work to investigate this relationship and inform possible future policy.

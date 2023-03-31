@@ -3,18 +3,18 @@
 
 		In this thesis, a new method of model selection using likelihood-based information criteria was developed in addition to a new goodness-of-fit test
 		to be employed for normal linear regression models. This chapter features a summary and discussion of these developments followed by a section
-		detailing potential future developments and final conclusions. 
+		detailing potential future developments. 
 
 		\section{Summary and Discussion}
 
-		The "Rule of 2" has been widely used as a rule of thumb in conjunction with likelihood-based information criteria such as AIC and BIC. Despite the
+		The ``Rule of 2" has been widely used as a rule of thumb in conjunction with likelihood-based information criteria such as AIC and BIC. Despite the
 		demonstrated efficacy of this rule, it possesses little theoretical backing and was largely justified by empirical results. One of the stated
 		goals of this thesis was to explore the distributional properties of likelihood-based information criteria as a means to form alternative methods of
 		model selection that possess firmer justification.
 		
 		Using distributional properties of the likelihood ratio test, Chapter 3 developed a new model selection procedure that standardizes the variance of
 		a difference in criterion values between the largest candidate model and another nested candidate model. The property of unit variance of this
-		quantity will hold under the assumption that the nested model contains requisite structure with regards to the the true model, with an additional
+		standardized quantity will hold under the assumption that the nested model contains requisite structure with regards to the the true model, with an additional
 		implicit assumption that the largest candidate model itself does not display gross lack-of-fit. Using this standardized quantity, an acceptable
 		cutoff for feasibility of a model was formulated using further distributional theory with final selection of a model being done using the principle
 		of parsimony.
@@ -39,7 +39,7 @@
 		procedure was employed to choose a best model from among the largest model and a collection of nested candidates. This application displays how the
 		two developments can be employed together for a holistic approach to model selection.
 
-		\section{Future Work and Conclusion}
+		\section{Future Work}
 
 		The developments presented in this thesis offer several avenues for future work and improvement. One such extension touched upon earlier in the thesis is the
 		potential for the model selection algorithm to be applied to other likelihood-based information criteria beyond what was presented in Chapter 3. The extension
@@ -47,7 +47,7 @@
 		such as is the case for TIC, would likely require further innovation.
 
 		Additionally, further investigation could be done to observe how the model selection algorithm performs when its initial assumption, that being the appropriate
-		specification of the largest candidate model, is violated. The justification for AIC itself assumes that the true model is of the same class as the candidate model
+		specification of the largest candidate model, is violated. The justification for AIC itself assumes that the true model is of the same parametric class as the candidate model
 		at hand, but AIC has been shown to be relatively robust even when this assumption does not hold. Further work could be done to explore how the model selection
 		framework presented in this thesis performs in various scenarios where the largest candidate model is misspecified in some fashion. Alternatively, modifications
 		to the procedure could be sought that seek to allow this assumption to be relaxed.
@@ -58,9 +58,10 @@
 		as logistic regression. With these quantities in hand, a similar bootstrap goodness-of-fit test pertaining to these other modeling frameworks may be able to be constructed.
 		
 		The future prospects for extensions of the work in this thesis expand beyond what has been presented above, but these ideas represent a sample of further work that
-		could be pursued. While the methods introduced in this thesis show merit in and of themselves, an attitude of contentment with what has already been accomplished
-		would have precluded the development of these methods from the outset. Thus, further improvements in the realm of model selection must continue to be sought for as long as
-		man seeks to better quantify and predict the world in which we live.
+		could be pursued.
+		%While the methods introduced in this thesis show merit in and of themselves, an attitude of contentment with what has already been accomplished
+		%would have precluded the development of these methods from the outset. Thus, further improvements in the realm of model selection must continue to be sought for as long as
+		%man seeks to better quantify and predict the world in which we live.
 		
 		
 		

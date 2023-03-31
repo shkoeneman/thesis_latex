@@ -165,7 +165,7 @@ temp <- temp %>%
 p <- ggplot(temp, aes(x = k, y = Stand_AIC_Diff)) +
   geom_point(size = 2, shape = 1) +
   geom_hline(yintercept=-sqrt(1/2)+2, linetype="dashed", color = "purple") +
-  labs(title = "Standardized AIC vs. DOF Difference",
+  labs(title = "",
        x = "DOF Difference",
        y = "Standardized AIC") +
   theme_bw()
@@ -177,7 +177,7 @@ ggsave("../figures/application_plot_uncolored.pdf")
 p <- ggplot(temp, aes(x = k, y = Stand_AIC_Diff, color = Contains_medIncome)) +
   geom_point(size = 2, shape = 1) +
   geom_hline(yintercept=-sqrt(1/2)+2, linetype="dashed", color = "purple") +
-  labs(title = "Standardized AIC vs. DOF Difference",
+  labs(title = "",
        x = "DOF Difference",
        y = "Standardized AIC",
        color = "Contains Median Income Variable\n") +
