@@ -8,7 +8,7 @@
 		\section{Likelihood-Based Information Criteria}
 
 		Let us introduce some notation that will serve us for the remainder of this thesis. Say that one has an $n$ by 1  vector of observations $y$ and wishes to formulate a
-		statistical model for these outcomes. We will call this model our \textit{candidate} model, and we will find it in a \textit{parametric class} of probability distributions.
+		statistical model for these outcomes. We will call this model our \textit{candidate} model, and we will assume it belongs to a \textit{parametric class} of probability distributions.
 		Let the parameters for the class in question be denoted as $\theta$, a vector of size $p$ by 1. Thus, all possible models of the same parametric class can be denoted
 		as
 		\begin{equation*}
@@ -47,13 +47,13 @@
 		evaluate this expectation requires knowledge of the true generating model $g(y)$. In practice, in any situation where we are concerned with selecting and fitting models,
 		we will not possess knowledge of this true model.
 
-		However, while this exact quantity is likely unable to be accessed in practical applications, one may find that its expectation, $E[d(\hat{\theta})]$, can be estimated. An
+		However, while this exact quantity is inaccessible in practical applications, one may find that its expectation, $E[d(\hat{\theta})]$, can be estimated. An
 		effort to do so is what led to the formulation of the \textit{Akaike information criterion}, colloquially known as \textit{AIC}. For a fitted model $f(y|\hat{\theta})$,
 		AIC is evaluated as
 		\begin{equation*}
 			AIC = -2 \log f(y|\hat{\theta}) + 2 p,
 		\end{equation*}
-		with this statistic serving as an asymptotically unbiased estimator for the expected Kullback-Leibler discrepancy subject to assumptions being met (Akaike, 1974). Specifically, AIC was derived
+		with this statistic serving as an asymptotically unbiased estimator for the expected Kullback-Leibler discrepancy subject to appropriate assumptions being met (Akaike, 1974). Specifically, AIC was derived
 		under the assumption that the true generating model $g(y)$ belongs to the parametric class $\mathcal{F}(p)$, and thus the property of being asymptotically unbiased only
 		holds in this scenario. Being an estimator of the expected Kullback-Leibler discrepancy, smaller values of AIC for models therefore indicate smaller discrepancies of candidate
 		models from the generating model.  
@@ -62,9 +62,9 @@
 		\begin{equation*}
 			AIC = -2 \ell(\hat{\theta}|y) + 2 p.
 		\end{equation*}
-		This $-2 \ell(\hat{\theta}|y)$ term based on the empirical log-likelihood is known as the \textit{goodness-of-fit} term as it represents the degree to which the fitted model
+		The $-2 \ell(\hat{\theta}|y)$ term based on the empirical log-likelihood is known as the \textit{goodness-of-fit} term as it represents the degree to which the fitted model
 		conforms to the observed data $y$ (Cavanaugh and Neath, 2019). This term will only grow smaller as complexity is added to the model. Note that this quantity is
-		a statistic as it depends on the data $y$, and the estimate $\hat{\theta}$ which was likely determined using the data $y$ itself.
+		a statistic as it depends on the data $y$, and the estimate $\hat{\theta}$ which was determined using the data $y$ itself.
 
 		The second term of AIC, that being $2 p$, is commonly referred to as the \textit{penalty} term. This term serves as a bias correction to the goodness-of-fit term to form an asymptotically
 		unbiased estimator, as the likelihood-based goodness-of-fit term on its own is biased (Cavanaugh and Neath, 2019). This term also serves to penalize models with more fitted parameters and
@@ -73,9 +73,9 @@
 		parameters.
 
 		As noted prior, AIC is only asymptotically unbiased. The penalty term of AIC only serves as a sufficient bias correction as the sample size $n$ tends toward infinity. It is well-documented that
-		in small sample sizes when this asymptotic property does not hold, even as an approximation, that AIC can be substantially biased (Brewer et al., 2016). This has led to the development of the 
+		with small sample sizes when this asymptotic property does not hold, even as an approximation, that AIC can be substantially biased (Brewer et al., 2016). This has led to the development of the 
 		\textit{corrected Akaike information criterion}, generally denoted \textit{AICc}. AICc was first proposed by Sugiura as a means to develop an exactly unbiased estimator for the expected
-		Kullback-Leibler discrepancy of a fitted normal linear regression model, thus allowing AICc to be safely used in a similar manner to AIC in small sample sizes (Sugiura, 1978). The form of AICc is 
+		Kullback-Leibler discrepancy of a fitted normal linear regression model, thus allowing AICc to be safely used in a similar manner to AIC with small sample sizes (Sugiura, 1978). The form of AICc is 
 		\begin{equation*}
 			AICc = -2 \ell(\hat{\theta}|y) + \frac{2 r n}{n - r - 1},
 		\end{equation*}
@@ -108,15 +108,15 @@
 		criterion will asymptotically select the fitted candidate model which minimizes the mean squared error of prediction with probability one, even if the generating model is of infinite dimension
 		or outside of the set of candidate models.
 
-		Thus, it is has been espoused that AIC and the variant AICc are to be preferred when \textit{prediction} is of chief importance when performing model selection, and that BIC is to be preferred
+		Thus, it is has been espoused that AIC and the variant AICc are to be preferred when \textit{prediction} is of primary importance, and that BIC is to be preferred
 		when \textit{description} is of chief importance when performing model selection. Simulation studies have shown that this recommendation has some merit (Neath and Cavanaugh, 2011). However, these
 		ideas of consistency and efficiency only hold in the asymptotic sense, and choosing the model with the minimum criterion value provides no guarantee that the model possesses the traits of either
 		property in finite sample sizes.
 		
 		Additionally, each criterion has sampling variability in finite sample sizes. Thus, if selecting a model with the minimum criterion value is the method of choice, this may lead to a model that is
-		deficient in prediction or description by chance. This has lead to the development of rules of thumb for using these criteria beyond simply choosing the minimum AIC, BIC, or AICc model.
+		deficient in prediction or description by chance. This consideration has lead to the development of rules of thumb for using these criteria beyond simply choosing the minimum AIC, BIC, or AICc model.
 
-		As stated in the introduction, Burnham and Anderson (2002) developed the recommendations which can be found in Table 1.1 for using AIC in finite sample settings. This paradigm states that models
+		As stated in the introduction, Burnham and Anderson (2002) proposed the recommendations which can be found in Table 1.1 for using AIC in finite sample settings. This paradigm states that models
 		that are within 2 units of AIC of the minimum AIC model are not to be discounted. Thus, if there are multiple models that are within this threshold, then it may be prudent to treat each of them
 		as a valid candidate for selection, and select a model based on parsimony, scientific intuition, or some other method. However, the thresholds presented in Table 1.1 were created using empirical
 		observation, and do not have any apparent probabilistic justification behind them.
@@ -138,9 +138,9 @@
 		\end{tabular}
 		}
 		\end{table}
-		This table makes a recommendation similar to the one presented for AIC in that models within 2 BIC of the minimum BIC model are suggested to be in just as much contention for selection as
+		This table provides a recommendation similar to the one presented for AIC in that models within 2 BIC of the minimum BIC model are suggested to be in just as much contention for selection as
 		the minimum BIC model. These BIC cutoffs were motivated using an argument centered around Bayes factors (Jeffreys, 1961) and an approximate $t$ distribution, but still lack a degree of specificity
-		when it comes to accounting for comparisons of models differing greatly in number of parameters or accounting for vast differences in sample sizes between different model selection outings.
+		when it comes to accounting for comparisons of models differing greatly in number of parameters or accounting for vast differences in sample sizes between different model selection applications.
 		Methods with more probabilistic rigor, but still in the vein of identifying contender candidate models and selecting from among them, will be developed and explored later in this thesis.
 
 		It is worth mentioning that not all likelihood-based information criteria follow the pattern of a goodness-of-fit term that can be viewed as a statistic offset by a penalty term that
@@ -159,7 +159,7 @@
 		\end{equation*}
 		are quantities that must be estimated in order to calculate the given penalty term. As this penalty term needs to be estimated from the data, it is not a fixed constant as is the case
 		for AIC, AICc, and BIC. However, the advantage of the TIC penalty term is that it is not formulated under the assumption that the true model belongs to the same class as the fitted candidate
-		model. Bootstrap estimators of the TIC penalty term have also been developed (Cavanaugh and Shumway, 1997). This allows for an alternative approach for this non-fixed penalty term.
+		model. Bootstrap estimators of the TIC penalty term have also been developed (Cavanaugh and Shumway, 1997). This allows for an alternative computationally intensive approach to approximate this non-fixed penalty term.
 
 		Finally, it is also worth noting that not all information criteria are likelihood-based, as is the case for the examples given above. The \textit{conceptual predictive statistic}, often
 		referred to as $C_p$, was developed as a screening tool for linear regression analysis (Mallows, 1973). For a linear regression model the statistic has the form
@@ -170,8 +170,8 @@
 		specified or overspecified, then one should expect $C_p$ to be approximately $p$. If the candidate model is underspecified, then $C_p$ is designed to exceed $p$. This is in contrast to AIC
 		where it is simply advocated that lower values of the criterion are associated with models closer to the generating model, and where specific values have little meaning.
 		
-		Additionally, unlike AIC which was derived using the Kullback-Leibler discrepancy as a motivation, $C_p$ was derived using instead the \textit{Gauss discrepancy} between the true regression model
-		$f(y|\theta)$ and fitted model $f(y|\hat{\theta})$. The Gauss discrepancy can be described as the squared Euclidean distance between the true mean vector and the mean vector proposed by the fitted
+		Additionally, unlike AIC, which was derived using the Kullback-Leibler discrepancy as a motivation, $C_p$ was derived using instead the \textit{Gauss discrepancy} between the true regression model
+		$g(y)$ and fitted model $f(y|\hat{\theta})$. The Gauss discrepancy can be described as the squared Euclidean distance between the true mean vector and the mean vector estimated under the fitted
 		model, with no appearance of terms related to likelihoods, and serves as a way to measure the disparity between the true model and the fitted model. $C_p$ was designed as an approximately unbiased
 		estimate of the expectation of the Gauss discrepancy. Thus, while $C_p$ and AIC are both discrepancy-based selection criteria, only AIC is likelihood-based.
 
@@ -187,11 +187,11 @@
 		determine whether the assumptions of a given model are met. While this section will focus on assessments of the goodness-of-fit of traditional normal linear regression models, as these are of
 		chief relevance to this thesis, it is worth noting that assessments of goodness-of-fit exist for many other modeling paradigms as well, and many of the same principles apply.
 
-		Linear regression analysis makes a number of assumptions about the data at hand. Perhaps the most basic assumption is that each data point is independent given the set of predictors at hand.
-		Additionally, it's assumed that the outcomes, conditioned on the covariates, have a mean that is a linear function of the covariates, with this property being referred to as \textit{linearity},
+		Linear regression analysis makes a number of assumptions about the data at hand. Perhaps the most basic assumption is that each outcome is independent given the set of predictors at hand.
+		Additionally, it is assumed that the outcomes, conditioned on the covariates, have a mean that is a linear function of the covariates, with this property being referred to as \textit{linearity},
 		with errors that are normally distributed with a mean of zero. These errors are assumed to be independent and identically distributed with a constant variance across all observations, with this
 		constant variance property being referred to as \textit{homoskedasticity} (Kutner et al., 2005). One method of visually assessing the assumptions of linearity and homoskedasticity when using linear
-		regression is to plot the residuals of a linear regression against either their corresponding predictor values or the corresponding observed values of the outcome, with these figures being called \textit{residual plots} (Miles, 2014). Across different values
+		regression is to plot the residuals against either their corresponding predictor values or the corresponding observed values of the outcome, with these figures being called \textit{residual plots} (Miles, 2014). Across different values
 		of the predictors and observed values, the residuals should not exhibit any specific pattern other than a mean of zero and constant variance if the assumptions of the linear regression model are met.
 		Thus, deviations from this pattern in the form of a residual plot that exhibits curvature, or a change in spread, can indicate violations
 		to linearity and homoskedasticity, respectively.
@@ -205,21 +205,21 @@
 		the associated assumptions are satisfied, with an alternative that the assumptions are violated in some fundamental way. One such test is the \textit{Breusch-Pagan test}, which posits a null hypothesis
 		that a linear regression model does not violate homoskedasticity (Breusch and Pagan, 1979). This test involves performing an auxiliary linear regression on a transformation of the squared residuals from
 		the candidate linear regression model against the covariates of interest. This is followed by the computation of a test statistic defined as half of the explained sum of squares of the auxiliary
-		regression, a quantity that has an asymptotic $\chi_{p-1}$ distribution under the null hypothesis of homoskedasticity. Essentially, the more of the variation in the squared residuals that is explained
+		regression, a quantity that has an asymptotic chi-squared distribution under the null hypothesis of homoskedasticity. Essentially, the more of the variation in the squared residuals that is explained
 		by the auxiliary regression, the more one suspects violations to homoskedasticity.
 
 		However, one limitation of the Breusch-Pagan test is that it is only designed to detect a relationship between the covariates and the squared residuals that is linear, and thus it will not
 		produce efficacious results if the heteroskedasticity present is not linear (Waldman, 1983). An alternative to the Breusch-Pagan test in this matter is the \textit{White test} for homoskedasticity,
 		which shares the same null hypothesis of homoskedasticity of a linear model as the Breusch-Pagan test (White, 1980). The White test is similar to the Breusch-Pagan test in that it involves
 		an auxiliary regression with the squared residuals as the outcome, but here, the regressors are all of the covariates in the original fitted model in addition to their squares and cross
-		products. This produces a test statistic that is also asymptotically distributed $\chi_{p-1}$ under the null hypothesis, but that is sensitive to deviations to the null hypothesis in the form of
+		products. This produces a test statistic that is also asymptotically distributed as chi-squared under the null hypothesis, but that is sensitive to deviations to the null hypothesis in the form of
 		heteroskedasticity related to the squares and cross products of regressors. Additionally, the test may indicate misspecification of the model if the cross products of certain
 		regressors should be included in the model, but are not.
 
 		The various ways in which the White test can detect misspecification bring to attention a weakness of the hypothesis test methods as opposed to methods of visual inspection.
 		When a hypothesis is rejected, we can be reasonably confident that an assumption is violated; however, by simply performing the test, we do not glean much information as to how exactly the
-		model may be misspecified. In the case of rejection of the White test, one may not know if we reject because cross-products should be included as covariates, or if perhaps there is heteroskedatsticity
-		present related to one of the covariates already present. This is in contrast to the method of visually observing residual plots presented above with which specific issues may be easier to identify.
+		model may be misspecified. In the case of rejection of the White test, one may not know if we reject because cross-products should be included as covariates, or if perhaps there is heteroskedasticity
+		present related to one of the covariates already present. This is in contrast to the method of visually observing residual plots wherein specific issues may be easier to identify.
 		If a plot of the residuals versus a covariate exhibits a curved pattern, one may posit a new model that accounts for this curved relationship (Miles, 2014).
 		However, hypothesis tests offer little direction other than that the current model exhibits lack-of-fit in some manner, and further investigation is necessary to determine next steps.
 
@@ -248,7 +248,7 @@
 		\section{Likelihood Ratio Test}
 
 		The likelihood principle is one of the foundational constructs of statistics and allows one to leverage the information in a sample to formulate estimates and to make inference pertaining
-		to the model parameters. Estimates using the method of maximum likelihood are often used when performing model selection, and the likelihood evaluated at
+		to the model parameters. Estimates based on the method of maximum likelihood are often used when performing model selection, and the likelihood evaluated at
 		these estimates helps to form the goodness-of-fit term in many information criteria detailed above.
 
 		However, the value of the likelihood extends beyond parameter estimation and quantifying conformity to the data. Wilks first formulated the likelihood ratio test as a means to test the
@@ -262,17 +262,17 @@
 		is true, it can be shown that $\lambda_{LR}$ converges asymptotically to being distributed as $\chi^2_{k}$, where $k$ is the difference in dimension between the spaces $\Theta$ and
 		$\Theta_o$.
 
-		The typical application of the likelihood ratio test as it relates to model selection is in the case of \textit{nested models}. This where one model that assumes a more restricted parameter
-		space is said to be \textit{nested} within another model with a relatively unrestricted parameter space, fitting the paradigm for the likelihood ratio test outlined above (Lewis et al., 2011).
+		The typical application of the likelihood ratio test as it relates to model selection is in the case of \textit{nested models}. If a smaller model with a more restricted parameter space is subsumed
+		by a larger model with a more general parameter space, the former model is said to be nested with the latter. Nested models are intrinsic to the paradigm for the likelihood ratio test outlined above (Lewis et al., 2011).
 		Commonly in a regression setting this can mean some predictors are included in the larger, non-nested model that are not included in the smaller, nested model, and thus the parameter space is
 		restricted in that the effects for these predictors are fixed to be zero. Additionally, another example of nesting may be a longitudinal model that assumes an unstructured covariance structure
 		that is quite malleable as compared to a nested counterpart assuming a more rigid structure such as compound symmetry.
 
-		The likelihood ratio test allows one to probabilistically assess whether a model or a nested alternative appears to be a better fit. However, this paradigm of model selection possesses
+		The likelihood ratio test allows one to probabilistically assess whether a model or a nested, simplified counterpart appears to provide a better fit. However, this paradigm of model selection possesses
 		several key limitations. An obvious flaw is that the test is designed around comparing two distinct models and performing inference with regard to whether one or the other is 
-		correctly specified when in reality, many different candidate models may be under consideration, and neither of the two models in question may themselves be correctly specified. 
-		This can lead to issues of multiple comparisons if multiple tests are performed (Lewis et al., 2011). Additionally, the notion of power, p-values, and statistical significance 
-		become murky when one cannot be sure that the alternative hypothesis is true, as is the case in any likelihood ratio test conducted for the purpose of model selection (Akaike, 1974).
+		correctly specified, when in reality, many different candidate models may warrant consideration, and neither of the two models in question may themselves be correctly specified. 
+		If multiple tests are performed to compare a variety of different models, issues associated with multiple comparisons may result (Lewis et al., 2011). Additionally, the notion of power, p-values, and statistical significance 
+		become murky when one cannot be sure that the alternative hypothesis is true, as is the case with any likelihood ratio test conducted for the purpose of model selection (Akaike, 1974).
 		Thus, while a powerful probabilistic tool, the likelihood ratio test in model selection must be employed with caution.
 
 		The above presents a brief overview of the likelihood ratio test as it pertains to model selection. In Chapter 3 of this thesis, distributional properties of the likelihood ratio test are
@@ -280,8 +280,8 @@
 
 		\section{Robust Sandwich Variance Estimators}
 
-		When employing likelihood theory to obtain parameter estimates, one can often employ the properties of maximum likelihood estimators (MLEs) to produce reasonable estimates of the variance of the
-		estimators, and thus perform inference (Millar, 2011). However, these properties are only guaranteed to hold when the model is properly specified, and may give poor estimates when assumptions
+		When employing likelihood theory to obtain parameter estimates, one can often leverage the properties of maximum likelihood estimators (MLEs) to produce reasonable estimates of the variance of the
+		estimators, and thus perform inference (Millar, 2011). However, these properties are only guaranteed to hold when the model is properly specified, and poor estimates may result when assumptions
 		do not hold. This has given rise to \textit{robust variance estimators} that rely on fewer assumptions than classical likelihood theory, yet can still quantify the variability of a statistic
 		at hand.
 
@@ -305,10 +305,10 @@
 		\begin{equation*}
 			C(\theta) = A(\theta)^{-1} B(\theta) A(\theta)^{-1} ,
 		\end{equation*}
-		and thus evaluating this quantity at $\theta_*$, one arrives at the robust asymptotic variance estimate. This estimator, and those that are similar in form, are often called \textit{sandwich}
+		and thus evaluating this quantity at $\theta_*$, one arrives at the robust asymptotic variance estimate. The resulting estimator, and those that are similar in form, are often called \textit{sandwich}
 		variance estimators due to one quantity being sandwiched in between two identical others to form the statistic.
 
-		As in general one will not know the pseudo-true parameter $\theta_*$, White shows that the matrices
+		As in general one will not know the pseudo-true parameter $\theta_*$, White indicates that the matrices
 		\begin{equation*}
 			A_n(\theta) = \frac{1}{n} \sum_{t=1}^{n} \frac{\partial^2 f(y_t,\theta)}{\partial \theta_i \partial \theta_j}
 		\end{equation*}
@@ -324,45 +324,45 @@
 		\begin{equation*}
 			C_n(\hat{\theta}_n) \xrightarrow[]{a.s.} C(\theta_* ) .
 		\end{equation*}
-		Thus, we have a variance estimator for the MLE that is both robust to much misspecification and can be calculated using the data, but yet also will be approximately equivalent to using standard
-		likelihood theory results if the model is correctly specified. This sandwich estimator, and others like it, can be used to perform inference related to the parameters if one calls into question
-		the strong assumptions involved in using the typical maximum likelihood estimator properties. However, if these assumptions cannot be met and the model appears to be misspecified, one may ponder
+		Thus, we have a variance estimator for the MLE that is both robust to much misspecification and can be calculated using the data, but yet also will be approximately equivalent to the standard
+		likelihood theory estimator if the model is correctly specified. This sandwich estimator, and others like it, can be used to perform inference related to the parameters if one calls into question
+		the strong assumptions involved in using the traditional maximum likelihood estimator. However, if these assumptions cannot be met and the model appears to be misspecified, one may ponder
 		the merit of performing inference on the pseudo-true parameters in the first place (Freedman, 2006). Therefore, robust variance estimators serve as a hedge against slight deviances from a model
-		being correctly specified, not as a tool that covers over poor model selection.
+		being correctly specified, not as a tool that remediates poor model selection.
 
 		For the purposes of this thesis, the White sandwich estimator will be used to formulate a hypothesis test to assess the goodness-of-fit of a linear regression model. Chapter 4 will detail how
 		the test is to be formulated and will explicitly demonstrate the form of the sandwich estimator that is to be used.
 
 		\section{The Bootstrap Procedure}
 
-		The above sections detail several cases in which many assumptions need to be met for procedures to have the desired properties. In this section, the \textit{bootstrap procedure} will
+		The above sections detail several cases in which potentially stringent assumptions need to be met for procedures to have the desired properties. In this section, the \textit{bootstrap procedure} will
 		be discussed, a method that often requires far fewer parametric assumptions.
 		
 		The term \textit{bootstrap} was first used by Efron to describe a procedure through which one resamples with replacement from the sample at hand to produce a new sample that will behave as if it
 		was drawn from the target population (Efron, 1979). A statistic of interest can be calculated using this new sample. This resampling and subsequent calculation can be done many times to obtain many statistics that form an
-		\textit{empirical bootstrap distribution} for the statistic that, assuming a sufficient sample size and that the original sample does reflect the distribution, will asymptotically approach the
-		true sampling distribution of the statistic. With such a bootstrap distribution, one can use a variety of methods to construct intervals and perform inference with regards to population
-		parameters of interest. One such method of forming a confidence interval is the called the \textit{percentile bootstrap} wherein if an interval with coverage probability $100*(1-\alpha) \%$ is
+		\textit{empirical bootstrap distribution} for the statistic that, assuming a sufficient sample size and an original sample that reflects the underlying distribution, will asymptotically approach the
+		true sampling distribution of the statistic. With such a bootstrap distribution, one can use a variety of methods to construct confidence intervals and perform inference with regards to population
+		parameters of interest. One such method of forming a confidence interval is the called the \textit{percentile bootstrap}, wherein if an interval with coverage probability $100*(1-\alpha) \%$ is
 		desired, the $\alpha/2$ and $1-\alpha/2$ percentiles of the empirical bootstrap distribution are used as the bounds of the interval (Efron and Tibshirani, 1993). This method is general and
 		can be applied in a similar manner with little modification for the parameter or statistic of interest.
 
 		The bootstrap procedure has several advantages, with the first being that it makes few assumptions about the distribution of the data at hand. This is in contrast to many other methods of
-		statistical inference which require assumptions to be met for desirable properties to hold. A second is that in addition to not needing to assume a sampling distribution for the statistic
+		statistical inference which require distributional assumptions to be met for desirable properties to hold. A second is that in addition to not needing to assume a sampling distribution for the statistic
 		of interest, one need not even know the form of the sampling distribution at all in order to perform inference. This in addition to the simplicity and generalizability of the bootstrap procedure
 		make it a powerful tool in a vast array of circumstances  (Efron, 2003).
 
-		However, the bootstrap does possess certain aspects for which need to be accounted to avoid misuse. The bootstrap distribution is generally only guaranteed to converge to the true sampling
+		However, the bootstrap does have certain limitations for which need to be accounted to avoid misuse. The bootstrap distribution is generally only guaranteed to converge to the true sampling
 		distribution in an asymptotic sense, and thus caution must be taken in finite sample size (Hinkley, 1994). Additionally, the bootstrap procedure, like nearly any other statistical method,
 		is only as good as the sample one has; if the sample is biased or not representative of the true population in some other way, then the bootstrap will lead to incorrect conclusions. It is also
 		worth noting that the bootstrap is more computationally intensive than many other methods, and this computational complexity can scale as more bootstrap iterations are desired or the statistic
 		of interest grows in computational complexity (Efron and Tibshirani, 1993). If one keeps these limitations in mind, the bootstrap procedure can be used in a wide variety of settings with few
 		other assumptions to be made.
 
-		Variations and extensions of the bootstrap procedure detailed above have been developed. The method described above involving resampling with replacement from the original sample is sometimes
-		referred to as the \textit{non-parametric bootstrap} in contrast to the following methods. The \textit{parametric bootstrap} involves drawing a sample from a fitted model many times and calculating
-		a statistic, thus generating an empirical distribution for a statistic of interest (Dekking, 2005). This method assumes that the fitted model provides a good approximation to drawing from the
+		Variations and extensions of the bootstrap procedure detailed above have been developed. The method previously mentioned, involving resampling with replacement from the original sample, is sometimes
+		referred to as the \textit{non-parametric bootstrap} in contrast to the following methods. The \textit{parametric bootstrap} involves generating a sample from a fitted model many times and calculating
+		a statistic, thus producing an empirical distribution for a statistic of interest (Dekking, 2005). This method assumes that generating data from the fitted model provides a good approximation to drawing from the
 		population, but can be useful when a certain model need be assumed. The \textit{residual bootstrap} involves resampling with replacement the residuals from a regression model, and then adding
-		these back onto the original fitted values $\hat{y}$ to form a new observation while retaining the original covariates associated with that fitted value (Efron and Tibshirani, 1993). This procedure
+		these back onto the original fitted values $\hat{y}$ to form new observations while retaining the original covariates associated with those fitted values (Efron and Tibshirani, 1993). This procedure
 		is useful in that the explanatory variables remain fixed and are not assumed to be random while the outcome itself will vary in each resampling iteration.
 
 		The bootstrap procedure will be used in Chapter 4 of this thesis to assist in the development of a general goodness-of-fit test to be used on a fitted linear model. The bootstrap allows this procedure

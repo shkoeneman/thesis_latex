@@ -22,20 +22,20 @@
 		term. Additionally, we can go even further and quantify the variability of an entire likelihood-based information criterion with a constant penalty
 		term for this fitted model.
 
-		To this end, we first consider $\hat{\sigma}^2$. As the linear model is assumed to not be misspecified, and $\hat{\sigma}^2$ is a maximum likelihood
-		estimator, this quantity will have an asymptotic variance related to the inverse of the Fisher information (Fisher, 1922). In the case of a single
+		To achieve this end, we first consider $\hat{\sigma}^2$. As the linear model is assumed to not be misspecified, and $\hat{\sigma}^2$ is a maximum likelihood
+		estimator, this estimator will have an asymptotic variance related to the inverse of the Fisher information (Fisher, 1922). In the case of a single
 		observation, the Fisher information as it relates to the parameter vector $\theta = [\beta, \sigma^2]$, where $\beta$ represents the regression coefficients
 		present in the model, can be shown to be
 		\begin{equation*}
 			- E \left[ \frac{\partial^2 \ell (\hat{\theta}  )}{\partial \theta^2} \right] = \mathcal{I}_{n}(\theta) =
 			\begin{bmatrix}
-				\frac{X' X}{\sigma^2} & v' \\
-				v & \frac{n}{2 \sigma^4} \\
+				\frac{X' X}{\sigma^2} & 0' \\
+				0 & \frac{n}{2 \sigma^4} \\
 			\end{bmatrix}
 			,
 		\end{equation*}
-		where $X$ is the design matrix of the regression, and $v$ is a column vector of zeroes. Thus, if we assume we have a single observation
-		such that $n=1$,we may take the inverse of the Fisher information matrix and isolate the entry related to the error variance $\sigma^2$. We see that
+		where $X$ is the design matrix of the regression, and $0$ is a column vector of zeroes. Thus, if we assume we have a single observation
+		such that $n=1$,we may take the inverse of the Fisher information matrix and isolate the element related to the error variance $\sigma^2$. We see that
 		this element will be
 		\begin{equation*}
 			\mathcal{I}_{1}^{-1}(\sigma ^2) = 2 \sigma ^4 .
@@ -68,9 +68,9 @@
 
 		Armed with the above asymptotic relationship and assuming that this asymptotic property approximately holds in a setting with a finite $n$, we have that
 		\begin{equation*}
-			n\log(\hat{\sigma}^2) \, \dot\sim \, N \left( n\log(\sigma^2), 2n \right) .
+			n\log(\hat{\sigma}^2) \; \dot\sim \; N \left( n\log(\sigma^2), 2n \right) .
 		\end{equation*}
-		Thus, assuming that the model is appropriately specified, the variance of $n\log(\hat{\sigma}^2)$ will be approximately $2n$. Applying this back to the goodness-of-fit term,
+		Thus, assuming that the model is appropriately specified, the variance of $n\log(\hat{\sigma}^2)$ will be approximately $2n$. Applying this variance back to the goodness-of-fit term,
 		we see that the approximation
 		\begin{equation*}
 			Var \left[ -2 \ell (\hat{\theta}  ) \right] \approx 2n
@@ -103,7 +103,7 @@
 				\end{bmatrix}
 				= -\frac{1}{n} I_n(\theta) .
 		\end{equation*}
-		Now let $x_i$ be the $i$th row of the design matrix $X$, and $y_i$ be the $i$th observation of the observation vector $y$. With this in mind, we can define the score components
+		Now let $x_i$ be the $i$th row of the design matrix $X$, and $y_i$ be the $i$th observation of the observation vector $y$. With this construct in mind, we can define the score components
 		for individual observations in our sample as
 		\begin{equation*}
 			U_i(\theta) = 
@@ -113,7 +113,7 @@
 			\end{bmatrix}
 			.
 		\end{equation*}
-		With this quantity defined, we can then use it to describe the matrix $B_n (\theta)$ used in the White estimator as
+		With these score components defined, we can then use it to describe the matrix $B_n (\theta)$ used in the White estimator as
 		\begin{equation*}
 			B_n(\theta) = \frac{1}{n} \sum_{i=1}^{n} U_i(\theta) U_i(\theta)' .
 		\end{equation*}
@@ -135,7 +135,7 @@
 		\end{equation}
 		where $\sigma_*^2$ denotes the pseudo-true parameter related to $\sigma^2$ in the case of potential misspecification.
 
-		We will again employ the delta method to transform this distribution to a form that is more suitable. We once more define a transformation of
+		We will again employ the delta method to transform the asymptotic distribution to a form that is more suitable. We once more define a transformation of
 		\begin{equation*}
 			g(x) = \log(x) ,
 		\end{equation*}
@@ -149,7 +149,7 @@
 		\end{equation*}
 		Using this asymptotic distribution, one can arrive at an approximate distribution for $n\log(\hat{\sigma}^2)$ as
 		\begin{equation*}
-			n\log(\hat{\sigma}^2) \, \dot\sim \, N \left( n\log(\sigma_* ^2), \frac{n}{\sigma_*^4} s(\theta_*) \right) ,
+			n\log(\hat{\sigma}^2) \; \dot\sim \; N \left( n\log(\sigma_* ^2), \frac{n}{\sigma_*^4} s(\theta_*) \right) ,
 		\end{equation*}
 		which could be suitable for use in finite sample sizes that are sufficiently large. However, $\sigma_*^2$ and $s(\theta_*)$ are likely to be unknown in practical modeling
 		applications. Thus, estimating these quantities with $\hat{\sigma}^2$ and $s_n(\hat{\theta})$ respectively, a reasonable estimate for the variance of $n\log(\hat{\sigma}^2)$ can
@@ -160,24 +160,24 @@
 		By the relation presented in (4.1) in the previous section, it is clear that this variance estimate is also suitable for $Var \left[ -2 \ell (\hat{\theta}  ) \right]$, and therefore
 		likelihood-based information criteria as a whole that possess a constant penalty term. This estimator should converge to our previously derived value $2n$ in the case of a correctly
 		specified model, as the sandwich estimator component will converge to the expected Fisher information used in section 4.1, and the MLE $\hat{\sigma}^2$ should converge to the true
-		parameter value $\sigma^2$. However, this estimator need not assume correct specification, and should be relatively robust to model misspecification.
+		parameter value $\sigma^2$. However, this sandwich estimator need not assume correct specification, and should be relatively robust to model misspecification.
 		
-		For the remainder of this thesis, this estimator will be referred to as $\widehat{Var}[GOF]$ such that
+		For the remainder of this thesis, this sandwich estimator will be referred to as $\widehat{Var}[GOF]$ such that
 		\begin{equation*}
 			\widehat{Var}[GOF] = \frac{n}{\hat{\sigma}^4} s_n(\hat{\theta}) .
 		\end{equation*}
-		This notation will be used because this quantity is estimating $Var[GOF]$, the true variance of the likelihood goodness-of-fit
+		This notation will be used because this statistic is estimating $Var[GOF]$, the true variance of the likelihood goodness-of-fit
 		term.
 		
-		\section{Bootstrap Test for Goodness-Of-Fit of a Linear Model} \label{sec:boot_test}
+		\section{Bootstrap Test for GOF of a Linear Model} \label{sec:boot_test}
 
 		The previous sections have established an asymptotic variance for the likelihood goodness-of-fit term in the case of a correctly specified normal linear regression model, and an
 		estimator for this variance that does not assume the model is correctly specified. We will now synthesize these two developments to form a general goodness-of-fit procedure to
 		test the hypothesis that a given normal linear regression model is correctly specified.
 
 		Under the null hypothesis that a normal linear regression model is correctly specified, the estimator $\widehat{Var}[GOF]$ should be close to the theoretical value $2n$ for a
-		sufficient sample size. Thus, we need some way to probabilistically determine whether a fitted model demonstrates this property, or whether it appears to violate the null
-		hypothesis.
+		sufficient sample size. Thus, we need some way to probabilistically determine whether a fitted model demonstrates this property that indicates correct specification, or whether it
+		appears to violate the null hypothesis.
 		
 		We propose the use of the non-parametric bootstrap to obtain an empirical estimate for the sampling distribution of $\widehat{Var}[GOF]$. Once this empirical distribution
 		has been obtained, the null hypothesis can be tested by observing whether a bootstrap interval for $Var[GOF]$ contains the theoretical value $2n$, as the approximation
@@ -204,7 +204,7 @@
 
 		This procedure can be used to assess the general hypothesis that a normal linear regression model is properly specified against the alternative that it displays lack-of-fit.
 		Unlike other goodness-of-fit tests and procedures, this method does not test a specific assumption of linear regression such as normality or homoskedasticity, but rather
-		all assumptions of normal linear regression. If any of them are violated, the property $Var[GOF] \approx 2n$ is not guaranteed to hold. This allows the test to detect
+		all assumptions of normal linear regression. If any of them are violated, the property $Var[GOF] \approx 2n$ is not guaranteed to hold. This characteristic allows the test to detect
 		many forms of misspecification from mean misspecification to distributional misspecification to heteroskedasticity.
 		
 		The following section will demonstrate the efficacy of this procedure to roughly maintain the desired size when the null hypothesis is true. Further simulations will display power
@@ -225,7 +225,7 @@
 
 		\subsection{Simulation to Establish Type~I Error Rate of Bootstrap GOF Test}
 
-		The data generating process for this simulation is to be as follows. The $n$ by 1 outcome vector $y = [y_1,...,y_n]$ will be generated for $i = 1,...,n$ according
+		The data generating process for this simulation is to be as follows. The $n$ by 1 outcome vector $y = [y_1,...,y_n]'$ will be generated for $i = 1,...,n$ according
 		to
 		\begin{equation*}
 			y_i = 2.0 + 2.0 x_{i1} + 2.0 x_{i2} + \epsilon_i , 
@@ -233,13 +233,13 @@
 		where $\epsilon_i \stackrel{iid}{\sim} N(0,4)$ is a randomly generated normal error, and $x_{i1}$ and $x_{i2}$ are completely $iid$ covariates generated according to
 		a $Uniform(0,5)$ distribution. Note this formulation is one of a normal linear regression model with an intercept and an effect for each covariate present.
 
-		With this generated data in hand, we will proceed to fit a normal linear regression model that includes an intercept and effects for $x_{i1}$ and $x_{i2}$. This model
+		With the generated data in hand, we will proceed to fit a normal linear regression model that includes an intercept and effects for $x_{i1}$ and $x_{i2}$. This model
 		is properly specified, and should not exhibit gross lack-of-fit. For each iteration of the simulation, the bootstrap goodness-of-fit test presented above will be
 		performed on the fitted model at the $\alpha = .05$ level, and whether the test rejects the null hypothesis will be recorded. In this way, after many simulation iterations
 		we will be able to estimate the Type~I error rate of the test for this scenario as the null hypothesis of the test is true.
 
 		Additionally, the White test (White, 1980) and the Breusch-Pagan test (Breusch and Pagan, 1979) will also be performed on the fitted model in each simulation iteration, and
-		whether these tests reject their null hypotheses of homoskedasticity will be recorded. This is to establish the ability of these tests to maintain a desired Type
+		whether these tests reject their null hypotheses of homoskedasticity will be recorded. This is done in order to establish the ability of these tests to maintain a desired Type
 		I error rate for future simulations.
 
 		The simulation will be performed for $n = 100,200,...,1000$. The number of bootstrap iterations used by the bootstrap goodness-of-fit test will be $B = 1000$ for all simulations.
@@ -293,13 +293,13 @@
 		of $n$ display conservative test behavior while others display anti-conservative behavior. Thus, while the bootstrap test appears to trend from anti-conservative behavior
 		to the desired behavior as $n$ increases, the White and Breusch-Pagan test behavior in finite sample sizes cannot exactly be determined.
 
-		\subsection{Simulation to Establish Power of Bootstrap GOF Test - Mean misspecification}
+		\subsection{Simulation to Establish Power of Bootstrap GOF Test - Mean Misspecification}
 
 		The previous simulation tested a scenario where the null hypothesis of all tests were true. This simulation will test a scenario where the White and
 		Breusch-Pagan test null hypotheses are true, but where the general hypothesis of the bootstrap test that a normal linear regression model is properly
 		specified is false.
 
-		The data generating process will be the exact same as the previous simulation, where the $n$ by 1 outcome vector $y = [y_1,...,y_n]$ will be generated
+		The data generating process will be the exact same as the previous simulation, where the $n$ by 1 outcome vector $y = [y_1,...,y_n]'$ will be generated
 		for $i = 1,...,n$ according to
 		\begin{equation*}
 			y_i = 2.0 + 2.0 x_{i1} + 2.0 x_{i2} + \epsilon_i , 
@@ -307,7 +307,7 @@
 		where $\epsilon_i \stackrel{iid}{\sim} N(0,4)$ is a randomly generated normal error, and $x_{i1}$ and $x_{i2}$ are completely $iid$ covariates generated according to
 		a $Uniform(0,5)$ distribution. However, in this case the fitted model will be a normal linear regression model with an intercept and effect for only
 		$x_{i1}$. The covariate $x_{i2}$ will be omitted from the model, and could be viewed as a characteristic that affects the true generating process, but
-		was unobserved in data collection. This will induce mean misspecification into this fitted model as the mean structure will be underspecified.
+		was unobserved in data collection. This omission will induce mean misspecification into this fitted model as the mean structure will be underspecified.
 
 		For each simulation iteration, the bootstrap goodness-of-fit test, White test, and Breusch-Pagan test will each be performed at the $\alpha = .05$ level on the 
 		fitted model. The White and Breusch-Pagan tests do not have their null hypotheses violated as the data still exhibits homoskedasticity, and thus they should not be able to
@@ -363,10 +363,10 @@
 		with the test appearing to possess near-perfect power as the value of $n$ approaches 1000. Thus, the bootstrap test appears to possess the ability to detect this mean
 		misspecification on account of an unobserved covariate, and the power to detect this misspecification rises as the sample size increases as one would expect.
 
-		In contrast, the White test and Breusch-Pagan test both seem to only maintain their Type~I error rates established in Simulation 3. This was to be expected
-		as the null hypotheses of these tests are not violated in this scenario. However, it does demonstrate how the inability of the a goodness-of-fit test to detect lack of
-		fit does not mean lack-of-fit is not present, as these two tests are limited in the scope of misspecification they are able to detect. This is in contrast to the
-		bootstrap test which possesses a much more general null hypothesis.
+		In contrast, the White test and Breusch-Pagan test both seem to only maintain their Type~I error rates established in Simulation 3. This performance was to be expected
+		as the null hypotheses of these tests are not violated in this scenario. However, it does demonstrate how the inability of a goodness-of-fit test to detect lack of
+		fit does not mean lack-of-fit is not present, as these two tests are limited in the scope of misspecification they are able to detect. This limitation in scope is in contrast to the
+		bootstrap test, which possesses a much more general null hypothesis.
 
 		\subsection{Simulation to Establish Power of Bootstrap GOF Test - Heteroskedasticity Induced by Unobserved Covariates}
 
@@ -374,14 +374,14 @@
 		treated as unobserved. In this setting, the null hypothesis of the bootstrap test, the White test, and the Breusch-Pagan test will all be violated, and the
 		power of each will be compared.
 
-		The data generating process for this simulation is to be as follows. The $n$ by 1 outcome vector $y = [y_1,...,y_n]$ will be generated for $i = 1,...,n$ according
+		The data generating process for this simulation is to be as follows. The $n$ by 1 outcome vector $y = [y_1,...,y_n]'$ will be generated for $i = 1,...,n$ according
 		to
 		\begin{equation*}
 			y_i = 2.0 + 2.0 x_{i1} + 2.0 x_{i2} + \epsilon_i , 
 		\end{equation*}
 		where $\epsilon_i \stackrel{iid}{\sim} N \left( 0,(2 + x_{i3})^2 \right)$ is a randomly generated normal error, and $x_{i1}$, $x_{i2}$, and $x_{i3}$ are completely $iid$ covariates
 		generated according to a $Uniform(0,5)$ distribution. Note that heteroskedasticity is introduced into this model courtesy of $x_{i3}$ affecting the error variance, and thus any
-		linear model fit to this data will not be properly specified if it assumes homoskedasticity.
+		linear model fit to the data will not be properly specified if it assumes homoskedasticity.
 		
 		The fitted model for this simulation will be a normal linear regression model that has the correct mean structure of an intercept with effects for $x_{i1}$ and $x_{i2}$, but will
 		be fit assuming homoskedasticity and therefore be misspecified. The covariate $x_{i3}$ is assumed to be unobserved in this modeling scenario as if it were not collected, and thus the
@@ -448,7 +448,7 @@
 		The bootstrap test seems to only exhibit power in line with its empirical Type~I error rate displayed in Simulation 3 for $n = 100$, but the power of the test rises
 		rapidly, reaching near-perfect levels by the time $n = 1000$. In contrast, the White test and Breusch-Pagan test exhibit only power in line with their Type~I error
 		rates established in Simulation 3, and thus do not seem to be able to detect that the model is misspecified despite the misspecification being a form of
-		heteroskedasticity. This is on account of how these tests are performed, as they rely on looking for heteroskedasticity that is induced by observed covariates.
+		heteroskedasticity. This limitation is on account of how these tests are performed, as they rely on looking for heteroskedasticity that is induced by observed covariates.
 		When heteroskedasticity is induced by an unobserved covariate that is not used in the model, the White test and Breusch-Pagan test cannot ascertain that their
 		null hypotheses of homoskedasticity are violated. However, he bootstrap test is able to reject its more general null hypothesis.
 

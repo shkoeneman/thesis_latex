@@ -28,7 +28,7 @@
 		which is itself a relative measure of the separation between one probability distribution and another (Kullback and Leibler, 1951). The Kullback-Leibler discrepancy ignores constants
 		associated only with the true generating distribution that are present in the Kullback-Leibler information from which the discrepancy is derived, causing AIC to have relative meaning among
 		fitted candidate models, but little absolute meaning. In the case of application of AIC, the probability distributions of interest are those of the true generating model
-		for our data and our proposed model that has been fit using the data. The lower the value of AIC for a fitted model is, the lower our estimate for the Kullback-Leibler divergence,
+		for our data and our proposed model that has been fit using the data. The lower the value of AIC for a fitted model, the lower our estimate for the Kullback-Leibler divergence,
 		and thus the lower the separation between the true generating model and fitted candidate model. Thus, a recommended practice has been to perform model selection by choosing
 		the candidate model with the lowest value of AIC.
 
@@ -72,9 +72,9 @@
 		Various methods exist to assess misspecification of a model, with most being tuned to a specific family of models or aspect of misspecification. In the case of linear regression,
 		plotting the fitted residuals against the fitted values or individual covariates is a common form of visually assessing whether the linear regression assumptions of linearity and
 		homoskedasticity are met (Kutner et al., 2005). In addition to visual diagnostics, several hypothesis testing methods have been developed to assess the goodness-of-fit of linear
-		models. Methods such as the Breusch-Pagan Test (Breusch and Pagan, 1979) and the White Test (White, 1980) can be employed to test the hypothesis that the residuals exhibit homoskedasticity
+		models. Methods such as the Breusch-Pagan test (Breusch and Pagan, 1979) and the White test (White, 1980) can be employed to test the hypothesis that the residuals exhibit homoskedasticity
 		after the data is fit to a linear model. These methods excel at detecting certain forms of misspecification in linear models, but can be fooled when the misspecification manifests in a
-		way they are not tuned to detect, and are not robust to all violations to the assumptions of linear regression.
+		way they are not tuned to detect, and are not robust to all violations of the assumptions of linear regression.
 
 		The main motivation for this thesis is to investigate the distributional properties of likelihood-based information criteria with the hope of producing methods to aid in model selection
 		that rely on probabilistic theory as opposed to ad hoc rules of thumb and visual inspection. The first part of the novel developments in this thesis outlines a new model selection procedure using the distributional
@@ -85,7 +85,7 @@
 		In the second portion of the thesis, distributional properties related to the large-sample distribution of the goodness-of-fit term present in likelihood-based information criteria
 		are established. These properties are then leveraged to create a bootstrap goodness-of-fit test to test the very general hypothesis that a linear regression model is properly specified
 		against the alternative that it is not. The ability of this test to perform as expected when the null hypothesis is true is verified through a simulation study. Further simulation
-		studies display the advantage of this test over existing methods as it pertains to ability to detect subtle, but notable, forms of misspecification.
+		studies display the advantage of this test over existing methods as it pertains to the ability to detect subtle, but notable, forms of misspecification.
 
 		\section{Overview of the Thesis}
 		The remainder of the thesis is organized as follows. In Chapter~2, we provide some background related to likelihood-based information criteria, goodness-of-fit assessment, and other mathematical

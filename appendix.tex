@@ -79,17 +79,17 @@ It is then natural to express the difference in AICc values as
 \end{equation*}
 Therefore, under the F-Test null hypothesis, one knows that the exact distribution of this AICc difference will be a transformation of the
 distribution of $F_i$. If one knew this distribution and its properties, one could standardize $AICc_i - AICc_*$ as was done in Chapter 3
-to have unit variance $\forall i$, and additionally formulate an informed cutoff as was done in Chater 3 using the likelihood ratio
+to have unit variance $\forall\: i$, and additionally formulate an informed cutoff as was done in Chater 3 using the likelihood ratio
 test properties.
 
 However, the transformation applied to $F_i$ is complex, and does not result in any commonly known distribution. Therefore to estimate
 the mean and variance of $AICc_i - AICc_*$, we propose taking many samples using software from an F distribution distributed the same as $F_i$,
 applying the transformation including the constant of $\left[ 2(p-k_i) \left( \frac{n}{n-p+k_i-1} \right) - 2p \left( \frac{n}{n-p-1} \right) \right]$ to each sampled value,
-and then empirically estimating a mean and variance. This can be done for each distinct $k_i$, as the distribution will be the same for models with
+and then empirically estimating a mean and variance. This estimation can be done for each distinct $k_i$, as the distribution will be the same for models with
 the same difference in number of estimated parameters from the reference model. In this way, if enough samples are taken, one can obtain precise estimates
 of the exact mean and variance of $AICc_i - AICc_*$.
 
-Using the variance estimates, one could then standardize $AICc_i - AICc_*$ $\forall i$. Additionally, one could take the largest estimated
+Using the variance estimates, one could then standardize $AICc_i - AICc_*$ $\forall\: i$. Additionally, one could take the largest estimated
 mean and use this quantity plus 2 as the cutoff, similar to what was done in the model selection procedure presented in Chapter 3. This
 procedure would be very similar in formulation, but would not rely on the asymptotic properties of the likelihood-ratio test, instead
 relying on the exact F-Test and a Monte Carlo simulation to obtain a reasonable estimate for the exact mean and variance of the difference
@@ -146,7 +146,7 @@ Thus, noting that $\sigma^2 A$ is idempotent, it can be seen that
 	& = rank \left( \sigma^2 A \right) .
 	\end{split}
 \end{equation*}
-Therefore, as $rank \left( \sigma^2 A \right) = rank \left( A \right)$ since $\sigma^2$ is a scalar constant, then $rank \left( A \right) = p$. This will be the degrees of
+Therefore, as $rank \left( \sigma^2 A \right) = rank \left( A \right)$ since $\sigma^2$ is a scalar constant, then $rank \left( A \right) = p$. This value will be the degrees of
 freedom in the chi-squared distribution presented above.
 
 Now, we observe the non-centrality parameter $\mu 'A \mu = (X \beta)'A(X \beta)$. Note that
@@ -171,8 +171,8 @@ Note that if we take the natural logarithm of the left-hand side and take its va
 	\end{split}
 \end{equation}
 due to constant terms being irrelevant to the variance calculation. This enclosed form is very close to the $n \log \hat{\sigma}^2$ that is required
-to determine the variance of the likelihood goodness of fit term $-2 \ell (\hat{\theta} )$ in the case of a normal linear regression model, with these
-quantities differing only by a multiplicative constant. Thus, if we can calculate $Var \left[ \log \hat{\sigma}^2 \right]$, which is itself the variance
+to determine the variance of the likelihood goodness of fit term $-2 \ell (\hat{\theta} )$ in the case of a normal linear regression model.
+Thus, if we can calculate $Var \left[ \log \hat{\sigma}^2 \right]$, which is itself the variance
 of the natural logarithm of a variable distributed as $\chi^2_{n-p}$, we can easily obtain $Var \left[ n \log \hat{\sigma}^2 \right]$.
 
 Thus, we now derive the variance of the logarithm of a central chi-square distributed random variable. Let $W \sim \chi^2_{\nu}$, and let $Y = \log(W)$. Note that
@@ -191,7 +191,7 @@ Taking the first derivative with respect to $t$, we see that
 \begin{equation*}
 	\frac{\partial M_Y(t)}{\partial t} = (2^t \log 2) \frac{\Gamma (t + \frac{\nu}{2})}{\Gamma (\frac{\nu}{2})} + 2^t \frac{\Gamma ' (t + \frac{\nu}{2})}{\Gamma (\frac{\nu}{2})} .
 \end{equation*}
-Note that in general $\frac{\Gamma ' (z)}{\Gamma (z)} = \psi^{(0)}(z)$, where $\psi^{(0)}(z)$ is the digamma function. With this in mind, we see that the first moment of
+Note that in general $\frac{\Gamma ' (z)}{\Gamma (z)} = \psi^{(0)}(z)$, where $\psi^{(0)}(z)$ is the digamma function. With this relation in mind, we see that the first moment of
 $Y$ can be calculated as
 \begin{equation*}
 	E \left[ Y^1 \right] =  \left. \frac{\partial M_Y(t)}{\partial t} \right|_{t=0} = \log 2 + \psi^{(0)} \left( \frac{\nu}{2} \right) .
@@ -230,7 +230,7 @@ $\nu$ degrees of freedom, is found to be
 \begin{equation*}
 	Var \left[ Y \right ] = E \left[ Y^2 \right] - \left( E \left[ Y \right] \right)^2 = \psi^{(1)} \left( \frac{\nu}{2} \right) .
 \end{equation*}
-The variance will simply be the trigamma function evaluated at half of the degrees of freedom. This can be calculated using software to approximate the trigamma function,
+The variance will simply be the trigamma function evaluated at half of the degrees of freedom. This value can be calculated using software to approximate the trigamma function,
 although it should be noted that this calculation may be unstable for certain values of the degrees of freedom.
 
 Recalling the distributional result established in (A.1) and relation in (A.2), it is clear that
@@ -241,7 +241,7 @@ based on the variance that has been derived above. Multiplying each side by $n^2
 \begin{equation*}
 	Var \left[ n \log \hat{\sigma}^2 \right] = Var \left[ -2 \ell (\hat{\theta} ) \right] = n^2 \psi^{(1)} \left( \frac{n-p}{2} \right).
 \end{equation*}
-Thus, we have established the exact variance of the likelihood goodness-of-fit term in the case of a correctly specified linear model. This is in contrast to the
+Thus, we have established the exact variance of the likelihood goodness-of-fit term in the case of a correctly specified linear model. This exact variance is in contrast to the
 approximate variance found in Chapter 4.
 
 However, while this variance is exact, it still involves an approximation as the trigamma function must be approximated. Additionally, it was found that
