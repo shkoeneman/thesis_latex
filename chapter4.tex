@@ -1,7 +1,7 @@
 \doublespace
 \Chapter{GOODNESS-OF-FIT PROCEDURE FOR NORMAL LINEAR REGRESSION MODELS}
 
-	The preceding chapter presented a new model selection procedure that relies on the distributional properties of differences in information criteria values to guide
+	The preceding chapter presented a new model selection procedure that relies on the distributional properties of differences in information criterion values to guide
 	selection in a manner that does not rely only on rules of thumb. However, for such properties to be justified, it was first required that the largest candidate model
 	in a collection of candidate models does not display lack-of-fit. This section will develop a new goodness-of-fit procedure to be used with normal linear regression
 	that can be employed to help justify such an assumption.
@@ -24,17 +24,17 @@
 
 		To achieve this end, we first consider $\hat{\sigma}^2$. As the linear model is assumed to not be misspecified, and $\hat{\sigma}^2$ is a maximum likelihood
 		estimator, this estimator will have an asymptotic variance related to the inverse of the Fisher information (Fisher, 1922). In the case of a single
-		observation, the Fisher information as it relates to the parameter vector $\theta = [\beta, \sigma^2]$, where $\beta$ represents the regression coefficients
+		observation, the Fisher information as it relates to the parameter vector $\theta' = [\beta', \sigma^2]$, where $\beta$ represents the regression coefficients
 		present in the model, can be shown to be
 		\begin{equation*}
 			- E \left[ \frac{\partial^2 \ell (\hat{\theta}  )}{\partial \theta^2} \right] = \mathcal{I}_{n}(\theta) =
 			\begin{bmatrix}
-				\frac{X' X}{\sigma^2} & 0' \\
+				\frac{X' X}{\sigma^2} & 0 \\
 				0 & \frac{n}{2 \sigma^4} \\
 			\end{bmatrix}
 			,
 		\end{equation*}
-		where $X$ is the design matrix of the regression, and $0$ is a column vector of zeroes. Thus, if we assume we have a single observation
+		where $X$ is the design matrix of the regression, and $0$ is a vector of zeroes. Thus, if we assume we have a single observation
 		such that $n=1$,we may take the inverse of the Fisher information matrix and isolate the element related to the error variance $\sigma^2$. We see that
 		this element will be
 		\begin{equation*}
@@ -89,11 +89,11 @@
 		that a normal linear regression model is properly specified. This section will develop an estimator for the variance of $n\log(\hat{\sigma}^2)$, and thus $-2 \ell (\hat{\theta})$,
 		that need not assume a given fitted normal linear regression model is correctly specified.
 
-		Assume that we once again fit a linear regression model with assumed parameters $\theta = [\beta, \sigma^2]$ to our data, and we do not know whether this model is correctly specified.
-		We wish to construct an estimator for $Var \left[ -2 \ell (\hat{\theta}  ) \right]$. This estimator will be constructed using the White robust sandwich variance estimator employing
+		Assume that we once again fit a linear regression model with assumed parameters $\theta' = [\beta', \sigma^2]$ to our data, and suppose we do not know whether this model is correctly specified.
+		We wish to construct an estimator for $Var \left[ -2 \ell (\hat{\theta}  ) \right]$. This estimator will be constructed using the White robust sandwich variance estimator, employing
 		much of the notation related to this development that was introduced in Chapter 2 (White, 1980).
 
-		We let $I_{n} (\theta)$ denote the observed information matrix with regards to our specified linear regression model. With $X$ denoting the $n$ by $p$ design matrix, we see that
+		We let $I_{n} (\theta)$ denote the observed information matrix with regards to our specified linear regression model. With $X$ denoting the $n$ by $r$ design matrix, we see that
 		the quantity $A_n (\theta)$ used in the White estimator is found to be 
 		\begin{equation*}
 			A_n(\theta) = \frac{1}{n}
@@ -103,7 +103,7 @@
 				\end{bmatrix}
 				= -\frac{1}{n} I_n(\theta) .
 		\end{equation*}
-		Now let $x_i$ be the $i$th row of the design matrix $X$, and $y_i$ be the $i$th observation of the observation vector $y$. With this construct in mind, we can define the score components
+		Now let $x_i$ be the $i$th row of the design matrix $X$, and $y_i$ be the $i$th observation of the observation vector $y$. With these constructs at hand, we can define the score components
 		for individual observations in our sample as
 		\begin{equation*}
 			U_i(\theta) = 
@@ -113,21 +113,21 @@
 			\end{bmatrix}
 			.
 		\end{equation*}
-		With these score components defined, we can then use it to describe the matrix $B_n (\theta)$ used in the White estimator as
+		With these score components defined, we can then use the preceding to represent the matrix $B_n (\theta)$ used in the White estimator as
 		\begin{equation*}
 			B_n(\theta) = \frac{1}{n} \sum_{i=1}^{n} U_i(\theta) U_i(\theta)' .
 		\end{equation*}
 		Note that this matrix is an estimator for the expectation of the outer product of the score vector.
 
-		Thus, with $B_n(\theta)$ and $A_n(\theta)$ defined, these can be evaluated at the maximum likelihood estimator $\hat{\theta}$ and be used to define
+		Thus, with $B_n(\theta)$ and $A_n(\theta)$ defined, these matrices can be evaluated at the maximum likelihood estimator $\hat{\theta}$ and be used to define
 		\begin{equation*}
 			\begin{split}
 				C_n(\hat{\theta}) & = A^{-1}_n(\hat{\theta}) B_n(\hat{\theta}) A^{-1}_n(\hat{\theta}) \\
 				& = n I_n^{-1}(\hat{\theta}) [\sum_{i=1}^{n} U_i(\hat{\theta}) U_i(\hat{\theta})'] I_n^{-1}(\hat{\theta}) ,
 			\end{split}
 		\end{equation*}
-		where $C_n(\hat{\theta})$ will be a $p+1$ by $p+1$ matrix that can be used as an estimator of the asymptotic variance-covariance matrix of $\hat{\theta}$. This estimator is robust to misspecification
-		of the model. Consider the bottom rightmost element of this matrix, that being the $p+1^{th}$ element of the $p+1^{th}$ column of the matrix. This element will correspond to the large-sample
+		where $C_n(\hat{\theta})$ will be a $r+1$ by $r+1$ matrix that can be used as an estimator of the asymptotic variance-covariance matrix of $\hat{\theta}$. This estimator is robust to misspecification
+		of the model. Consider the bottom rightmost element of this matrix, that being the $(r+1)^{th}$ element of the $(r+1)^{th}$ column of the matrix. This element will correspond to the large-sample
 		robust variance of $\hat{\sigma}^2$. Let $s(\theta)$ refer to this corresponding element in the case of the theoretical matrix $C(\theta)$, and $s_n(\hat{\theta})$ refer to this
 		corresponding element of the estimator $C_n(\hat{\theta})$. By White's results, it can then be seen that
 		\begin{equation}
@@ -145,7 +145,7 @@
 		\end{equation*}
 		Applying this transformation to the asymptotic distribution presented in (4.2), we arrive at the relation
 		\begin{equation*}
-			\sqrt{n} ( \log (\hat{\sigma}^2) - \log(\sigma_*^2)) \xrightarrow[]{d} N(0, \frac{1}{\sigma_*^4} s(\theta_*)) .
+			\sqrt{n} ( \log (\hat{\sigma}^2) - \log(\sigma_*^2)) \xrightarrow[]{d} N \left( 0, \frac{1}{\sigma_*^4} s(\theta_*) \right) .
 		\end{equation*}
 		Using this asymptotic distribution, one can arrive at an approximate distribution for $n\log(\hat{\sigma}^2)$ as
 		\begin{equation*}
@@ -162,7 +162,7 @@
 		specified model, as the sandwich estimator component will converge to the expected Fisher information used in section 4.1, and the MLE $\hat{\sigma}^2$ should converge to the true
 		parameter value $\sigma^2$. However, this sandwich estimator need not assume correct specification, and should be relatively robust to model misspecification.
 		
-		For the remainder of this thesis, this sandwich estimator will be referred to as $\widehat{Var}[GOF]$ such that
+		For the remainder of this thesis, this sandwich estimator will be referred to as $\widehat{Var}[GOF]$, such that
 		\begin{equation*}
 			\widehat{Var}[GOF] = \frac{n}{\hat{\sigma}^4} s_n(\hat{\theta}) .
 		\end{equation*}
@@ -212,14 +212,14 @@
 		complexity over other goodness-of-fit tests due to the need to perform the bootstrap.
 		
 		While the following simulations will employ a percentile interval as the bootstrap confidence interval method of choice, one is not limited to using this method
-		and may use any bootstrap interval they so choose as long as it is theoretically justifiable. Additionally, the non-parametric bootstrap is employed in the algorithm detailed above to avoid further
-		assumptions. However, it has been found that the residual bootstrap may also work just as well in this procedure, and one may decide to employ the test
-		using this bootstrap method instead if so desired. However, all simulations presented in this thesis will use the non-parametric bootstrap flavor of the procedure.
+		and may use any bootstrap interval they choose so long as it is theoretically justifiable. Additionally, the non-parametric bootstrap is employed in the algorithm detailed above to avoid further
+		assumptions. Limited testing results suggest that the residual bootstrap may also work just as well in this procedure. However, pending further investigation, the non-parametric
+		bootstrap is recommended at the current time. All simulations presented in this thesis will use the non-parametric bootstrap flavor of the procedure.
 		
 		\section{Comparative Simulations Across Different GOF Procedures} \label{sec:gof_sim}
 
 		The following subsections detail simulation studies performed using the goodness-of-fit procedure presented above. The first subsection details a scenario where the null
-		hypothesis of the test is true, and demonstrates that the proposed bootstrap test can approximately maintain the desired size in this scenario. The second subsection 
+		hypothesis of the test is true, and demonstrates that the proposed bootstrap test can approximately maintain the desired size. The second subsection 
 		explores the power of the test in the case of mean misspecification, and the third subsection explores the power of the test in the case of heteroskedasticity induced by
 		unobserved covariates.
 
@@ -243,7 +243,7 @@
 		I error rate for future simulations.
 
 		The simulation will be performed for $n = 100,200,...,1000$. The number of bootstrap iterations used by the bootstrap goodness-of-fit test will be $B = 1000$ for all simulations.
-		This simulation will be performed $1000$ times for each value of $n$, with Type~I error rate to be calculated afterwards. A full summary of the simulation procedure can be found below.
+		This simulation will be performed $1000$ times for each value of $n$, with the Type~I error rate to be calculated afterwards. A full summary of the simulation procedure can be found below.
 		\begin{algorithm}[H]
 			\caption*{\textbf{Simulation 3} Type~I Error Rate Simulation, Normal Linear Regression Goodness-of-Fit Tests}
 			\begin{algorithmic}[1]
@@ -295,7 +295,7 @@
 
 		\subsection{Simulation to Establish Power of Bootstrap GOF Test - Mean Misspecification}
 
-		The previous simulation tested a scenario where the null hypothesis of all tests were true. This simulation will test a scenario where the White and
+		The previous simulation considered a scenario where the null hypothesis of all tests were true. This simulation will consider a scenario where the White and
 		Breusch-Pagan test null hypotheses are true, but where the general hypothesis of the bootstrap test that a normal linear regression model is properly
 		specified is false.
 
@@ -364,7 +364,7 @@
 		misspecification on account of an unobserved covariate, and the power to detect this misspecification rises as the sample size increases as one would expect.
 
 		In contrast, the White test and Breusch-Pagan test both seem to only maintain their Type~I error rates established in Simulation 3. This performance was to be expected
-		as the null hypotheses of these tests are not violated in this scenario. However, it does demonstrate how the inability of a goodness-of-fit test to detect lack of
+		as the null hypotheses of these tests are not violated in this scenario. However, this simulation setting does demonstrate how the inability of a goodness-of-fit test to detect lack of
 		fit does not mean lack-of-fit is not present, as these two tests are limited in the scope of misspecification they are able to detect. This limitation in scope is in contrast to the
 		bootstrap test, which possesses a much more general null hypothesis.
 
@@ -450,7 +450,7 @@
 		rates established in Simulation 3, and thus do not seem to be able to detect that the model is misspecified despite the misspecification being a form of
 		heteroskedasticity. This limitation is on account of how these tests are performed, as they rely on looking for heteroskedasticity that is induced by observed covariates.
 		When heteroskedasticity is induced by an unobserved covariate that is not used in the model, the White test and Breusch-Pagan test cannot ascertain that their
-		null hypotheses of homoskedasticity are violated. However, he bootstrap test is able to reject its more general null hypothesis.
+		null hypotheses of homoskedasticity are violated. However, the bootstrap test is able to reject its more general null hypothesis.
 
 		If one were to perform a simulation wherein heteroskedasticity is induced by observed covariates, the White and Breusch-Pagan tests would exhibit higher power in lower
 		sample sizes than the bootstrap test, as these two tests are specifically tuned for this type of misspecification. Thus, the bootstrap test in a sense trades power in specific

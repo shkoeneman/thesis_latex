@@ -110,7 +110,7 @@ sake of completeness.
 \section*{Exact Variance of the Likelihood Goodness-of-Fit Term for a Correctly Specified Linear Model}
 
 This section will derive an exact variance for the goodness-of-fit term $-2 \ell (\hat{\theta} )$ in the case of a properly specified
-linear model. We assume that this linear regression model has a full rank $n$ by $p$ design matrix $X$, outcome vector $y$, true parameters $\beta$ and $\sigma^2$,
+linear model. We assume that this linear regression model has a full rank $n$ by $r$ design matrix $X$, outcome vector $y$, true parameters $\beta$ and $\sigma^2$,
 and maximum likelihood estimates $\hat{\beta}$ and $\hat{\sigma}^2$. It can be shown that the estimate $\hat{\sigma}^2$ can be expressed as
 \begin{equation*}
 	\hat{\sigma}^2 =  \frac{1}{n} (y-X\hat{\beta})'(y-X\hat{\beta}) = \frac{1}{n} y'(I_n - X(X'X)^{-1}X')y ,
@@ -130,23 +130,23 @@ true mean of the outcome vector $y$. By the properties of quadratic forms of mul
 \end{equation*}
 where $rank \left( A \right)$ is the degrees of freedom and $\mu 'A \mu$ is the non-centrality parameter of this chi-squared distribution.
 
-Note that, as we assume $X$ is full rank, $rank(X) = p$. Furthermore, it can be seen that
+Note that, as we assume $X$ is full rank, $rank(X) = r$. Furthermore, it can be seen that
 \begin{equation*}
 	\begin{split}
 	tr\left[ X(X'X)^{-1}X' \right] & = tr \left[ X'X(X'X)^{-1} \right]  \\ 
-	& = tr \left[ I_p \right] \\
-	& = p .
+	& = tr \left[ I_r \right] \\
+	& = r .
 	\end{split}
 \end{equation*}
 Thus, noting that $\sigma^2 A$ is idempotent, it can be seen that
 \begin{equation*}
 	\begin{split}
 	tr \left[ \sigma^2 A \right] & = tr \left[ I_n - X(X'X)^{-1}X' \right]  \\ 
-	& = n-p \\
+	& = n-r \\
 	& = rank \left( \sigma^2 A \right) .
 	\end{split}
 \end{equation*}
-Therefore, as $rank \left( \sigma^2 A \right) = rank \left( A \right)$ since $\sigma^2$ is a scalar constant, then $rank \left( A \right) = p$. This value will be the degrees of
+Therefore, as $rank \left( \sigma^2 A \right) = rank \left( A \right)$ since $\sigma^2$ is a scalar constant, then $rank \left( A \right) = n-r$. This value will be the degrees of
 freedom in the chi-squared distribution presented above.
 
 Now, we observe the non-centrality parameter $\mu 'A \mu = (X \beta)'A(X \beta)$. Note that
@@ -161,7 +161,7 @@ Thus, by extension $\mu 'A \mu = 0$, and this distribution is a central chi-squa
 
 We have shown that
 \begin{equation}
-	\frac{n \hat{\sigma}^2}{\sigma^2} \sim \chi^2_{n-p} .
+	\frac{n \hat{\sigma}^2}{\sigma^2} \sim \chi^2_{n-r} .
 \end{equation}
 Note that if we take the natural logarithm of the left-hand side and take its variance, we see that
 \begin{equation}
@@ -173,9 +173,9 @@ Note that if we take the natural logarithm of the left-hand side and take its va
 due to constant terms being irrelevant to the variance calculation. This enclosed form is very close to the $n \log \hat{\sigma}^2$ that is required
 to determine the variance of the likelihood goodness of fit term $-2 \ell (\hat{\theta} )$ in the case of a normal linear regression model.
 Thus, if we can calculate $Var \left[ \log \hat{\sigma}^2 \right]$, which is itself the variance
-of the natural logarithm of a variable distributed as $\chi^2_{n-p}$, we can easily obtain $Var \left[ n \log \hat{\sigma}^2 \right]$.
+of the natural logarithm of a variable distributed as $\chi^2_{n-r}$, we can easily obtain $Var \left[ n \log \hat{\sigma}^2 \right]$.
 
-Thus, we now derive the variance of the logarithm of a central chi-square distributed random variable. Let $W \sim \chi^2_{\nu}$, and let $Y = \log(W)$. Note that
+Thus, we now derive the variance of the logarithm of a central chi-squared random variable. Let $W \sim \chi^2_{\nu}$, and let $Y = \log(W)$. Note that
 the moment generating function of $Y$ can be expressed as
 \begin{equation*}
 	M_Y (t) = E \left[ e^{yt} \right] = E \left[ e^{t\log(w)} \right] = E \left[ e^{\log w^t} \right] = E \left[ w^t \right] .
@@ -198,7 +198,7 @@ $Y$ can be calculated as
 \end{equation*}
 Thus, we have a form for the first moment of the logarithm of a central chi-squared random variable.
 
-Now moving onto calculating the second moment of $Y$, we take the next derivative of the moment generating function with respect to $t$ and see that
+Now moving on to calculating the second moment of $Y$, we take the next derivative of the moment generating function with respect to $t$ and see that
 \begin{equation*}
 	\begin{split}
 		\frac{\partial^2 M_Y(t)}{\partial t^2} = (\log 2)^2 2^t  \frac{\Gamma (t + \frac{\nu}{2})}{\Gamma (\frac{\nu}{2})} + 2^{t+1} \log 2 \frac{\Gamma ' (t + \frac{\nu}{2})}{\Gamma (\frac{\nu}{2})} + \\ 
@@ -235,11 +235,11 @@ although it should be noted that this calculation may be unstable for certain va
 
 Recalling the distributional result established in (A.1) and relation in (A.2), it is clear that
 \begin{equation*}
-	Var \left[ \log \hat{\sigma}^2 \right] = \psi^{(1)} \left( \frac{n-p}{2} \right)
+	Var \left[ \log \hat{\sigma}^2 \right] = \psi^{(1)} \left( \frac{n-r}{2} \right)
 \end{equation*}
 based on the variance that has been derived above. Multiplying each side by $n^2$, we see that
 \begin{equation*}
-	Var \left[ n \log \hat{\sigma}^2 \right] = Var \left[ -2 \ell (\hat{\theta} ) \right] = n^2 \psi^{(1)} \left( \frac{n-p}{2} \right).
+	Var \left[ n \log \hat{\sigma}^2 \right] = Var \left[ -2 \ell (\hat{\theta} ) \right] = n^2 \psi^{(1)} \left( \frac{n-r}{2} \right).
 \end{equation*}
 Thus, we have established the exact variance of the likelihood goodness-of-fit term in the case of a correctly specified linear model. This exact variance is in contrast to the
 approximate variance found in Chapter 4.

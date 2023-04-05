@@ -9,11 +9,11 @@
 
 		We begin by defining the data that will be used in this application. Say an investigator wishes to explore the relationship between cancer-related mortality in
 		the United States at the county level and various household-related variables. The data used in this example was aggregated from the National Cancer Institute
-		and the U.S. Census Bureau, with the data in question being being collected in the year 2013.
+		and the U.S. Census Bureau, and was collected in the year 2013.
 		
 		The primary outcome of interest will be cancer mortalities per 100,000 county residents, with data being collected for 300 U.S. counties. Additionally, the study has access to the
 		following covariates for each county: cancer diagnoses per 100,000 county residents, median household income in the county in tens of thousands of dollars, median age of county residents, mean
-		household size of county, percent of households in the county that are in poverty, percent of county residents who are married, and lastly the birth rate of the county expressed
+		household size of the county, percent of households in the county that are in poverty, percent of county residents who are married, and lastly, the birth rate of the county expressed
 		as the number of live births in the year 2013 relative to the number of the women in the county.
 
 		We wish to build a statistical model to explore which household-related covariates are related to mortality at the county level. We will require that any model we
@@ -48,10 +48,10 @@
 		goodness-of-fit. The test was performed at the level $\alpha = 0.05$ with $B = 1000$ bootstrap iterations. The generated bootstrap confidence interval
 		was found to be
 		\begin{equation*}
-			\left[ 578.9217, 974.5816 \right].
+			\left[ 578.92, 974.58 \right].
 		\end{equation*}
-		Note that the value under the null hypothesis for the variance of the likelihood goodness-of-fit term in this scenario is $2n = 600$. Thus, as the interval contains the
-		value of $600$, we would fail to reject the null hypothesis that the largest candidate linear model is properly specified, and are justified in proceeding
+		Note that the value under the null hypothesis for the variance of the likelihood goodness-of-fit term is $2n = 600$. Thus, as the interval contains the
+		value of $600$, we would fail to reject the null hypothesis that the largest candidate linear model is properly specified, and would be justified in proceeding
 		under the assumption that the model does not show lack-of-fit.
 
 		With the preceding results in mind, we proceed to selecting a final model. All candidate models were fit to the data, and the standardized AIC of each model was calculated
@@ -71,8 +71,8 @@
 		and term for median age in the county.
 		
 		The effect for median income was found to be negative, indicating that as median income of a county rises, the cancer mortality per capita may tend to
-		decrease.  Interpreting the regression coefficient $-7.313$, one could say that as the median income of a county rises ten-thousand dollars with all other factors being
-		held equal, we would expect the cancer mortality per 100,000 residents of the county to decrease by $7.313$. This relationship aligns with intuition, as it seems reasonable
+		decrease.  Interpreting the regression coefficient $-7.31$, one could say that as the median income of a county rises ten-thousand dollars with all other factors being
+		held equal, we would expect the cancer mortality per 100,000 residents of the county to decrease by $7.31$. This relationship aligns with intuition, as it seems reasonable
 		that more affluent communities will likely have access to better medical care. However, one might be skeptical that median income is the only covariate available with a meaningful
 		relation to cancer mortality, as similar arguments could postulate the importance of other household covariates. Along this line of thinking, the following plot
 		is presented. This plot is similar to Figure 5.2, but now color codes models based on whether they included the variable for a county's median household income.

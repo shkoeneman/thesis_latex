@@ -21,12 +21,12 @@
 
 		Various iterations of this procedure involving different model selection criteria were shown in a simulation study to be able to improve on the descriptive
 		and predictive efficacy of other methods of model selection involving those same information criteria.  Additionally, the method was demonstrated to
-		be able to be used both for variable selection and correlation structure selection. Thus, the task to develop an effective new method of model selection
+		have utility both for variable selection and correlation structure selection. Thus, the task to develop an effective new method of model selection
 		involving likelihood-based information criteria with more theoretical backing was accomplished.
 
 		To complement this new model selection procedure, Chapter 4 developed a novel goodness-of-fit procedure to be used with normal linear regression models.
 		The procedure involves findings related to the variance of the goodness-of-fit term for likelihood-based information criteria, and leverages these
-		results to produce a bootstrap hypothesis test with the null hypothesis that a fitted normal linear regression model is properly specified. The alternative
+		results to produce a bootstrap hypothesis test based on the null hypothesis that a fitted normal linear regression model is properly specified. The alternative
 		hypothesis for this test is that the fitted model is misspecified in some way.
 
 		Simulation results showed that this goodness-of-fit test is roughly able to maintain the desired Type I error rate when the null hypothesis is true, subject
@@ -46,7 +46,7 @@
 		will be straightforward in the case of a criterion with a constant penalty term. However, applying the algorithm to be used with a criterion with a non-constant penalty term,
 		such as is the case for TIC, would likely require further innovation.
 
-		Additionally, further investigation could be done to observe how the model selection algorithm performs when its initial assumption, that being the appropriate
+		Additionally, further research could be done to observe how the model selection algorithm performs when its initial assumption, that being the appropriate
 		specification of the largest candidate model, is violated. The justification for AIC itself assumes that the true model is of the same parametric class as the candidate model
 		at hand, but AIC has been shown to be relatively robust even when this assumption does not hold. Further work could be done to explore how the model selection
 		framework presented in this thesis performs in various scenarios where the largest candidate model is misspecified in some fashion. Alternatively, modifications
@@ -55,7 +55,7 @@
 		With regards to the goodness-of-fit procedure developed in this thesis, a natural path for further development may be to develop similar such procedures that can
 		be used to assess models beyond the normal linear regression setting. The distributional quantities related to the variance of the likelihood goodness-of-fit term that were derived
 		in this thesis only apply to the setting of normal linear regression. However, similar distributional properties could be explored for other modeling frameworks such
-		as logistic regression. With these quantities in hand, a similar bootstrap goodness-of-fit test pertaining to these other modeling frameworks may be able to be constructed.
+		as logistic regression. With these quantities in hand, a similar bootstrap goodness-of-fit test pertaining to these other modeling frameworks may potentially be constructed.
 		
 		The future prospects for extensions of the work in this thesis expand beyond what has been presented above, but these ideas represent a sample of further work that
 		could be pursued.
