@@ -19,6 +19,7 @@ intercept <- 2
 b1 <- 2.0
 b2 <- 2.0
 true_sig <- 2
+set.seed(4112023)
 
 #Draw data
 dataset <- data.frame(x = runif(1000,min = 0, max = 5), z = runif(1000,min = 0, max = 5))
@@ -38,7 +39,9 @@ p <- ggplot(plot_data, aes(x=fitted, y=residuals)) +
   labs(title = "",
        x = "Fitted Value",
        y = "Residual Value") +
-  theme_bw()
+  theme_bw() +
+  theme(axis.title = element_text(size = 13)) +
+  theme(legend.text = element_text(size = 13)) 
 p
 ggsave("../figures/sim5_rsidual_plot.pdf")
 ```

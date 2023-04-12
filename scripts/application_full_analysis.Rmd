@@ -109,7 +109,9 @@ p <- ggplot(plot_data, aes(x=fitted, y=residuals)) +
   labs(title = "",
        x = "Fitted Value",
        y = "Residual Value") +
-  theme_bw()
+  theme_bw() +
+  theme(axis.title = element_text(size = 13)) +
+  theme(legend.text = element_text(size = 13)) 
 p
 ggsave("../figures/application_residual_plot.pdf")
   
@@ -168,7 +170,9 @@ p <- ggplot(temp, aes(x = k, y = Stand_AIC_Diff)) +
   labs(title = "",
        x = "DOF Difference",
        y = "Standardized AIC") +
-  theme_bw()
+  theme_bw() +
+  theme(axis.title = element_text(size = 13)) +
+  theme(legend.text = element_text(size = 13)) 
 p
 ggsave("../figures/application_plot_uncolored.pdf")
 
@@ -183,7 +187,9 @@ p <- ggplot(temp, aes(x = k, y = Stand_AIC_Diff, color = Contains_medIncome)) +
        color = "Contains Median Income Variable\n") +
   scale_color_manual(labels = c("No", "Yes"),
                      values = c("red", "green")) +
-  theme_bw()
+  theme_bw() +
+  theme(axis.title = element_text(size = 13)) +
+  theme(legend.text = element_text(size = 13)) 
 p
 ggsave("../figures/application_plot_colors.pdf")
 

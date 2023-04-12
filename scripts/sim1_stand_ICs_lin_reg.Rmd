@@ -50,7 +50,9 @@ p <- ggplot(tall, aes(n,value,col=variable)) +
        color = "Selection Method\n") +
   scale_color_manual(labels = c("Minimum AIC", "AIC Rule of 2", "Standardized AIC"),
                      values = c("red", "green", "blue")) +
-  theme_bw()
+  theme_bw() +
+  theme(axis.title = element_text(size = 13)) +
+  theme(legend.text = element_text(size = 13)) 
 p
 ggsave("../figures/sim1_AIC_accuracy_plot.pdf")
 
@@ -64,7 +66,9 @@ p <- ggplot(tall, aes(n,value,col=variable)) +
        color = "Selection Method\n") +
   scale_color_manual(labels = c("Minimum AIC", "AIC Rule of 2", "Standardized AIC"),
                      values = c("red", "green", "blue")) +
-  theme_bw()
+  theme_bw() +
+  theme(axis.title = element_text(size = 13)) +
+  theme(legend.text = element_text(size = 13)) 
 p
 ggsave("../figures/sim1_AIC_prediction_plot.pdf")
 
@@ -93,7 +97,9 @@ p <- ggplot(tall, aes(n,value,col=variable)) +
        color = "Selection Method\n") +
   scale_color_manual(labels = c("Minimum BIC", "BIC Rule of 2", "Standardized BIC"),
                      values = c("red", "green", "blue")) +
-  theme_bw()
+  theme_bw() +
+  theme(axis.title = element_text(size = 13)) +
+  theme(legend.text = element_text(size = 13)) 
 p
 ggsave("../figures/sim1_BIC_accuracy_plot.pdf")
 
@@ -107,7 +113,9 @@ p <- ggplot(tall, aes(n,value,col=variable)) +
        color = "Selection Method\n") +
   scale_color_manual(labels = c("Minimum BIC", "BIC Rule of 2", "Standardized BIC"),
                      values = c("red", "green", "blue")) +
-  theme_bw()
+  theme_bw() +
+  theme(axis.title = element_text(size = 13)) +
+  theme(legend.text = element_text(size = 13)) 
 p
 ggsave("../figures/sim1_BIC_prediction_plot.pdf")
 
@@ -135,7 +143,9 @@ p <- ggplot(tall, aes(n,value,col=variable)) +
        color = "Selection Method\n") +
   scale_color_manual(labels = c("Minimum AICc", "AICc Rule of 2", "Standardized AICc"),
                      values = c("red", "green", "blue")) +
-  theme_bw()
+  theme_bw() +
+  theme(axis.title = element_text(size = 13)) +
+  theme(legend.text = element_text(size = 13)) 
 p
 ggsave("../figures/sim1_AICc_accuracy_plot.pdf")
 
@@ -149,7 +159,9 @@ p <- ggplot(tall, aes(n,value,col=variable)) +
        color = "Selection Method\n") +
   scale_color_manual(labels = c("Minimum AICc", "AICc Rule of 2", "Standardized AICc"),
                      values = c("red", "green", "blue")) +
-  theme_bw()
+  theme_bw() +
+  theme(axis.title = element_text(size = 13)) +
+  theme(legend.text = element_text(size = 13)) 
 p
 ggsave("../figures/sim1_AICc_prediction_plot.pdf")
 
