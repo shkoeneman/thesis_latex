@@ -195,7 +195,7 @@
 		models that meet the cutoff. For example, one could use an approach like cross-validation, which may be computationally intensive for a larger number of models, but may be feasible after
 		applying the cutoff and identifying contenders (Stone, 1974).
 
-		As previously mentioned, of the features of this section is the inclusion of derivations extending this model selection procedure to BIC and
+		As previously mentioned, one of the features of this section is the inclusion of derivations extending this model selection procedure to BIC and
 		AICc. These derivations will follow a forthcoming discussion of some of the disadvantages of this new procedure. Only minor modifications need to be made to the
 		procedure to allow for its usage with these information criteria, as the core principles remain the same. Indeed, the procedure could in theory be extended to
 		many information criteria with the form of a likelihood-based goodness-of-fit term accompanied by a constant penalty term. However, more effort would be required
@@ -391,13 +391,13 @@
 		where $\epsilon_i \stackrel{iid}{\sim} N(0,4)$ is a randomly generated normal error, and $x_{i1}$ and $x_{i2}$ are completely $iid$ covariates generated according to
 		a $Uniform(0,5)$ distribution. This formulation is one of a normal linear regression model with an intercept and an effect for each covariate presented.
 
-		In addition to to drawing $x_{i1}$ and $x_{i2}$ for each $i=1,...,n$, we will draw extraneous $iid$ $x_{i3}$, $x_{i4}$, $x_{i5}$, and $x_{i6}$ each according to a
+		In addition to drawing $x_{i1}$ and $x_{i2}$ for each $i=1,...,n$, we will draw extraneous $iid$ $x_{i3}$, $x_{i4}$, $x_{i5}$, and $x_{i6}$ each according to a
 		$Uniform(0,5)$ distribution. These will be viewed as additional covariates that a researcher may be considering for inclusion in a model when in reality the covariates have
 		no effect on or relationship with the outcome of interest.
 		
 		Our candidate models will consist of all normal regression models that include an intercept term in addition to an effect for at least one of 
 		$x_{i1}$, $x_{i2}$, $x_{i3}$, $x_{i4}$, $x_{i5}$, or $x_{i6}$. Thus, the largest candidate model in this scenario will be the model that includes an intercept
-		in addition to all other available covariates, and all other candidates models will be nested within this model. Note that while this model is not
+		in addition to all other available covariates, and all other candidate models will be nested within this model. Note that while this model is not
 		misspecified as it contains requisite structure, it is overspecified and includes covariates that have no effect on the outcome. Additionally, the
 		true model, containing an intercept and effects for $x_{i1}$ and $x_{i2}$, is present in our collection of candidate models.
 
@@ -816,7 +816,7 @@
 		\end{table}
 
 		We note that all three methods seem to do a good job of selecting the correct covariance structure, with the ``Rule of 2" method providing slight improvement over minimum AIC, and
-		standardized AIC providing slightly more improvement. This may be on account for in that the covariance structure present in the true generating model is relatively strong and may
+		standardized AIC providing slightly more improvement. This may be accounted for in that the covariance structure present in the true generating model is relatively strong and may
 		shine through strongly in the data. We now observe the following table which elucidates how each method performed in terms of choosing a model with the correct mean structure.
 
 		\begin{table}[H]

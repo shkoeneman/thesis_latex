@@ -75,6 +75,12 @@ cand_models$Min_AIC_Select <- numeric(nrow(cand_models))
 cand_models$Rule_of_2_Select <- numeric(nrow(cand_models))
 cand_models$Stand_AIC_Select <- numeric(nrow(cand_models))
 
+#Define special AIC function for gls models
+AIC_gls <- function(gls_fit, est_params){
+  AIC_out <- as.numeric(-2*logLik(gls_fit, REML = FALSE)) + 2*est_params
+  return(AIC_out)
+}
+
 ##########################################
 ### Run simulation to get some results ###
 ##########################################
@@ -123,7 +129,7 @@ for(jj in 1:num_iters){
       fit <- gls(as.formula(cand_models$mean_struct[ii]), data = dataset,
                  correlation = corCompSymm(value = 0, form = ~1|subject, fixed = TRUE))
     }
-    fit_models$AIC[ii] <- AIC(fit)
+    fit_models$AIC[ii] <- AIC_gls(fit, cand_models$dof[ii])
   }
   #Do minimum AIC model
   results_Min_AIC <- which.min(fit_models$AIC)
@@ -207,7 +213,7 @@ for(jj in 1:num_iters){
       fit <- gls(as.formula(cand_models$mean_struct[ii]), data = dataset,
                  correlation = corCompSymm(value = 0, form = ~1|subject, fixed = TRUE))
     }
-    fit_models$AIC[ii] <- AIC(fit)
+    fit_models$AIC[ii] <- AIC_gls(fit, cand_models$dof[ii])
   }
   #Do minimum AIC model
   results_Min_AIC <- which.min(fit_models$AIC)
@@ -291,7 +297,7 @@ for(jj in 1:num_iters){
       fit <- gls(as.formula(cand_models$mean_struct[ii]), data = dataset,
                  correlation = corCompSymm(value = 0, form = ~1|subject, fixed = TRUE))
     }
-    fit_models$AIC[ii] <- AIC(fit)
+    fit_models$AIC[ii] <- AIC_gls(fit, cand_models$dof[ii])
   }
   #Do minimum AIC model
   results_Min_AIC <- which.min(fit_models$AIC)
@@ -375,7 +381,7 @@ for(jj in 1:num_iters){
       fit <- gls(as.formula(cand_models$mean_struct[ii]), data = dataset,
                  correlation = corCompSymm(value = 0, form = ~1|subject, fixed = TRUE))
     }
-    fit_models$AIC[ii] <- AIC(fit)
+    fit_models$AIC[ii] <- AIC_gls(fit, cand_models$dof[ii])
   }
   #Do minimum AIC model
   results_Min_AIC <- which.min(fit_models$AIC)

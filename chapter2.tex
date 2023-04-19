@@ -108,7 +108,7 @@
 		criterion will asymptotically select the fitted candidate model which minimizes the mean squared error of prediction with probability one, even if the generating model is of infinite dimension
 		or outside of the set of candidate models.
 
-		Thus, it is has been espoused that AIC and the variant AICc are to be preferred when \textit{prediction} is of primary importance, and that BIC is to be preferred
+		Thus, it has been espoused that AIC and the variant AICc are to be preferred when \textit{prediction} is of primary importance, and that BIC is to be preferred
 		when \textit{description} is of chief importance when performing model selection. Simulation studies have shown that this recommendation has some merit (Neath and Cavanaugh, 2011). However, these
 		ideas of consistency and efficiency only hold in the asymptotic sense, and choosing the model with the minimum criterion value provides no guarantee that the model possesses the traits of either
 		property in finite sample sizes.
@@ -342,7 +342,7 @@
 		was drawn from the target population (Efron, 1979). A statistic of interest can be calculated using this new sample. This resampling and subsequent calculation can be done many times to obtain many statistics that form an
 		\textit{empirical bootstrap distribution} for the statistic that, assuming a sufficient sample size and an original sample that reflects the underlying distribution, will asymptotically approach the
 		true sampling distribution of the statistic. With such a bootstrap distribution, one can use a variety of methods to construct confidence intervals and perform inference with regards to population
-		parameters of interest. One such method of forming a confidence interval is the called the \textit{percentile bootstrap}, wherein if an interval with coverage probability $100*(1-\alpha) \%$ is
+		parameters of interest. One such method of forming a confidence interval is called the \textit{percentile bootstrap}, wherein if an interval with coverage probability $100*(1-\alpha) \%$ is
 		desired, the $\alpha/2$ and $1-\alpha/2$ percentiles of the empirical bootstrap distribution are used as the bounds of the interval (Efron and Tibshirani, 1993). This method is general and
 		can be applied in a similar manner with little modification for the parameter or statistic of interest.
 
@@ -351,7 +351,7 @@
 		of interest, one need not even know the form of the sampling distribution at all in order to perform inference. This in addition to the simplicity and generalizability of the bootstrap procedure
 		make it a powerful tool in a vast array of circumstances  (Efron, 2003).
 
-		However, the bootstrap does have certain limitations for which need to be accounted to avoid misuse. The bootstrap distribution is generally only guaranteed to converge to the true sampling
+		However, the bootstrap does have certain limitations which need to be accounted for to avoid misuse. The bootstrap distribution is generally only guaranteed to converge to the true sampling
 		distribution in an asymptotic sense, and thus caution must be taken in finite sample size (Hinkley, 1994). Additionally, the bootstrap procedure, like nearly any other statistical method,
 		is only as good as the sample one has; if the sample is biased or not representative of the true population in some other way, then the bootstrap will lead to incorrect conclusions. It is also
 		worth noting that the bootstrap is more computationally intensive than many other methods, and this computational complexity can scale as more bootstrap iterations are desired or the statistic
