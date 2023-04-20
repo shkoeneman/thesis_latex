@@ -807,9 +807,9 @@
 			\begin{tabular}{ c|c|c|c}
 			$n$ & \vtop{\hbox{\strut Minimum AIC}\hbox{\strut Accuracy}} & \vtop{\hbox{\strut AIC Rule of 2}\hbox{\strut Accuracy}} & \vtop{\hbox{\strut Standardized AIC}\hbox{\strut Accuracy}} \\
 			 \hline
-			 250 & 0.959  &  0.976 &  0.996 \\
-			 500 & 0.967  &  0.984 &  1.000 \\
-			 750 & 0.966  &  0.981 &  0.998 \\
+			 250 & 0.959  &  0.975 &  0.993 \\
+			 500 & 0.966  &  0.984 &  0.999 \\
+			 750 & 0.964  &  0.981 &  0.996 \\
 			 \Xhline{3\arrayrulewidth}
 			\end{tabular}
 			}
@@ -829,16 +829,17 @@
 			\begin{tabular}{ c|c|c|c}
 			$n$ & \vtop{\hbox{\strut Minimum AIC}\hbox{\strut Accuracy}} & \vtop{\hbox{\strut AIC Rule of 2}\hbox{\strut Accuracy}} & \vtop{\hbox{\strut Standardized AIC}\hbox{\strut Accuracy}} \\
 			 \hline
-			 250 & 0.938  &  0.979 &  0.999 \\
-			 500 & 0.957  &  0.991 &  1.000 \\
-			 750 & 0.958  &  0.982 &  0.998 \\
+			 250 & 0.842  &  0.961 &  1.000 \\
+			 500 & 0.845  &  0.955 &  0.999 \\
+			 750 & 0.854  &  0.947 &  0.995 \\
 			 \Xhline{3\arrayrulewidth}
 			\end{tabular}
 			}
 		\end{table}
 
-		Once again, we observe that all three methods do rather well at selecting the correct mean structure, but that the standardized AIC method performs the best by a slight margin. We will
-		now synthesize the results already discussed in the following table, which shows the proportion of time each method chose both the correct mean structure and covariance structure.
+		Once again, we observe that all three methods do rather well at selecting the correct mean structure with the minimum AIC method now lagging slightly behind the other two methods.
+		Note that the standardized AIC method still performs the best in this respect. We will now synthesize the results already discussed in the following table, which shows the proportion
+		of time each method chose both the correct mean structure and covariance structure.
 
 		\begin{table}[H]
 			\centering
@@ -850,9 +851,9 @@
 			\begin{tabular}{ c|c|c|c}
 			$n$ & \vtop{\hbox{\strut Minimum AIC}\hbox{\strut Accuracy}} & \vtop{\hbox{\strut AIC Rule of 2}\hbox{\strut Accuracy}} & \vtop{\hbox{\strut Standardized AIC}\hbox{\strut Accuracy}} \\
 			 \hline
-			 250 & 0.898  &  0.960 &  0.995 \\
-			 500 & 0.925  &  0.975 &  1.000 \\
-			 750 & 0.928  &  0.966 &  0.997 \\
+			 250 & 0.806  &  0.936 &  0.993 \\
+			 500 & 0.817  &  0.940 &  0.998 \\
+			 750 & 0.828  &  0.932 &  0.993 \\
 			 \Xhline{3\arrayrulewidth}
 			\end{tabular}
 			}
